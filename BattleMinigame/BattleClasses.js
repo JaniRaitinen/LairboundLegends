@@ -316,7 +316,8 @@ class Monster extends Sprite {
           }
         })
         break;
-
+      case "":
+        break
     }
   }
 }

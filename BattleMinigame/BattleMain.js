@@ -1,110 +1,130 @@
-const battleBackgroundImage = new Image()
-battleBackgroundImage.src = "BattleMinigame/BattleMinigameData/FinalFightBackground.jpg"
+const battleBackgroundImage = new Image();
+battleBackgroundImage.src = 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg';
 
-const battleBackground = new Sprite( {
-    position: {
-        x: 0,
-        y: 0
-    },
-    image: battleBackgroundImage
-})
+const battleBackground = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  image: battleBackgroundImage,
+});
 
-const draggle = new Monster(monsters.Draggle)
-const emby = new Monster(monsters.Emby)
+let draggle = null;
 
-const renderedSprites = [draggle, emby]
+function getEnemy(weather) {
+  let currentWeather = weather;
+  switch (currentWeather) {
+    case '20DEG':
+      draggle = new Monster(monsters.Knight);
+      break;
+    case '0DEG':
+      draggle = new Monster(monsters.Draggle);
+      break;
+  }
+
+  return draggle
+}
+draggle = getEnemy('20DEG');
+
+const emby = new Monster(monsters.Emby);
+
+const renderedSprites = [draggle, emby];
 
 emby.attacks.forEach(attack => {
-  const button = document.createElement('button')
-  button.innerHTML = attack.name
-  document.querySelector('#attacksBox').append(button)
-})
+  const button = document.createElement('button');
+  button.innerHTML = attack.name;
+  document.querySelector('#attacksBox').append(button);
+});
 
 function animateBattle() {
-    window.requestAnimationFrame(animateBattle)
-    battleBackground.draw()
+  window.requestAnimationFrame(animateBattle);
+  battleBackground.draw();
 
-    renderedSprites.forEach((sprite) => {
-        sprite.draw()
-    })
+  renderedSprites.forEach((sprite) => {
+    sprite.draw();
+  });
 }
+
 animateBattle();
 // Event listenerit Hyökkäys napeille
-const queue = []
+const queue = [];
 document.querySelectorAll('button').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const selectedAttack = attacks[e.currentTarget.innerHTML]
-        emby.attack({
-            attack: selectedAttack,
-            recipient: draggle,
-            renderedSprites
-        })
-        if (draggle.health <= 0) {
-          queue.push(() => {
-            // Peli Voitettu :]
-            draggle.faint()
+  button.addEventListener('click', (e) => {
+    const selectedAttack = attacks[e.currentTarget.innerHTML];
+    emby.attack({
+      attack: selectedAttack,
+      recipient: draggle,
+      renderedSprites,
+    });
+    if (draggle.health <= 0) {
+      queue.push(() => {
+        // Peli Voitettu :]
+        draggle.faint();
 
-          })
-          queue.push(() => {
-            gsap.to('#overlappingDiv', {
-              opacity: 1,
-
-            })
-          })
-          return
-        }
-        // Enemy Attacks after this
-        const randomAttack = draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)]
+      });
+      queue.push(() => {
+        gsap.to('#overlappingDiv', {
+          opacity: 1,
+          onComplete: () => {
+            minigameModal.style.display = 'none';
+          },
+        });
+      });
+      return;
+    }
+    // Enemy Attacks after this
+    const randomAttack = draggle.attacks[Math.floor(
+        Math.random() * draggle.attacks.length)];
+    queue.push(() => {
+      draggle.attack({
+        attack: randomAttack,
+        recipient: emby,
+        renderedSprites,
+      });
+      if (emby.health <= 0) {
         queue.push(() => {
-          draggle.attack({
-            attack: randomAttack,
-            recipient: emby,
-            renderedSprites
-        })
-          if (emby.health <= 0) {
-          queue.push(() => {
-            // Peli Hävitty!
-            emby.faint()
-          })
-            queue.push(() => {
-            gsap.to('#overlappingDiv', {
-              opacity: 1,
-              onComplete: () => {
-                minigameModal.style.display = "none"
-              }
-            })
-          })
-          return
-        }
-        })
-    })
-    button.addEventListener('mouseenter', (e) => {
-      const selectedAttack = attacks[e.currentTarget.innerHTML]
-      document.querySelector('#attackType').innerHTML = selectedAttack.type
-      document.querySelector('#attackType').style.color = selectedAttack.color
-    })
-})
+          // Peli Hävitty!
+          emby.faint();
+        });
+        queue.push(() => {
+          gsap.to('#overlappingDiv', {
+            opacity: 1,
+            onComplete: () => {
+              minigameModal.style.display = 'none';
+            },
+          });
+        });
+        return;
+      }
+    });
+  });
+  button.addEventListener('mouseenter', (e) => {
+    const selectedAttack = attacks[e.currentTarget.innerHTML];
+    document.querySelector('#attackType').innerHTML = selectedAttack.type;
+    document.querySelector('#attackType').style.color = selectedAttack.color;
+  });
+});
 
 document.querySelector('#dialogueBox').addEventListener('click', (e) => {
   if (queue.length > 0) {
-    queue[0]()
-    queue.shift()
+    queue[0]();
+    queue.shift();
   } else {
-    e.currentTarget.style.display = 'none'
+    e.currentTarget.style.display = 'none';
   }
-})
+});
 
 // Update Names of health bars
-const healthbar1NameElement = document.querySelector('#healthBar1Name') // Enemy
-const healthbar2NameElement = document.querySelector('#healthBar2Name') // Player
+const healthbar1NameElement = document.querySelector('#healthBar1Name'); // Enemy
+const healthbar2NameElement = document.querySelector('#healthBar2Name'); // Player
 
-healthbar1NameElement.innerHTML = draggle.name
-healthbar2NameElement.innerHTML = emby.name
+healthbar1NameElement.innerHTML = draggle.name;
+healthbar2NameElement.innerHTML = emby.name;
 
-let clicked = false
+let clicked = false;
 addEventListener('click', () => {
   if (!clicked) {
-    audio.Battle.play()
-    clicked = true
+    audio.Battle.play();
+    clicked = true;
   }
-})
+});

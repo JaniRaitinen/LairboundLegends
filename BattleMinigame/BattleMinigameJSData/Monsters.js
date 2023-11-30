@@ -5,7 +5,7 @@ const draggleImage = new Image()
 draggleImage.src = "BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png"
 
 const knightImage = new Image()
-knightImage.src
+knightImage.src = "BattleMinigame/BattleMinigameData/knightSprite.png"
 
 const monsters = {
   Emby: {
@@ -44,7 +44,7 @@ const monsters = {
         x: 730,
         y: 300
     },
-    image: draggleImage,
+    image: knightImage,
     frames: {
         max: 4,
         hold: 60

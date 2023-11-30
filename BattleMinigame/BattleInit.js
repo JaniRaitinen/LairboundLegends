@@ -13,3 +13,4 @@ window.addEventListener('click', () => {
     minigameModal.style.display = 'block'
 })
 
+

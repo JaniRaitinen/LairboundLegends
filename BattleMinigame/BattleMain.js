@@ -24,6 +24,7 @@ function getEnemy(weather) {
 
   return draggle
 }
+
 draggle = getEnemy('20DEG');
 
 const emby = new Monster(monsters.Emby);

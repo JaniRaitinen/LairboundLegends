@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Battle</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+            integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="BattleMinigame/BattleMinigameJSData/Audio.js" defer></script>
+    <script src="BattleMinigame/BattleMinigameJSData/Attacks.js" defer></script>
+    <script src="BattleMinigame/BattleMinigameJSData/Monsters.js" defer></script>
+    <script src="BattleMinigame/BattleClasses.js" defer></script>
+    <script src="BattleMinigame/BattleInit.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="BattleMinigame/BattleMain.js" defer></script>
+    <style>
+        * {
+            font-family: 'Press Start 2P', cursive;
+        }
+        body {
+            margin: auto;
+        }
+        html {
+            margin: auto;
+            background-image: -webkit-radial-gradient(#100820, #d02020);
+        }
+        canvas {
+            border: 1vw ridge #f0f8e0;
+            margin: auto auto;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .gameContainer {
+            margin-left: 10vw;
+            margin-right: 10vw;
+            display: inline-block;
+            position: relative;
+        }
+        h1 {
+            font-size: 128px;
+            font-family: "JetBrains Mono ExtraBold",serif;
+            color: #f0f8e0;
+            text-shadow: 1px 1px 2px #f0f8e0, 0 0 25px #d02020, 0 0 5px #601840;
+            background: -webkit-linear-gradient(#f85800, #f0f8e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+        }
+        header {
+            margin: auto auto 5vw;
+
+        }
+        p {
+            font-family: "JetBrains Mono ExtraBold", serif;
+            font-size: 32px;
+            color: #f0f8e0;
+        }
+        .commandContainer {
+            background-color: #100820;
+            left: 0;
+            right: 0;
+            height: 200px;
+            border: 1vw #f0f8e0 ridge;
+            display: flex;
+        }
+        h2 {
+            color: #f0f8e0;
+            margin: 0;
+            font-size: 16px;
+        }
+        .attackButtons {
+            width: 66.66%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .attackTypeContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 33.33%;
+            border-left: 4px #f0f8e0 dashed;
+        }
+        button {
+            border: 0;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #ddd;
+            cursor: pointer;
+        }
+        .healthBar1 {
+            background-color: #f0f8e0;
+            padding: 12px;
+            width: 350px;
+            position: absolute;
+            bottom: 280px;
+            right: 50px;
+            border: 6px black solid;
+        }
+        .healthBar2 {
+            background-color: #f0f8e0;
+            padding: 12px;
+            width: 350px;
+            position: absolute;
+            bottom: 280px;
+            left: 50px;
+            border: 6px black solid;
+        }
+        h3 {
+            margin: 0;
+            font-size: 16px;
+
+        }
+        .dialogBox{
+            display: none;
+            position: absolute;
+            text-align: center;
+            justify-content: center;
+            width: 1000px;
+            height: 178px;
+            padding: 12px;
+            background-color: #100820;
+            color: #f0f8e0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lairbound Legends</h1>
+    </header>
+    <div class="gameContainer">
+        <div id="overlappingDiv" style="background-color: black; position: absolute; top: 0; bottom: 0; left: 0; right: 0; opacity: 0; pointer-events: none; z-index: 10;"></div>
+
+        <div class="healthBar1">
+            <h3 id="healthBar1Name">Dragon</h3>
+            <div style="position: relative">
+                <div style="height: 5px; background-color: #bbb; margin-top: 10px;"></div>
+                <div id="playerHealthBar" style="height: 5px; background-color: green; position: absolute; top: 0; left: 0; right: 0;"></div>
+            </div>
+        </div>
+
+        <div class="healthBar2">
+            <h3 id="healthBar2Name">Ember</h3>
+            <div style="position: relative">
+                <div style="height: 5px; background-color: #bbb; margin-top: 10px;"></div>
+                <div id="enemyHealthBar" style="height: 5px; background-color: green; position: absolute; top: 0; left: 0; right: 0;"></div>
+            </div>
+        </div>
+
+        <canvas></canvas>
+
+        <div class="commandContainer">
+            <div class="dialogBox" id="dialogueBox">Dialog</div>
+            <div class="attackButtons" id="attacksBox">
+            </div>
+            <div class="attackTypeContainer">
+                <h2 id="attackType">Attack Type</h2>
+            </div>
+
+        </div>
+
+    </div>
+    <p>Here is some text for reading. This text contains Loretext/Gamecontrols/other information.</p>
+</body>
+</html>

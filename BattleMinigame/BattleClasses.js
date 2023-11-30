@@ -1,20 +1,5 @@
 'use strict';
 
-class Boundary {
-    static width = 128;
-    static height = 128;
-    constructor({position}) {
-        this.position = position;
-        this.width = 16 * zoomLevel;
-        this.height = 16 * zoomLevel;
-    }
-
-    draw() {
-        context.fillStyle = 'rgba(255, 0, 0, 0.5)';
-        context.fillRect(this.position.x, this.position.y, this.width, this.height);
-    }
-}
-
 
 class Sprite {
     constructor({
@@ -201,7 +186,7 @@ class Monster extends Sprite {
       case 'Fireball':
 
         const fireballImage = new Image()
-        fireballImage.src = './Images/fireball.png'
+        fireballImage.src = 'BattleMinigame/BattleMinigameData/fireball.png'
         const fireball = new Sprite({
           position: {
             x: this.position.x,
@@ -245,7 +230,7 @@ class Monster extends Sprite {
         break;
       case "IceShard":
         const iceshardImage = new Image()
-        iceshardImage.src = './Images/IceShatter_96x96.png'
+        iceshardImage.src = 'BattleMinigame/BattleMinigameData/IceShatter_96x96.png'
         const iceshard = new Sprite({
           position: {
             x: this.position.x,
@@ -289,7 +274,7 @@ class Monster extends Sprite {
         break;
       case "ThunderStrike":
         const thunderImage = new Image()
-        thunderImage.src = './Images/HolyExplosion_96x96.png'
+        thunderImage.src = 'BattleMinigame/BattleMinigameData/HolyExplosion_96x96.png'
         const thunder = new Sprite({
           position: {
             x: this.position.x,

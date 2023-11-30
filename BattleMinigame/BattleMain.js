@@ -69,7 +69,9 @@ document.querySelectorAll('button').forEach(button => {
             queue.push(() => {
             gsap.to('#overlappingDiv', {
               opacity: 1,
-
+              onComplete: () => {
+                minigameModal.style.display = "none"
+              }
             })
           })
           return

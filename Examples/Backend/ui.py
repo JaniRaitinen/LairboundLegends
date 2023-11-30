@@ -1,13 +1,11 @@
 import requests
 import config
 
-
-#done
 def output_status(json):
     print ("================================================")
-    print ("dragonbound ID    : " + json["status"]["id"])
-    print ("Dragon      : " + json["status"]["dragon_name"])
-    print ("Stamina  : " + str(json["status"]["stamina"]))
+    print ("Trip ID    : " + json["status"]["id"])
+    print ("Pilot      : " + json["status"]["name"])
+    print ("Footprint  : " + str(json["status"]["co2"]))
     print ("Location   : " + json["location"][0]["ident"] + " - " + json["location"][0]["name"])
     print ("Link       : https://www.openstreetmap.org/#map=8/" + str(json["location"][0]["latitude"]) + "/" + str(json["location"][0]["longitude"]))
     print ("------------------------------------------------")
@@ -42,12 +40,12 @@ def output_status(json):
 name = input("Enter your name (default=" + config.default_name + "): ")
 if (name==""):
     name = config.default_name
-initial_lairport = input("Enter initial lairport (default=" + config.default_starting_point + "): ")
-if (initial_lairport==""):
-    initial_lairport = config.default_starting_point
+initial_airport = input("Enter initial airport (default=" + config.default_starting_point + "): ")
+if (initial_airport==""):
+    initial_airport = config.default_starting_point
 
 # http://127.0.0.1:5000/newgame?loc=EFKE&player=Urpopekka
-request = "http://127.0.0.1:5000/newgame?loc=" + initial_lairport + "&player=" + name
+request = "http://127.0.0.1:5000/newgame?loc=" + initial_airport + "&player=" + name
 
 while True:
     print (request)

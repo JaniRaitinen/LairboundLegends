@@ -19,13 +19,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # Tietokantayhteys
 config.conn = mysql.connector.connect(
          host=os.environ.get('HOST'),
-         port=3306,
+         port= 3306,
          database=os.environ.get('DB_NAME'),
          user=os.environ.get('DB_USER'),
          password=os.environ.get('DB_PASS'),
          autocommit=True
          )
-
 
 def fly(id, dest, consumption=0, player=None):
     if id==0:
@@ -33,7 +32,7 @@ def fly(id, dest, consumption=0, player=None):
     else:
         game = Game(id, dest, consumption)
     game.location[0].fetchWeather(game)
-    nearby = game.location[0].find_nearby_lairports()
+    nearby = game.location[0].find_nearby_airports()
     for a in nearby:
         game.location.append(a)
     json_data = json.dumps(game, default=lambda o: o.__dict__, indent=4)
@@ -52,7 +51,7 @@ def flyto():
     return json_data
 
 
-# http://127.0.0.1:5000/newgame?dragon_name=Smaug&loc=EFHK
+# http://127.0.0.1:5000/newgame?player=Vesa&loc=EFHK
 @app.route('/newgame')
 def newgame():
     args = request.args

@@ -5,7 +5,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-
 class Weather:
 
     def kelvin_to_celsius(self, kelvin):
@@ -39,7 +38,7 @@ class Weather:
 
 
     def __init__(self, sijainti, game):
-        apikey = os.environ.get('60914b86984371e56a6a0acd40de8b5f')
+        apikey = os.environ.get('API_KEY')
 
         request = "https://api.openweathermap.org/data/2.5/weather?lat=" + \
                  str(sijainti.latitude) + "&lon=" + str(sijainti.longitude) + "&appid=" + apikey

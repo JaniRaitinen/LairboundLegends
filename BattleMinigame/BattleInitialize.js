@@ -32,6 +32,12 @@ function initializeBattle() {
       type: 'Electric',
       color: 'yellow',
     },
+    FireArrow: {
+    name: "FireArrow",
+    damage: 100,
+    type: 'Fire',
+    color: "orange"
+    },
   };
   
   // Load Player Image
@@ -44,6 +50,9 @@ function initializeBattle() {
 
   const knightImage =  new Image();
   knightImage.src = 'BattleMinigame/BattleMinigameData/knightSprite.png';
+
+  const goblinImage = new Image();
+  goblinImage.src = 'BattleMinigame/BattleMinigameData/goblinSprite.png';
 
   // Monster Data, Needs to have played and enemy images loaded before this
   const monsters = {
@@ -98,6 +107,22 @@ function initializeBattle() {
       type: 'Normal',
       attacks: [attacks.Tackle],
     },
+    Goblin: {
+      position: {
+        x: 730,
+        y: 350,
+      },
+      image: goblinImage,
+      frames: {
+        max: 4,
+        hold: 60,
+      },
+      animate: true,
+      isEnemy: true,
+      name: 'Humpy Dumpy',
+      type: 'Normal',
+      attacks: [attacks.Tackle, attacks.FireArrow],
+    }
   };
 
   // Select Screen and context of screen
@@ -245,7 +270,7 @@ function initializeBattle() {
           const EF = effectivenessFactor
 
           // Calculate Crit   1/10 Chance
-          let C = 1
+          let C
           if (Math.ceil(Math.random() * 10) === 1) C = 2;
           else C = 1;
 
@@ -253,8 +278,7 @@ function initializeBattle() {
           const R = (Math.ceil(Math.random() * 38 + 217)) / 255
 
           const D = ((((((2 * C)/5)+2) * A)/5) + 8) * R * EF
-          const returnArray = [D, C]
-          return returnArray
+          return [D, C]
       }
 
       function handleBattleDialog(attackerName, attackName, C, EF) {
@@ -438,6 +462,50 @@ function initializeBattle() {
             },
           });
           break;
+        case 'FireArrow':
+          const arrowImage = new Image();
+          arrowImage.src = 'BattleMinigame/BattleMinigameData/fireball.png';
+          const arrow = new Sprite({
+            position: {
+              x: this.position.x,
+              y: this.position.y,
+            },
+            image: arrowImage,
+            frames: {
+              max: 4,
+              hold: 10,
+            },
+            animate: true,
+            rotation,
+          });
+          renderedSprites.splice(1, 0, arrow);
+
+          gsap.to(arrow.position, {
+            x: recipient.position.x,
+            y: recipient.position.y,
+            onComplete: () => {
+              // Enemy Gets hit
+              gsap.to(healthBar, {
+                width: recipient.health + '%',
+              });
+
+              gsap.to(recipient.position, {
+                x: recipient.position.x + 10,
+                yoyo: true,
+                repeat: 5,
+                duration: 0.08,
+
+              });
+              gsap.to(recipient, {
+                opacity: 0,
+                repeat: 5,
+                yoyo: true,
+                duration: 0.08,
+              });
+              renderedSprites.splice(1, 1);
+            },
+          });
+          break;
         default:
           break;
       }
@@ -461,11 +529,14 @@ function initializeBattle() {
   let draggle
   function getEnemy(weather) {
     switch (weather) {
-      case '20DEG':
+      case '10DEG':
         draggle = new Monster(monsters.Knight);
         break;
       case '0DEG':
         draggle = new Monster(monsters.Draggle);
+        break;
+      case '20DEG':
+        draggle = new Monster(monsters.Goblin);
         break;
     }
 

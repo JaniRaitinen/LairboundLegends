@@ -23,4 +23,10 @@ const attacks = {
     type: 'Electric',
     color: 'yellow'
   },
+  FireArrow: {
+    name: "FireArrow",
+    damage: 100,
+    type: 'Fire',
+    color: "orange"
+  },
 }

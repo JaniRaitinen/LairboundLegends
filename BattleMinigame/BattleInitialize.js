@@ -1,10 +1,12 @@
-async function initializeBattle() {
+function initializeBattle() {
+  // Data For Audio
   const audio = {
     Battle: new Howl({
       src: 'BattleMinigame/BattleMinigameData/Lairbound_battle.mp3',
       html5: true,
     }),
   };
+  // Data for Attacks
   const attacks = {
     Tackle: {
       name: 'Tackle',
@@ -31,15 +33,19 @@ async function initializeBattle() {
       color: 'yellow',
     },
   };
-  const embyImage = await new Image();
+  
+  // Load Player Image
+  const embyImage =  new Image();
   embyImage.src = 'BattleMinigame/BattleMinigameData/PlayerDragonSprite.png';
 
-  const draggleImage = await new Image();
+  // Load Enemy Image
+  const draggleImage =  new Image();
   draggleImage.src = 'BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png';
 
-  const knightImage = await new Image();
+  const knightImage =  new Image();
   knightImage.src = 'BattleMinigame/BattleMinigameData/knightSprite.png';
 
+  // Monster Data, Needs to have played and enemy images loaded before this
   const monsters = {
     Emby: {
       position: {
@@ -94,15 +100,18 @@ async function initializeBattle() {
     },
   };
 
-  const screen = await document.querySelector('canvas');
-  const context = await screen.getContext('2d');
+  // Select Screen and context of screen
+  const screen =  document.querySelector('canvas');
+  const context =  screen.getContext('2d');
 
-// Aseta screen resolution Ja piirrä canvas
+  // Set resolution
   screen.width = 1024;
   screen.height = 576;
 
-  const minigameModal = await document.querySelector('#modal');
+  // Get modal of battleminigame
+  const minigameModal =  document.querySelector('#modal');
 
+  // Initialize Classes for Sprite and its child class Monster 
   class Sprite {
     constructor({
                   position,
@@ -125,7 +134,7 @@ async function initializeBattle() {
       this.rotation = rotation;
 
     }
-
+    // The Draw function needs context to be known before it can be initialized
     draw() {
       context.save();
       context.translate(this.position.x + this.width / 2,
@@ -134,7 +143,6 @@ async function initializeBattle() {
       context.translate(-this.position.x - this.width / 2,
           -this.position.y - this.height / 2);
       context.globalAlpha = this.opacity;
-      // context.drawImage(this.image, this.position.x, this.position.y);
       context.drawImage(
           this.image,
           this.frames.val * this.width,
@@ -148,7 +156,7 @@ async function initializeBattle() {
       );
       context.restore();
 
-      if (!this.animate) return; // Katsotaan onko Sprite liikkuva, elikkä pitääkö se animoida.
+      if (!this.animate) return;
 
       if (this.frames.max > 1) {
         this.frames.elapsed++;
@@ -163,7 +171,7 @@ async function initializeBattle() {
       }
     }
   }
-
+  // Child class Monster needs monsters and attacks to be initialized before this
   class Monster extends Sprite {
     constructor({
                   isEnemy = false,
@@ -203,7 +211,7 @@ async function initializeBattle() {
         opacity: 0,
       });
     }
-
+    // Attack method for animating and calculating battle damage
     attack({attack, recipient, renderedSprites}) {
       const dialogBoxElement = document.querySelector('#dialogueBox');
       dialogBoxElement.style.display = 'block';
@@ -420,28 +428,29 @@ async function initializeBattle() {
             },
           });
           break;
-        case '':
+        default:
           break;
       }
     }
   }
 
-  const battleBackgroundImage = await new Image();
+  // Load Battle background image
+  const battleBackgroundImage =  new Image();
   battleBackgroundImage.src = 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg';
 
-  const battleBackground = await new Sprite({
+  // Create new battlebackground sprite
+  const battleBackground =  new Sprite({
     position: {
       x: 0,
       y: 0,
     },
     image: battleBackgroundImage,
   });
-
-  let draggle = null;
-
+  
+  // Create new Monster instance depenging on the current weather
+  let draggle
   function getEnemy(weather) {
-    let currentWeather = weather;
-    switch (currentWeather) {
+    switch (weather) {
       case '20DEG':
         draggle = new Monster(monsters.Knight);
         break;
@@ -454,17 +463,21 @@ async function initializeBattle() {
   }
 
   draggle = getEnemy('20DEG');
+  
+  // Emby is always the player
+  const emby =  new Monster(monsters.Emby);
 
-  const emby = await new Monster(monsters.Emby);
-
+  // List of sprites excluding the background to draw
   const renderedSprites = [draggle, emby];
 
-  await emby.attacks.forEach(attack => {
+  // Create a button for each player's attacks
+   emby.attacks.forEach(attack => {
     const button = document.createElement('button');
     button.innerHTML = attack.name;
     document.querySelector('#attacksBox').append(button);
   });
 
+  // Animate (Render) images onto the canvas using AnimationFrame
   function animateBattle() {
     window.requestAnimationFrame(animateBattle);
     battleBackground.draw();
@@ -475,26 +488,32 @@ async function initializeBattle() {
   }
 
   animateBattle();
-// Event listenerit Hyökkäys napeille
+
+  // Queue array for "queueing" all that happens in game, depending on input
   const queue = [];
-  await document.querySelectorAll('button').forEach(button => {
+  
+  // Create an event listener for each button element on screen
+   document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', (e) => {
       const selectedAttack = attacks[e.currentTarget.innerHTML];
+      // Call player.attack and complete the attack function
       emby.attack({
         attack: selectedAttack,
         recipient: draggle,
         renderedSprites,
       });
+      // After the attack check if enemy's health is zero or below
       if (draggle.health <= 0) {
+        // Push an enemy.faint() method to the queue
         queue.push(() => {
-          // Peli Voitettu :]
-          clickedOn = false
+          // Game Won! :]
           draggle.faint();
-
         });
+        // After fainting push an animation event (gsap.to) to the queue
         queue.push(() => {
           gsap.to('#overlappingDiv', {
             opacity: 1,
+            // On animation completion disable the display of minigameModal
             onComplete: () => {
               minigameModal.style.display = 'none';
             },
@@ -502,27 +521,30 @@ async function initializeBattle() {
         });
         return;
       }
-      // Enemy Attacks after this
+      // Enemy's turn to attack back. The attack choice is randomized from avaivable attacks
       const randomAttack = draggle.attacks[Math.floor(
           Math.random() * draggle.attacks.length)];
+      // push an enemy.attack method to the queue
       queue.push(() => {
         draggle.attack({
           attack: randomAttack,
           recipient: emby,
           renderedSprites,
         });
+        // If the player's health is zero or below. 
         if (emby.health <= 0) {
+          // push an enemy.faint method to the queue
           queue.push(() => {
             // Peli Hävitty!
             emby.faint();
           });
+          // After the enemy.faint method push an animation event to the queue
           queue.push(() => {
             gsap.to('#overlappingDiv', {
               opacity: 1,
+              // On completion of the animation disable the minigameModal display
               onComplete: () => {
-                clickedOn = false
                 minigameModal.style.display = 'none';
-
               },
             });
           });
@@ -530,32 +552,38 @@ async function initializeBattle() {
         }
       });
     });
+    // Add an event listener to all buttons. On mouse enter show the attacks type and color on screen
     button.addEventListener('mouseenter', (e) => {
       const selectedAttack = attacks[e.currentTarget.innerHTML];
       document.querySelector('#attackType').innerHTML = selectedAttack.type;
       document.querySelector('#attackType').style.color = selectedAttack.color;
     });
   });
-
-  await document.querySelector('#dialogueBox').
+  
+  // Add an event listener to the dialogBox which appears when there is a method in the queue 
+   document.querySelector('#dialogueBox').
       addEventListener('click', (e) => {
         if (queue.length > 0) {
+          // Get the first method of the queue and call it
           queue[0]();
+          // After that remove the called method from the queue
           queue.shift();
         } else {
+          // disable the dialogbox's display to hide it after all methods from the queue have been called
           e.currentTarget.style.display = 'none';
         }
       });
 
-// Update Names of health bars
-  const healthbar1NameElement = await document.querySelector('#healthBar1Name'); // Enemy
-  const healthbar2NameElement = await document.querySelector('#healthBar2Name'); // Player
+  // Get the healthbar elements
+  const healthbar1NameElement =  document.querySelector('#healthBar1Name'); // Enemy
+  const healthbar2NameElement =  document.querySelector('#healthBar2Name'); // Player
+  // Set the name element of the healthbars to its name
+  healthbar1NameElement.innerHTML =  draggle.name;
+  healthbar2NameElement.innerHTML =  emby.name;
 
-  healthbar1NameElement.innerHTML = await draggle.name;
-  healthbar2NameElement.innerHTML = await emby.name;
-
+  // Start the audio once when player has clicked anywhere on the window
   let clicked = false;
-  await addEventListener('click', () => {
+   addEventListener('click', () => {
     if (!clicked) {
       audio.Battle.play();
       clicked = true;
@@ -564,6 +592,9 @@ async function initializeBattle() {
 
 }
 
+// Handling for initializing battle.
+// shows the modal in which the battle resides
+// Currently it only activates the battle once.
 let clickedOn = false;
 window.addEventListener('click', () => {
   if (clickedOn === false) {

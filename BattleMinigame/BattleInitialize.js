@@ -222,44 +222,54 @@ function initializeBattle() {
       let healthBar = '#playerHealthBar';
       if (this.isEnemy) healthBar = '#enemyHealthBar';
 
-      // Check Effective Types
-      let effectiveTypes = '';
-      let ineffectiveTypes = '';
-      switch (attack.type) {
-        case 'Normal':
-          effectiveTypes = '';
-          ineffectiveTypes = '';
-          break;
-        case 'Fire':
-          effectiveTypes = 'Ice';
-          ineffectiveTypes = 'Ice';
-          break;
-        case 'Ice':
-          effectiveTypes = 'Fire';
-          ineffectiveTypes = 'Ice';
-          break;
-        case 'Electric':
-          effectiveTypes = 'Normal';
-          ineffectiveTypes = 'Electric';
-          break;
+      // Create an array and chart to handle effectiveness
+      const typesArray = ["Normal", "Fire", "Ice", "Electric"]
+      const typeChart = [
+          [1, 1, 1, 0.5], // Normal
+          [1, 0.5, 2, 1], // Fire
+          [1, 2, 0.5, 1], // Ice
+          [2, 1, 1, 0.5], //Electric
+      ]
+
+      function getEffectiveness(attackerType, recipientType) {
+        const attackerIndex = typesArray.indexOf(attackerType.toString())
+        const defenderIndex = typesArray.indexOf(recipientType.toString())
+        return typeChart[attackerIndex][defenderIndex]
+      }
+      // log the effectiveness factor
+      console.log(`${getEffectiveness(attack.type, recipient.type)}`)
+      let effectivenessFactor = getEffectiveness(attack.type, recipient.type)
+
+      function calculateBattleDamage(attackDamage, effectivenessFactor) {
+          const A = attackDamage
+          const EF = effectivenessFactor
+
+          // Calculate Crit   1/10 Chance
+          let C = 1
+          if (Math.ceil(Math.random() * 10) === 1) C = 2;
+          else C = 1;
+
+          // Random Factor
+          const R = (Math.ceil(Math.random() * 38 + 217)) / 255
+
+          const D = ((((((2 * C)/5)+2) * A)/5) + 8) * R * EF
+          const returnArray = [D, C]
+          return returnArray
       }
 
-      if (effectiveTypes === recipient.type) {
-        // Effective attack
-        recipient.health -= attack.damage * Math.ceil(Math.random() * 2);
-        dialogBoxElement.innerHTML = this.name + ' used ' + attack.name +
-            ', It was super effective!';
-      } else if (ineffectiveTypes === recipient.type) {
-        // Innefective attack
-        recipient.health -= (attack.damage * Math.random() + 1);
-        dialogBoxElement.innerHTML = this.name + ' used ' + attack.name +
-            ', It was not effective!';
-      } else {
-        // Normal Attack
-        recipient.health -= attack.damage;
-        dialogBoxElement.innerHTML = this.name + ' used ' + attack.name;
+      function handleBattleDialog(attackerName, attackName, C, EF) {
+        let text = `${attackerName} used ${attackName}`
+        if (C === 2) text += `, Critical Hit!!!`;
+        if (EF === 2) text += `, It was Super Effective!`;
+        else if (EF === 0.5) text += `, It was Ineffective!`;
+        dialogBoxElement.innerHTML = text
       }
-      recipient.health -= attack.damage;
+
+      let dealedDamage = calculateBattleDamage(attack.damage, effectivenessFactor)[0]
+      let Critical = calculateBattleDamage(attack.damage, effectivenessFactor)[1]
+      recipient.health -= dealedDamage
+      handleBattleDialog(this.name, attack.name, Critical, effectivenessFactor)
+
       switch (attack.name) {
         case 'Tackle':
           const tl = gsap.timeline();

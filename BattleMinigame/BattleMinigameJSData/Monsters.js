@@ -7,6 +7,12 @@ draggleImage.src = "BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png"
 const knightImage = new Image()
 knightImage.src = "BattleMinigame/BattleMinigameData/knightSprite.png"
 
+const fireElementalImage = new Image()
+fireElementalImage.src = "BattleMinigame/BattleMinigameData/fireElementalSprite.png"
+
+const iceGolemImage = new Image()
+iceGolemImage.src = "BattleMinigame/BattleMinigameData/iceGolemSprite.png"
+
 const monsters = {
   Emby: {
        position: {

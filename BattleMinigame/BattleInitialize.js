@@ -54,6 +54,13 @@ function initializeBattle() {
   const goblinImage = new Image();
   goblinImage.src = 'BattleMinigame/BattleMinigameData/goblinSprite.png';
 
+  const fireElementalImage = new Image()
+  fireElementalImage.src = "BattleMinigame/BattleMinigameData/fireElementalSprite.png"
+
+  const iceGolemImage = new Image()
+  iceGolemImage.src = "BattleMinigame/BattleMinigameData/iceGolemSprite.png"
+
+
   // Monster Data, Needs to have played and enemy images loaded before this
   const monsters = {
     Emby: {
@@ -119,11 +126,27 @@ function initializeBattle() {
       },
       animate: true,
       isEnemy: true,
-      name: 'Humpy Dumpy',
+      name: 'Humpy Dumpy The Snot Chief',
       type: 'Normal',
       attacks: [attacks.Tackle, attacks.FireArrow],
+    },
+    IceGolem: {
+      position: {
+        x: 730,
+        y: 200,
+      },
+      image: iceGolemImage,
+      frames: {
+        max: 4,
+        hold: 60,
+      },
+      animate: true,
+      isEnemy: true,
+      name: 'Golem of Frost',
+      type: 'Ice',
+      attacks: [attacks.Tackle, attacks.IceShard],
     }
-  };
+  }
 
   // Select Screen and context of screen
   const screen =  document.querySelector('canvas');
@@ -538,6 +561,11 @@ function initializeBattle() {
       case '20DEG':
         draggle = new Monster(monsters.Goblin);
         break;
+      case '-20DEG':
+        draggle = new Monster(monsters.IceGolem);
+        break
+      default:
+        break
     }
 
     return draggle;

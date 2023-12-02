@@ -1,4 +1,4 @@
-function initializeBattle() {
+
   // Data For Audio
   const audio = {
     Battle: new Howl({
@@ -39,42 +39,23 @@ function initializeBattle() {
     color: "orange"
     },
   };
-  
-  // Load Player Image
-  const embyImage =  new Image();
-  embyImage.src = 'BattleMinigame/BattleMinigameData/PlayerDragonSprite.png';
 
-  // Load Enemy Image
-  const draggleImage =  new Image();
-  draggleImage.src = 'BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png';
-
-  const knightImage =  new Image();
-  knightImage.src = 'BattleMinigame/BattleMinigameData/knightSprite.png';
-
-  const goblinImage = new Image();
-  goblinImage.src = 'BattleMinigame/BattleMinigameData/goblinSprite.png';
-
-  const fireElementalImage = new Image()
-  fireElementalImage.src = "BattleMinigame/BattleMinigameData/fireElementalSprite.png"
-
-  const iceGolemImage = new Image()
-  iceGolemImage.src = "BattleMinigame/BattleMinigameData/iceGolemSprite.png"
-
-
-  // Monster Data, Needs to have played and enemy images loaded before this
   const monsters = {
     Emby: {
       position: {
         x: 100,
         y: 280,
       },
-      image: embyImage,
+      image: {
+        src: 'BattleMinigame/BattleMinigameData/PlayerDragonSprite.png'
+      },
       frames: {
         max: 4,
         hold: 60,
       },
       animate: true,
-      name: 'Player Dragon Name',
+      health: 100,
+      name: "Player Dragon",
       type: 'Fire',
       attacks: [
         attacks.Tackle,
@@ -85,14 +66,15 @@ function initializeBattle() {
     Draggle: {
       position: {
         x: 730,
-        y: 300,
+        y: 320,
       },
-      image: draggleImage,
+      image: {src: 'BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png'},
       frames: {
         max: 4,
         hold: 60,
       },
       animate: true,
+      health: 75,
       isEnemy: true,
       name: 'Young Ice Dragon',
       type: 'Ice',
@@ -101,14 +83,15 @@ function initializeBattle() {
     Knight: {
       position: {
         x: 730,
-        y: 300,
+        y: 330,
       },
-      image: knightImage,
+      image: {src: 'BattleMinigame/BattleMinigameData/knightSprite.png'},
       frames: {
         max: 4,
         hold: 60,
       },
       animate: true,
+      health: 80,
       isEnemy: true,
       name: 'Sir Siegfried Schwein',
       type: 'Normal',
@@ -117,14 +100,15 @@ function initializeBattle() {
     Goblin: {
       position: {
         x: 730,
-        y: 350,
+        y: 330,
       },
-      image: goblinImage,
+      image: {src: 'BattleMinigame/BattleMinigameData/goblinSprite.png'},
       frames: {
         max: 4,
         hold: 60,
       },
       animate: true,
+      health: 30,
       isEnemy: true,
       name: 'Humpy Dumpy The Snot Chief',
       type: 'Normal',
@@ -133,14 +117,15 @@ function initializeBattle() {
     IceGolem: {
       position: {
         x: 730,
-        y: 200,
+        y: 220,
       },
-      image: iceGolemImage,
+      image: {src: 'BattleMinigame/BattleMinigameData/iceGolemSprite.png'},
       frames: {
         max: 4,
         hold: 60,
       },
       animate: true,
+      health: 100,
       isEnemy: true,
       name: 'Golem of Frost',
       type: 'Ice',
@@ -170,12 +155,13 @@ function initializeBattle() {
                   rotation = 0,
                 }) {
       this.position = position;
-      this.image = image;
+      this.image = new Image();
       this.frames = {...frames, val: 0, elapsed: 0};
       this.image.onload = () => {
         this.width = this.image.width / this.frames.max;
         this.height = this.image.height;
       };
+      this.image.src = image.src
       this.animate = animate;
       this.sprites = sprites;
       this.opacity = 1;
@@ -228,6 +214,7 @@ function initializeBattle() {
                   type,
                   position,
                   image,
+                  health,
                   frames = {max: 1, hold: 20},
                   sprites,
                   animate = false,
@@ -241,7 +228,7 @@ function initializeBattle() {
         animate,
         rotation,
       });
-      this.health = 100;
+      this.health = health;
       this.name = name;
       this.isEnemy = isEnemy;
       this.attacks = attacks;
@@ -259,6 +246,14 @@ function initializeBattle() {
         opacity: 0,
       });
     }
+
+    resetPosition() {
+      if (this.isEnemy) {
+        this.position.y -= 20
+      }
+      else return
+    }
+
     // Attack method for animating and calculating battle damage
     attack({attack, recipient, renderedSprites}) {
       const dialogBoxElement = document.querySelector('#dialogueBox');
@@ -288,10 +283,7 @@ function initializeBattle() {
       console.log(`${getEffectiveness(attack.type, recipient.type)}`)
       let effectivenessFactor = getEffectiveness(attack.type, recipient.type)
 
-      function calculateBattleDamage(attackDamage, effectivenessFactor) {
-          const A = attackDamage
-          const EF = effectivenessFactor
-
+      function calculateBattleDamage(A, EF) {
           // Calculate Crit   1/10 Chance
           let C
           if (Math.ceil(Math.random() * 10) === 1) C = 2;
@@ -535,73 +527,107 @@ function initializeBattle() {
     }
   }
 
+  function getBackgroundImage(weatherCondition) {
+    switch (weatherCondition) {
+      case '-20DEG':
+        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+      break
+      case '-10DEG':
+        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+      break
+      case '0DEG':
+        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+        break;
+      case '10DEG':
+        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+        break;
+      case '20DEG':
+        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+        break;
+    }
+  }
+  function getEnemy(weather) {
+    switch (weather) {
+      case '10DEG':
+        return new Monster(monsters.Knight);
+        break;
+      case '0DEG':
+        return new Monster(monsters.Draggle);
+        break;
+      case '20DEG':
+        return new Monster(monsters.Goblin);
+        break;
+      case '-10DEG':
+        return new Monster(monsters.Knight);
+        break
+      case '-20DEG':
+        return new Monster(monsters.IceGolem);
+        break
+      default:
+        break
+    }
+  }
   // Load Battle background image
-  const battleBackgroundImage =  new Image();
-  battleBackgroundImage.src = 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg';
-
+  let battleBackgroundImage
   // Create new battlebackground sprite
-  const battleBackground =  new Sprite({
+  let battleBackground
+  // Create new Monster instance depenging on the current weather
+  let draggle
+  // Emby is always the player
+  let emby
+  // List of sprites excluding the background to draw
+  let renderedSprites
+  // Animate (Render) images onto the canvas using AnimationFrame
+  let animationID
+  // Queue array for "queueing" all that happens in game, depending on input
+  let queue
+  let clicked
+
+  // Get the healthbarName elements
+  const healthbar1NameElement =  document.querySelector('#healthBar1Name'); // Enemy
+  const healthbar2NameElement =  document.querySelector('#healthBar2Name'); // Player
+
+   // Load Data for another battle
+  function initBattle(weatherCondition) {
+    document.querySelector('#dialogueBox').style.display = 'none'
+    document.querySelector('#attacksBox').replaceChildren()
+
+    emby = new Monster(monsters.Emby);
+    draggle = getEnemy(weatherCondition);
+    renderedSprites = [draggle, emby];
+    queue = []
+
+    document.querySelector('#playerHealthBar').style.width = '100%'
+    document.querySelector('#enemyHealthBar').style.width = '100%'
+
+    // Set the name element of the healthbars to its name
+    healthbar1NameElement.innerHTML =  draggle.name;
+    healthbar2NameElement.innerHTML =  emby.name;
+
+    clicked = false
+
+    battleBackgroundImage =  new Image();
+    battleBackgroundImage.src = getBackgroundImage(weatherCondition)
+    battleBackground =  new Sprite({
     position: {
       x: 0,
       y: 0,
     },
     image: battleBackgroundImage,
-  });
-  
-  // Create new Monster instance depenging on the current weather
-  let draggle
-  function getEnemy(weather) {
-    switch (weather) {
-      case '10DEG':
-        draggle = new Monster(monsters.Knight);
-        break;
-      case '0DEG':
-        draggle = new Monster(monsters.Draggle);
-        break;
-      case '20DEG':
-        draggle = new Monster(monsters.Goblin);
-        break;
-      case '-20DEG':
-        draggle = new Monster(monsters.IceGolem);
-        break
-      default:
-        break
-    }
+    });
 
-    return draggle;
-  }
+    animateBattle()
 
-  draggle = getEnemy('20DEG');
-  
-  // Emby is always the player
-  const emby =  new Monster(monsters.Emby);
-
-  // List of sprites excluding the background to draw
-  const renderedSprites = [draggle, emby];
-
-  // Create a button for each player's attacks
-   emby.attacks.forEach(attack => {
+    draggle.resetPosition()
+    // Create a button for each player's attacks
+    emby.attacks.forEach(attack => {
     const button = document.createElement('button');
     button.innerHTML = attack.name;
     document.querySelector('#attacksBox').append(button);
-  });
-
-  // Animate (Render) images onto the canvas using AnimationFrame
-  function animateBattle() {
-    window.requestAnimationFrame(animateBattle);
-    battleBackground.draw();
-
-    renderedSprites.forEach((sprite) => {
-      sprite.draw();
     });
-  }
 
-  animateBattle();
 
-  // Queue array for "queueing" all that happens in game, depending on input
-  const queue = [];
-  
-  // Create an event listener for each button element on screen
+    // Create an event listener for each button element on screen
    document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', (e) => {
       const selectedAttack = attacks[e.currentTarget.innerHTML];
@@ -624,11 +650,16 @@ function initializeBattle() {
             opacity: 1,
             // On animation completion disable the display of minigameModal
             onComplete: () => {
+              cancelAnimationFrame(animationID)
               minigameModal.style.display = 'none';
+              gsap.to('#overlappingDiv', {
+                opacity: 0,
+              })
+              return
             },
           });
         });
-        return;
+        return
       }
       // Enemy's turn to attack back. The attack choice is randomized from avaivable attacks
       const randomAttack = draggle.attacks[Math.floor(
@@ -640,7 +671,7 @@ function initializeBattle() {
           recipient: emby,
           renderedSprites,
         });
-        // If the player's health is zero or below. 
+        // If the player's health is zero or below.
         if (emby.health <= 0) {
           // push an enemy.faint method to the queue
           queue.push(() => {
@@ -653,11 +684,16 @@ function initializeBattle() {
               opacity: 1,
               // On completion of the animation disable the minigameModal display
               onComplete: () => {
+                cancelAnimationFrame(animationID)
                 minigameModal.style.display = 'none';
+                gsap.to('#overlappingDiv', {
+                  opacity: 0,
+                })
+                return
               },
             });
           });
-          return;
+          return
         }
       });
     });
@@ -668,6 +704,21 @@ function initializeBattle() {
       document.querySelector('#attackType').style.color = selectedAttack.color;
     });
   });
+
+  }
+
+  function animateBattle() {
+    animationID = window.requestAnimationFrame(animateBattle);
+    battleBackground.draw();
+
+    renderedSprites.forEach((sprite) => {
+      sprite.draw();
+    });
+  }
+
+  initBattle("10DEG")
+
+
   
   // Add an event listener to the dialogBox which appears when there is a method in the queue 
    document.querySelector('#dialogueBox').
@@ -683,15 +734,7 @@ function initializeBattle() {
         }
       });
 
-  // Get the healthbar elements
-  const healthbar1NameElement =  document.querySelector('#healthBar1Name'); // Enemy
-  const healthbar2NameElement =  document.querySelector('#healthBar2Name'); // Player
-  // Set the name element of the healthbars to its name
-  healthbar1NameElement.innerHTML =  draggle.name;
-  healthbar2NameElement.innerHTML =  emby.name;
-
   // Start the audio once when player has clicked anywhere on the window
-  let clicked = false;
    addEventListener('click', () => {
     if (!clicked) {
       audio.Battle.play();
@@ -699,19 +742,12 @@ function initializeBattle() {
     }
   });
 
-}
 
 // Handling for initializing battle.
 // shows the modal in which the battle resides
-// Currently it only activates the battle once.
-let clickedOn = false;
-window.addEventListener('click', () => {
-  if (clickedOn === false) {
+const debugActivateElement = document.querySelector('#DEBUGACTIVATE')
+debugActivateElement.addEventListener('click', () => {
     const minigameModal = document.querySelector('#modal');
     minigameModal.style.display = 'block';
-    initializeBattle();
-    clickedOn = true;
-  } else {
-    console.log(clickedOn)
-  }
+    initBattle("-20DEG")
 });

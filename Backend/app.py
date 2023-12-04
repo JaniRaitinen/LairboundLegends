@@ -46,7 +46,7 @@ def flyto():
     args = request.args
     id = args.get("game")
     dest = args.get("dest")
-    consumption = args.get("consumption")
+    consumption = args.get("consumption")  # ehkä pitäs tehdä int tähän?
     json_data = fly(id, dest, consumption)
     print("*** Called flyto endpoint ***")
     return json_data

@@ -650,6 +650,7 @@
             opacity: 1,
             // On animation completion disable the display of minigameModal
             onComplete: () => {
+              returnHP(emby.health)
               cancelAnimationFrame(animationID)
               minigameModal.style.display = 'none';
               gsap.to('#overlappingDiv', {
@@ -684,6 +685,7 @@
               opacity: 1,
               // On completion of the animation disable the minigameModal display
               onComplete: () => {
+                returnHP(emby.health)
                 cancelAnimationFrame(animationID)
                 minigameModal.style.display = 'none';
                 gsap.to('#overlappingDiv', {
@@ -751,3 +753,18 @@ debugActivateElement.addEventListener('click', () => {
     minigameModal.style.display = 'block';
     initBattle("-20DEG")
 });
+
+async function returnHP(playerHp) {
+  try {
+    const roundHP = Math.floor(playerHp)
+    const response = await fetch(`http://127.0.0.1:5000/getPlayerHp?playerHp=${roundHP}`)
+    const jsonResponse = await response.json()
+    console.log(jsonResponse)
+  }
+  catch (error) {
+    console.log(error)
+  }
+  finally {
+    console.log("Game Data Saved to DB")
+  }
+}

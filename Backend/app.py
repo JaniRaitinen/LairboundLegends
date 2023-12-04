@@ -61,5 +61,17 @@ def newgame():
     json_data = fly(0, dest, 0, player)
     return json_data
 
+@app.route('/getPlayerHp')
+#Function called on the end of a battle scene to save its data
+def getPlayerHp():
+    try:
+        data = request.args
+        playerHp = data.get('playerHp')
+        return playerHp
+
+    except Exception as e:
+        print("Error :" + e)
+
+
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=5000)

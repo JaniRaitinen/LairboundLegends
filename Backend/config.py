@@ -3,13 +3,14 @@ max_distance = 200
 max_lat_dist = max_distance/50
 max_lon_dist = max_distance/50
 
-hp_initial = 100
-stamina_initial = 100
-stamina_per_km = 1
+co2_initial = 0
+co2_budget = 1000
+co2_per_flight = 50
+co2_per_km = 1
 
 
-default_starting_point = "EFHK"
-default_name = "Smaug"
+default_starting_point = "EFKH"
+default_name = "Anna"
 
 # Internal shared variables -- do not modify
 conn = None

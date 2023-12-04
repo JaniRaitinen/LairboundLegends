@@ -26,14 +26,13 @@ config.conn = mysql.connector.connect(
          autocommit=True
          )
 
-
 def fly(id, dest, consumption=0, player=None):
     if id==0:
         game = Game(0, dest, consumption, player)
     else:
         game = Game(id, dest, consumption)
     game.location[0].fetchWeather(game)
-    nearby = game.location[0].find_nearby_lairports()
+    nearby = game.location[0].find_nearby_airports()
     for a in nearby:
         game.location.append(a)
     json_data = json.dumps(game, default=lambda o: o.__dict__, indent=4)
@@ -46,13 +45,13 @@ def flyto():
     args = request.args
     id = args.get("game")
     dest = args.get("dest")
-    consumption = args.get("consumption")  # ehkä pitäs tehdä int tähän?
+    consumption = args.get("consumption")
     json_data = fly(id, dest, consumption)
     print("*** Called flyto endpoint ***")
     return json_data
 
 
-# http://127.0.0.1:5000/newgame?dragon_name=Smaug&loc=EFHK
+# http://127.0.0.1:5000/newgame?player=Vesa&loc=EFHK
 @app.route('/newgame')
 def newgame():
     args = request.args
@@ -61,5 +60,17 @@ def newgame():
     json_data = fly(0, dest, 0, player)
     return json_data
 
+@app.route('/getPlayerHp')
+#Function called on the end of a battle scene to save its data
+def getPlayerHp():
+    try:
+        data = request.args
+        playerHp = data.get('playerHp')
+        return playerHp
+
+    except Exception as e:
+        print("Error :" + e)
+
+
 if __name__ == '__main__':
-    app.run(use_reloader=True, host='127.0.0.1', port=5000)
+    app.run(use_reloader=True, host='127.0.0.1', port=5000, debug=True)

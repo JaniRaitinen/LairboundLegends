@@ -26,14 +26,13 @@ config.conn = mysql.connector.connect(
          autocommit=True
          )
 
-
 def fly(id, dest, consumption=0, player=None):
     if id==0:
         game = Game(0, dest, consumption, player)
     else:
         game = Game(id, dest, consumption)
     game.location[0].fetchWeather(game)
-    nearby = game.location[0].find_nearby_lairports()
+    nearby = game.location[0].find_nearby_airports()
     for a in nearby:
         game.location.append(a)
     json_data = json.dumps(game, default=lambda o: o.__dict__, indent=4)
@@ -52,7 +51,7 @@ def flyto():
     return json_data
 
 
-# http://127.0.0.1:5000/newgame?dragon_name=Smaug&loc=EFHK
+# http://127.0.0.1:5000/newgame?player=Vesa&loc=EFHK
 @app.route('/newgame')
 def newgame():
     args = request.args
@@ -74,4 +73,4 @@ def getPlayerHp():
 
 
 if __name__ == '__main__':
-    app.run(use_reloader=True, host='127.0.0.1', port=5000)
+    app.run(use_reloader=True, host='127.0.0.1', port=5000, debug=True)

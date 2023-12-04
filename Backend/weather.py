@@ -5,7 +5,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-
 class Weather:
 
     def kelvin_to_celsius(self, kelvin):
@@ -44,11 +43,11 @@ class Weather:
         request = "https://api.openweathermap.org/data/2.5/weather?lat=" + \
                  str(sijainti.latitude) + "&lon=" + str(sijainti.longitude) + "&appid=" + apikey
         vastaus = requests.get(request).json()
-        self.main = vastaus["weather"][0]["main"]
-        self.description = vastaus["weather"][0]["description"]
+        self.main = vastaus["propertioes"]["weather"][0]["main"]
+        self.description = vastaus["propertioes"]["weather"][0]["description"]
         self.icon = "https://openweathermap.org/img/wn/" + vastaus["weather"][0]["icon"] + ".png"
-        self.temp = self.kelvin_to_celsius(vastaus["main"]["temp"])
-        self.humidity = vastaus["main"]["humidity"]
+        self.temp = self.kelvin_to_celsius(vastaus["propertioes"]["main"]["temp"])
+        self.humidity = vastaus["propertioes"]["main"]["humidity"]
         self.wind = {
             "speed": vastaus["wind"]["speed"],
             "deg": vastaus["wind"]["deg"]

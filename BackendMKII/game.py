@@ -2,13 +2,15 @@ import config
 import app
 import math
 
+from lairport import Lairport
+from shard import Shard
 
 class Game:
 
     def __init__(self, id, loc, player=None):
         self.status = {}
         self.location = []
-        self.location = []
+        self.shards = []
 
         if id == 'Null':
 
@@ -23,7 +25,7 @@ class Game:
                 "health": config.health_max
             }
 
-            # self.location.append(Airport(loc, True))
+            # self.location.append(Lairport(loc, True))
             # tarviiko?
 
             sql = "INSERT INTO Game VALUES ('" + self.status["id"] + "', " + str(self.status["name"])
@@ -55,15 +57,16 @@ class Game:
                 # tarvitaanko tätä?
 
                 # old location in DB currently not used
-                # apt = Airport(loc, True)
+                # apt = Lairport(loc, True)
                 # self.location.append(apt)
                 # self.set_location(apt)
 
             else:
                 print("Database error?")
-        self.fetch_goal_info()
 
-    def fetch_goal_info(self):
+        self.fetch_shard_info()
+
+    def fetch_shard_info(self):
 
         sql = "SELECT * FROM (SELECT shard.id, shard.name, shard.description, shard.icon, shard_gained.game_id, "
         sql += "shard.target, shard.target_minvalue, shard.target_maxvalue, shard.target_text "
@@ -84,8 +87,8 @@ class Game:
                 is_reached = True
             else:
                 is_reached = False
-            goal = Goal(a[0], a[1], a[2], a[3], is_reached, a[5], a[6], a[7], a[8])
-            self.goals.append(goal)
+            shard = Shard(a[0], a[1], a[2], a[3], is_reached, a[5], a[6], a[7], a[8])
+            self.shards.append(shard)
         return
 
     def Save(self, sijainti, health, stamina):

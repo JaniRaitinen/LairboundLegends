@@ -5,6 +5,7 @@ import math
 from lairport import Lairport
 from shard import Shard
 
+
 class Game:
 
     def __init__(self, id, loc, player=None):
@@ -17,7 +18,7 @@ class Game:
             # New game
 
             self.status = {
-                "id": '1',  # ei ehkä toimi näin
+                "id": '1',  # ei ehkä toimi näin, mut pitäis muuttaa nouseviks numeroix sqlläs
                 "name": player,
                 "stamina": config.stamina_max,
                 "danger_global": 0,
@@ -28,7 +29,7 @@ class Game:
             # self.location.append(Lairport(loc, True))
             # tarviiko?
 
-            sql = "INSERT INTO Game VALUES ('" + self.status["id"] + "', " + str(self.status["name"])
+            sql = "INSERT INTO game VALUES ('" + self.status["id"] + "', " + str(self.status["name"])
             sql += ", " + str(self.status["stamina"]) + "', " + str(self.status["danger_global"])
             sql += ", '" + loc + "', '" + self.status["health"] + "')"
             print(sql)
@@ -91,8 +92,8 @@ class Game:
             self.shards.append(shard)
         return
 
-    def Save(self, sijainti, health, stamina):
-        sql = "UPDATE Game SET location='" + sijainti.ident + "',"
+    def savegame(self, sijainti, health, stamina):
+        sql = "UPDATE game SET location='" + sijainti.ident + "',"
         sql += "SET health='" + health + "',"
         sql += "SET stamina='" + stamina + "',"
         sql += "WHERE id=" + self.status["id"] + "'"
@@ -101,29 +102,29 @@ class Game:
         cur.execute(sql)
 
     def calculate_direction(self, latitude, longitude):
-        #oman sijainnin koordinaatit, esimerkkinä hki-vantaa. tähän self.locationin koordinaatit
+        # oman sijainnin koordinaatit, esimerkkinä hki-vantaa. tähän self.locationin koordinaatit
         loc_coordinates = (60.317222, 24.963333)
 
-        #lasketaan radiaanit
+        # lasketaan radiaanit
         lat1, lon1, lat2, lon2 = map(math.radians, [loc_coordinates[0], loc_coordinates[1], latitude, longitude])
 
-        #longitude-etäisyydet
+        # longitude-etäisyydet
         d_lon = lon2 - lon1
 
-        #y- ja x-akselimatematiikkaa
+        # y- ja x-akselimatematiikkaa
         y = math.sin(d_lon) * math.cos(lat2)
         x = math.cos(lat1) * math.sin(lat2) - (math.sin(lat1) * math.cos(lat2) * math.cos(d_lon))
 
-        #radiaanit
+        # radiaanit
         bearing_rad = math.atan2(y, x)
 
-        #radiaanit takaisin asteiksi
+        # radiaanit takaisin asteiksi
         bearing_deg = math.degrees(bearing_rad)
 
-        #muutetaan asteet 360-sisäiseksi
+        # muutetaan asteet 360-sisäiseksi
         compass_point = (bearing_deg + 360) % 360
 
-        #palautetaan asteen mukainen oikea suunta
+        # palautetaan asteen mukainen oikea suunta
         cardinal_directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"]
         index = round(compass_point / 45) % 8
 

@@ -3,7 +3,7 @@ import string
 import math
 
 import config
-from airport import Airport
+from lairport import Airport
 from goal import Goal
 
 

@@ -8,6 +8,7 @@ from flask_cors import CORS
 
 import config
 from game import Game
+import sanakirja2
 
 load_dotenv()
 
@@ -70,6 +71,12 @@ def getPlayerHp():
 
     except Exception as e:
         print("Error :" + e)
+
+
+@app.route('/sanakirja')
+def dict():
+    return sanakirja2.sanakirja
+
 
 
 if __name__ == '__main__':

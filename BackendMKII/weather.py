@@ -8,7 +8,7 @@ from BackendMKII.app import connection
 
 load_dotenv()
 
-class Weahter:
+class Weather:
 
     def __init__(self, location, game):
         apiKey = os.environ.get('API_KEY')

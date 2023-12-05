@@ -1,3 +1,4 @@
+from BackendMKII.weather import Weather
 from BackendMKII.app import connection
 from geopy import distance
 
@@ -45,6 +46,10 @@ class Lairport:
                     nearbyLairport.stamina = self.staminaConsumption(nearbyLairport.distance)
 
         return lairportList
+
+    def updateWeather(self):
+        self.weather = Weather(self, game)
+        return
 
     def distanceTo(self, target):
         coordinateOne = (self.latitude, self.longitude)

@@ -1,6 +1,7 @@
 from BackendMKII.app import connection
 from geopy import distance
 
+
 class Lairport:
     def __init__(self, ident, active=False, data=None):
         self.ident = ident

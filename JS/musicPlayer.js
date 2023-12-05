@@ -130,24 +130,30 @@ function mapMusic(status) {
 
 const sfx = {
   hover: new Howl({
-    src: 'hover.mp3'
+    src: 'Sound/hover.mp3'
   }),
   open: new Howl({
-    src: 'open.mp3'
+    src: 'Sound/open.mp3'
   }),
   close: new Howl({
-    src: 'close.mp3'
+    src: 'Sound/close.mp3'
   }),
   attack: new Howl({
-    src: 'attack.mp3'
+    src: 'Sound/attack.mp3'
   }),
   fireball: new Howl({
-    src: 'fireball.mp3'
+    src: 'Sound/fireball.mp3'
   }),
   potion: new Howl({
-    src: 'potion.mp3'
+    src: 'Sound/potion.mp3'
   }),
   start: new Howl({
-    src: 'start.mp3'
+    src: 'Sound/start.mp3'
+  }),
+  victory: new Howl({
+    src: 'Sound/victory.wav'
+  }),
+  lose: new Howl({
+    src: 'Sound/lose.wav'
   })
 }

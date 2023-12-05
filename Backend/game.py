@@ -32,12 +32,12 @@ class Game:
 
             # Insert new game into DB
             # Tähän asti tehtynä, jotain hämärää täs
-            sql = "INSERT INTO Game VALUES ('" + self.status["id"] + "', " + str(self.status["co2"]["consumed"])
-            sql += ", " + str(self.status["co2"]["budget"]) + ", '" + loc + "', '" + self.status["name"] + "')"
+            sql = "INSERT INTO Game VALUES ('" + self.status["id"] + "', " + str(self.status["name"])
+            sql += ", " + str(self.status["stamina"]) + "', " + str(self.status["danger_global"])
+            sql += ", '" + loc + "', '" + self.status["health"] + "')"
             print(sql)
             cur = config.conn.cursor()
             cur.execute(sql)
-            # config.conn.commit()
 
         else:
             # update consumption and budget

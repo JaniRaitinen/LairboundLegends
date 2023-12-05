@@ -49,7 +49,7 @@ class Lairport:
                 # uudestaan konstruktorissa
                 data = {'name': r[1], 'latitude': r[2], 'longitude': r[3]}
                 print(data)
-                nearby_apt = lairport(r[0], False, data)
+                nearby_apt = Lairport(r[0], False, data)
                 nearby_apt.distance = self.distanceTo(nearby_apt)
                 if nearby_apt.distance <= config.max_distance:
                     lista.append(nearby_apt)

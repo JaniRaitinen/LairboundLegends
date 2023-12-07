@@ -31,8 +31,9 @@ class Game:
             self.location.append(Airport(loc, True))
             #self.player = player
             # Insert new game into DB
-            sql = "INSERT INTO Game VALUES ('" + self.status["id"] + "', " + str(self.status["co2"]["consumed"])
-            sql += ", " + str(self.status["co2"]["budget"]) + ", '" + loc + "', '" + self.status["name"] + "')"
+            sql = "INSERT INTO game VALUES ('" + self.status["id"] + "', " + str(self.status["name"])
+            sql += ", " + str(self.status["stamina"]) + "', " + str(self.status["danger_global"])
+            sql += ", '" + loc + "', '" + self.status["health"] + "')"
             print(sql)
             cur = config.conn.cursor()
             cur.execute(sql)
@@ -40,12 +41,12 @@ class Game:
 
         else:
             #update consumption and budget
-            sql2 = "UPDATE Game SET co2_consumed = co2_consumed + " + consumption + ", co2_budget = co2_budget - " + consumption + " WHERE id='" + id + "'"
+            sql2 = "UPDATE game SET stamina = stamina + " + consumption + " WHERE id='" + id + "'"
             print(sql2)
             cur2 = config.conn.cursor()
             cur2.execute(sql2)
             # find game from DB
-            sql = "SELECT id, co2_consumed, co2_budget, location, screen_name FROM Game WHERE id='" + id + "'"
+            sql = "SELECT id, stamina, location, dragon_name FROM game WHERE id='" + id + "'"
             print(sql)
             cur = config.conn.cursor()
             cur.execute(sql)
@@ -79,7 +80,7 @@ class Game:
 
     def set_location(self, sijainti):
         #self.location = sijainti
-        sql = "UPDATE Game SET location='" + sijainti.ident + "' WHERE id='" + self.status["id"] + "'"
+        sql = "UPDATE game SET location='" + sijainti.ident + "' WHERE id='" + self.status["id"] + "'"
         print(sql)
         cur = config.conn.cursor()
         cur.execute(sql)
@@ -91,12 +92,12 @@ class Game:
 
         sql = "SELECT * FROM (SELECT Goal.id, Goal.name, Goal.description, Goal.icon, goal_reached.game_id, "
         sql += "Goal.target, Goal.target_minvalue, Goal.target_maxvalue, Goal.target_text "
-        sql += "FROM Goal INNER JOIN goal_reached ON Goal.id = goal_reached.goal_id "
+        sql += "FROM shard INNER JOIN shard_gained ON Goal.id = goal_reached.goal_id "
         sql += "WHERE goal_reached.game_id = '" + self.status["id"] + "' "
         sql += "UNION SELECT Goal.id, Goal.name, Goal.description, Goal.icon, NULL, "
         sql += "Goal.target, Goal.target_minvalue, Goal.target_maxvalue, Goal.target_text "
-        sql += "FROM Goal WHERE Goal.id NOT IN ("
-        sql += "SELECT Goal.id FROM Goal INNER JOIN goal_reached ON Goal.id = goal_reached.goal_id "
+        sql += "FROM shard WHERE Goal.id NOT IN ("
+        sql += "SELECT Goal.id FROM shard INNER JOIN shard_gained ON Goal.id = goal_reached.goal_id "
         sql += "WHERE goal_reached.game_id = '" + self.status["id"] + "')) AS t ORDER BY t.id;"
 
         print(sql)

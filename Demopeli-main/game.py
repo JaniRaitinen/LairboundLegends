@@ -91,15 +91,24 @@ class Game:
 
     def fetch_goal_info(self):
 
-        sql = "SELECT * FROM (SELECT Goal.id, Goal.name, Goal.description, Goal.icon, goal_reached.game_id, "
-        sql += "Goal.target, Goal.target_minvalue, Goal.target_maxvalue, Goal.target_text "
-        sql += "FROM shard INNER JOIN shard_gained ON Goal.id = goal_reached.goal_id "
-        sql += "WHERE goal_reached.game_id = '" + self.status["id"] + "' "
-        sql += "UNION SELECT Goal.id, Goal.name, Goal.description, Goal.icon, NULL, "
-        sql += "Goal.target, Goal.target_minvalue, Goal.target_maxvalue, Goal.target_text "
-        sql += "FROM shard WHERE Goal.id NOT IN ("
-        sql += "SELECT Goal.id FROM shard INNER JOIN shard_gained ON Goal.id = goal_reached.goal_id "
-        sql += "WHERE goal_reached.game_id = '" + self.status["id"] + "')) AS t ORDER BY t.id;"
+        sql = f"""
+    SELECT * FROM (
+        SELECT shard.id, shard.name, shard.weather, shard.icon, shard_gained.game_id,
+               shard.target, shard.target_minvalue, shard.target_maxvalue, shard.target_text
+        FROM shard INNER JOIN shard_gained ON shard.id = shard_gained.weather_id
+        WHERE shard_gained.game_id = '{self.status["id"]}'
+        UNION
+        SELECT shard.id, shard.name, shard.weather, shard.icon, NULL,
+               shard.target, shard.target_minvalue, shard.target_maxvalue, shard.target_text
+        FROM shard
+        WHERE shard.id NOT IN (
+            SELECT shard.id
+            FROM shard INNER JOIN shard_gained ON shard.id = shard_gained.weather_id
+            WHERE shard_gained.game_id = '{self.status["id"]}'
+        )
+    ) AS t
+    ORDER BY t.id;
+    """
 
         print(sql)
         cur = config.conn.cursor()

@@ -38,9 +38,6 @@ def fly(id, dest, consumption=0, player=None):
     json_data = json.dumps(game, default=lambda o: o.__dict__, indent=4)
     return json_data
 
-game = Game(0, 'EFHK', 20, 'Bob')
-print(game.fetch_goal_info())
-
 # http://127.0.0.1:5000/flyto?game=fEC7n0loeL95awIxgY7M&dest=EFHK&consumption=123
 @app.route('/flyto')
 def flyto():

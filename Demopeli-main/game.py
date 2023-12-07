@@ -13,7 +13,7 @@ class Game:
         if id==0:
             # new game
             # Create new game id
-            letters = random.randint(1, 10)
+            letters = random.randint(1, 8)
 
             self.status = {
                 "id" : str(letters),
@@ -32,9 +32,7 @@ class Game:
             #self.player = player
             # Insert new game into DB
             print(self.status["id"])
-            sql = f"INSERT INTO game VALUES ({self.status['id']}, '{self.status['name']}', {self.status['co2']['consumed']}, {self.status['id']}, '{loc}', '100');"
-            #sql = "INSERT INTO game VALUES (" + self.status["id"] + ", '" + self.status["name"] + "', " + str(self.status["co2"]["consumed"])
-           # sql += ", " + self.status["id"] + '" + loc + "')"
+            sql = f"INSERT INTO game VALUES ({self.status['id']}, '{self.status['name']}', {self.status['co2']['budget']}, {self.status['id']}, '{loc}', '100');"
             print(sql)
             cur = config.conn.cursor()
             cur.execute(sql)
@@ -42,7 +40,7 @@ class Game:
 
         else:
             #update consumption and budget
-            sql2 = "UPDATE game SET stamina = stamina + " + consumption + " WHERE id='" + id + "'"
+            sql2 = "UPDATE game SET stamina = stamina - '" + consumption + "' WHERE id='" + id + "'"
             print(sql2)
             cur2 = config.conn.cursor()
             cur2.execute(sql2)
@@ -52,11 +50,12 @@ class Game:
             cur = config.conn.cursor()
             cur.execute(sql)
             res = cur.fetchall()
+            print(res)
             if len(res) == 1:
                 # game found
                 self.status = {
                     "id": res[0][0],
-                    "name": res[0][4],
+                    "name": res[0][3],
                     "co2": {
                         "consumed": res[0][1],
                         "budget": res[0][2]
@@ -81,7 +80,7 @@ class Game:
 
     def set_location(self, sijainti):
         #self.location = sijainti
-        sql = "UPDATE game SET location='" + sijainti.ident + "' WHERE id='" + self.status["id"] + "'"
+        sql = "UPDATE game SET location='" + sijainti.ident + "' WHERE id='" + str(self.status["id"]) + "'"
         print(sql)
         cur = config.conn.cursor()
         cur.execute(sql)

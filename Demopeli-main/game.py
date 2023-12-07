@@ -13,10 +13,10 @@ class Game:
         if id==0:
             # new game
             # Create new game id
-            letters = string.ascii_lowercase + string.ascii_uppercase + string.digits
+            letters = random.randint(1, 10)
 
             self.status = {
-                "id" : ''.join(random.choice(letters) for i in range(20)),
+                "id" : str(letters),
                 "name" : player,
                 "co2" : {
                     "consumed" : config.co2_initial,
@@ -31,9 +31,10 @@ class Game:
             self.location.append(Airport(loc, True))
             #self.player = player
             # Insert new game into DB
-            sql = "INSERT INTO game VALUES ('" + self.status["id"] + "', " + str(self.status["name"])
-            sql += ", " + str(self.status["stamina"]) + "', " + str(self.status["danger_global"])
-            sql += ", '" + loc + "', '" + self.status["health"] + "')"
+            print(self.status["id"])
+            sql = f"INSERT INTO game VALUES ({self.status['id']}, '{self.status['name']}', {self.status['co2']['consumed']}, {self.status['id']}, '{loc}', '100');"
+            #sql = "INSERT INTO game VALUES (" + self.status["id"] + ", '" + self.status["name"] + "', " + str(self.status["co2"]["consumed"])
+           # sql += ", " + self.status["id"] + '" + loc + "')"
             print(sql)
             cur = config.conn.cursor()
             cur.execute(sql)
@@ -111,4 +112,4 @@ class Game:
                 is_reached = False
             goal = Goal(a[0], a[1], a[2], a[3], is_reached, a[5], a[6], a[7], a[8])
             self.goals.append(goal)
-        return
+        return goal

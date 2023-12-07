@@ -29,7 +29,7 @@ class Weather:
         for goal in game.goals:
             if goal.reached==False and goal.goalid in self.meets_goals:
                 # new goal
-                sql = "INSERT INTO goal_reached VALUES ('" + game.status["id"] + "', '" + str(goal.goalid)  + "')"
+                sql = "INSERT INTO shard_gained VALUES ('" + game.status["id"] + "', '" + str(goal.goalid)  + "')"
                 print(sql)
                 cur = config.conn.cursor()
                 cur.execute(sql)

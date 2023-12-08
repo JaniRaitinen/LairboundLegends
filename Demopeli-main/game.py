@@ -13,7 +13,7 @@ class Game:
         if id==0:
             # new game
             # Create new game id
-            letters = random.randint(1, 8)
+            letters = random.randint(1, 999999)
 
             self.status = {
                 "id" : str(letters),

@@ -1,5 +1,5 @@
 # Game parameters
-max_distance = 2000
+max_distance = 10000
 max_lat_dist = max_distance/50
 max_lon_dist = max_distance/50
 

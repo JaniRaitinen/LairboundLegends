@@ -1,0 +1,227 @@
+html, body {
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-image: url('../img/stone_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.logo img {
+    max-height: 4rem;
+}
+
+h1 {
+    font-size: xx-large;
+    color: #3f312d;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#map {
+    width: 100%;
+    height: 86vh;
+    overflow: hidden;
+}
+
+.scroll {
+    background-image: url('../img/scroll_2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 4rem 2rem 6rem 2rem;
+    position: absolute;
+    top: 15%;
+    right: 1%;
+    filter: drop-shadow(0 0 30px #333);
+    width: 20rem;
+    height: auto;
+    z-index: 999;
+}
+
+#tabs {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    transition: all 300ms;
+}
+
+.status-button {
+    background-image: url('../img/wax_seal_dragon.png');
+    background-size: cover;
+    background-color: transparent;
+    width: 50px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    text-indent: -9999px;
+}
+
+.lair-button {
+    background-image: url('../img/wax_seal_castle.png');
+    background-size: cover;
+    background-color: transparent;
+    width: 50px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    text-indent: -9999px;
+}
+
+.about-button {
+    background-image: url('../img/wax_seal_quill.png');
+    background-size: cover;
+    background-color: transparent;
+    width: 50px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    text-indent: -9999px;
+}
+
+.tab-content {
+    display: none;
+    padding: 0.5rem;
+}
+
+#content {
+    overflow-y: auto;
+    max-height: 17rem;
+}
+
+h2 {
+    margin: 0.5rem 0;
+    font-size: large;
+    text-align: center;
+}
+
+.status-pictures {
+    height: 1rem;
+    width: auto;
+}
+
+ul {
+    background-image: url('../img/open_book.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 1rem;
+    margin: 0;
+}
+
+li {
+    width: 50%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    font-size: xx-small;
+}
+
+li figure {
+     margin: 0;
+    padding: 0;
+}
+
+li img{
+    height: 2rem;
+}
+
+#weather-icon {
+    height: 5rem;
+}
+
+#content p {
+    text-align: center;
+}
+
+table {
+    padding: 0.5rem;
+}
+
+#weather {
+    width: 100%;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.24);
+    border-radius: 4px;
+}
+
+#tavern{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.tavern-picture {
+    height: 10rem;
+    width: auto;
+}
+
+#shard {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.chest-picture {
+    height: 12rem;
+    width: auto;
+}
+
+h2, p {
+    margin: 0.5rem 0;
+}
+
+.dialogue {
+    display: none;
+    background-image: url('../img/scroll_horizontal.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 1rem;
+    position: absolute;
+    left: 1%;
+    bottom: 6%;
+    filter: drop-shadow(0 0 30px #333);
+    width: 18rem;
+    height: 7rem;
+    z-index: 999;
+}
+
+.close-button {
+    position: absolute;
+    top: 0.6rem;
+    right: 1.8rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.dialogue .content {
+    overflow-y: auto;
+    max-height: 3rem;
+    padding: 1rem 0.5rem;
+}
+
+footer {
+    text-align: right;
+    padding: 0.5rem;
+    background-image: url('../img/stone_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}

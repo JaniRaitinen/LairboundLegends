@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" defer></script>
+    <script src="js/main.js" defer></script>
+    <title>Lairbound Legends</title>
+</head>
+
+<body>
+<div class="container">
+
+    <header>
+        <div class="logo">
+            <a href="main.html">
+                <img src="img/shield.png" alt="shield">
+            </a>
+        </div>
+        <h1>Lairbound Legends</h1>
+        <div class="logo">
+            <a href="main.html">
+                <img src="img/shield.png" alt="shield">
+            </a>
+        </div>
+    </header>
+
+    <main>
+
+        <div id="map">
+            <!--<img src="img/placeholder_map.jpg" alt="historical map">-->
+        </div>
+
+        <div class="scroll">
+            <div id="tabs">
+                <button class="status-button" onclick="changeTab('status')">Status</button>
+                <button class="lair-button" onclick="changeTab('lair')">Lair</button>
+                <button class="about-button" onclick="changeTab('about')">About</button>
+            </div>
+            <div id="content">
+
+                <div id="status-tab" class="tab-content">
+                    <h2 id="player-name">Player name</h2>
+                    <table id="status-bars">
+                        <tr>
+                            <td>
+                                <img class="status-pictures" src="img/heart.png" alt="heart">
+                            </td>
+                            <td>healthbar</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class="status-pictures" src="img/dragon_flying.png" alt="flying dragon">
+                            </td>
+                            <td>staminabar</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class="status-pictures" src="img/swords.png" alt="crossed swords">
+                            </td>
+                            <td>danger level</td>
+                        </tr>
+
+                    </table>
+                    <ul id="goals">
+                        <li>
+                            <figure>
+                                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
+                                <figcaption>Weather</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure>
+                                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
+                                <figcaption>Weather</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure>
+                                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
+                                <figcaption>Weather</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure>
+                                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
+                                <figcaption>Weather</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure>
+                                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
+                                <figcaption>Weather</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure>
+                                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
+                                <figcaption>Weather</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure>
+                                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
+                                <figcaption>Weather</figcaption>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure>
+                                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
+                                <figcaption>Weather</figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                    <p>In a place where cacti rise, My heart's true destination, can you trace?</p>
+                </div>
+
+                <div id="lair-tab" class="tab-content">
+                    <h2 id="lairport-name">Lair name</h2>
+                    <table id="weather">
+                        <tr>
+                            <td colspan="2">Weather at the lair</td>
+                        </tr>
+                        <tr>
+                            <td id="airport-conditions">Cloudy</td>
+                            <td>
+                                <img id="weather-icon" src="https://openweathermap.org/img/wn/10d@2x.png" alt="Current weather">
+                            </td>
+                        </tr>
+                    </table>
+                    <table id="tavern">
+                        <tr>
+                            <td>
+                                <img class="tavern-picture" src="img/tavern_5.png" alt="picture of tavern">
+                            </td>
+                        </tr>
+                    </table>
+                    <table id="shard">
+                        <tr>
+                            <td>
+                                <img class="chest-picture" src="img/chest_locked.png" alt="chest">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="about-tab" class="tab-content">
+                    <h2>About the game</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id nisi et ipsum suscipit tincidunt ut vel ante. Sed orci orci, dictum eget vehicula nec, dignissim ut quam. Phasellus lacinia, magna eget imperdiet pharetra, diam nulla scelerisque tortor, luctus viverra magna odio ac lacus. Sed laoreet, enim eget facilisis eleifend, quam lectus rhoncus orci, nec ultricies sem dolor in nibh. Etiam eget nisi porta, ultricies magna vel, placerat ex. Praesent tincidunt felis non sem pulvinar, eget ultricies sem porta. Nam quis ligula fermentum, tincidunt urna non, posuere purus. Donec velit mauris, vulputate sit amet odio a, laoreet ullamcorper nisl. Praesent vitae lorem blandit felis vulputate tincidunt gravida sed elit. Sed pharetra ipsum sed arcu pharetra, non tempus nisl accumsan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialogue">
+            <div class="close-button" onclick="closeDialogue()">X</div>
+            <div class="content">
+                <p>Here goes the dialogue.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>© G-Group Games</p>
+    </footer>
+
+</div>
+</body>
+</html>

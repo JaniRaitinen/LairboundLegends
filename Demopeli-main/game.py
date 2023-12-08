@@ -90,6 +90,9 @@ class Game:
 
     def fetch_goal_info(self):
 
+        cursor = config.conn.cursor()
+        sql = "SET FOREIGN_KEY_CHECKS = 0;"
+        cursor.execute(sql)
         sql = f"""
     SELECT * FROM (
         SELECT shard.id, shard.name, shard.weather, shard.icon, shard_gained.game_id,

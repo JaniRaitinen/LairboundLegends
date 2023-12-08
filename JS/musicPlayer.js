@@ -155,5 +155,32 @@ const sfx = {
   }),
   lose: new Howl({
     src: 'Sound/lose.wav'
+  }),
+  magic: new Howl({
+    src: 'Sound/magic.wav'
+  }),
+  water: new Howl({
+    src: 'Sound/water.wav'
+  }),
+  hploss: new Howl({
+    src: 'Sound/hploss.wav'
+  }),
+  hammer: new Howl({
+    src: 'Sound/hammer.wav'
+  }),
+  sword: new Howl({
+    src: 'Sound/sword.wav'
+  }),
+  thunder: new Howl({
+    src: 'Sound/thunder.wav'
+  }),
+  ice: new Howl({
+    src: 'Sound/ice.wav'
+  }),
+  slash: new Howl({
+    src: 'Sound/slash.wav'
+  }),
+  whoosh: new Howl({
+    src: 'Sound/whoosh.wav'
   })
 }

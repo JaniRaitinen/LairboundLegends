@@ -44,6 +44,14 @@ def initGame():
     jsonData = {0, startLocation, 0, playerName}
     return jsonData
 
+@app.route('/newgame')
+def newgame():
+    args = request.args
+    playerName = args.get("player")
+    newPlayer = Game('', config.default_starting_point, playerName)
+    return newPlayer.status
+
+
 @app.route('/loaddata')
 def loadData():
     sql = f"select * from game;"

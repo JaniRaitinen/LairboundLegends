@@ -12,12 +12,12 @@ class Game:
         self.location = []
         self.shards = []
 
-        if id == 'Null':
+        if id == '':
 
             # New game
 
             self.status = {
-                "id": '1',  # ei ehkä toimi näin, mut pitäis muuttaa nouseviks numeroix sqlläs
+                "id": 0,  # ei ehkä toimi näin, mut pitäis muuttaa nouseviks numeroix sqlläs
                 "name": player,
                 "stamina": config.stamina_max,
                 "danger_global": 0,
@@ -28,12 +28,13 @@ class Game:
             # self.location.append(Lairport(loc, True))
             # tarviiko?
 
-            sql = "INSERT INTO game VALUES ('" + self.status["id"] + "', " + str(self.status["name"])
-            sql += ", " + str(self.status["stamina"]) + "', " + str(self.status["danger_global"])
-            sql += ", '" + loc + "', '" + self.status["health"] + "')"
+            sql = "INSERT INTO game VALUES ('" + str(self.status["id"]) + "', '" + str(self.status["name"])
+            sql += "', " + str(self.status["stamina"]) + ", " + str(self.status["danger_global"])
+            sql += ", '" + loc + "', " + str(self.status["health"]) + ")"
             print(sql)
             cur = config.conn.cursor()
             cur.execute(sql)
+
 
         else:
 
@@ -64,7 +65,6 @@ class Game:
             else:
                 print("Database error?")
 
-        self.fetch_shard_info()
 
     def fetch_shard_info(self):
 

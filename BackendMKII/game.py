@@ -7,7 +7,7 @@ from shard import Shard
 
 class Game:
 
-    def __init__(self, id, loc, player=None):
+    def __init__(self, id, player=None):
         self.status = {}
         self.location = []
         self.shards = []
@@ -30,7 +30,7 @@ class Game:
 
             sql = "INSERT INTO game VALUES ('" + str(self.status["id"]) + "', '" + str(self.status["name"])
             sql += "', " + str(self.status["stamina"]) + ", " + str(self.status["danger_global"])
-            sql += ", '" + loc + "', " + str(self.status["health"]) + ")"
+            sql += ", '" + str(self.status["previous_location"]) + "', " + str(self.status["health"]) + ")"
             print(sql)
             cur = config.conn.cursor()
             cur.execute(sql)

@@ -2,7 +2,7 @@ import json
 import os
 import config
 from game import Game
-from sanakirja2 import Sanakirja
+#from sanakirja2 import Sanakirja
 
 import mysql.connector
 from dotenv import load_dotenv
@@ -50,8 +50,15 @@ def initGame():
 def newgame():
     args = request.args
     playerName = args.get("player")
-    newPlayer = Game('', config.default_starting_point, playerName)
+    newPlayer = Game('', playerName)
     return newPlayer.status
+
+@app.route('/loadgame')
+def loadgame():
+    args = request.args
+    playerId = args.get("id")
+    player = Game(playerId)
+    return player.status
 
 
 @app.route('/loaddata')
@@ -75,13 +82,13 @@ def flyto():
     return jsonData
 
 #  vain tätä muutettu
-@app.route('/sanakirja')
-def sanakirja2():
-    args = request.args
-    name = args.get("name")
-    loc = args.get("loc")
-    jsonData = Sanakirja(name, loc)
-    return jsonData
+#@app.route('/sanakirja')
+#def sanakirja2():
+   # args = request.args
+   # name = args.get("name")
+   # loc = args.get("loc")
+   # jsonData = Sanakirja(name, loc)
+   # return jsonData
 
 
 if __name__ == '__main__':

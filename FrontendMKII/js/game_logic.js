@@ -61,9 +61,24 @@ loadGame.addEventListener('click', async () => {
       alert('You have no dragons in your shed... Maybe they have fled?');
     } else {
       for (let i = 0; i < saveData.length; i++) {
+        let a = document.createElement('a');
+        a.id = saveData[i][0];
+        a.innerText = saveData[i][1];
+        a.href = '#';
+        console.log(a)
         let li = document.createElement('li');
-        li.innerText = `${saveData[i][1]}, Stamina: ${saveData[i][2]}, Health: ${saveData[i][5]}`;
+        li.appendChild(a)
+        console.log(li)
+        let span = document.createElement('span');
+        span.innerText = ` Stamina: ${saveData[i][2]}, Health: ${saveData[i][5]}`;
+        li.appendChild(span)
         saveFileList.append(li);
+        a.addEventListener('click', (evt) => {
+          evt.preventDefault();
+          const playerID = a.id;
+          playerModal.classList.add('hide');
+          gameUpdate(`${apiUrl}loadgame?id=${playerID}`)
+        })
       }
     }
   } catch (error) {

@@ -1,5 +1,4 @@
 import config
-import app
 import math
 
 from lairport import Lairport
@@ -33,7 +32,7 @@ class Game:
             sql += ", " + str(self.status["stamina"]) + "', " + str(self.status["danger_global"])
             sql += ", '" + loc + "', '" + self.status["health"] + "')"
             print(sql)
-            cur = app.connection.cursor()
+            cur = config.conn.cursor()
             cur.execute(sql)
 
         else:
@@ -41,7 +40,7 @@ class Game:
             # Load game
             sql = "SELECT id, dragon_name, stamina, danger_global, location, health FROM Game WHERE id='" + id + "'"
             print(sql)
-            cur = app.connection.cursor()
+            cur = config.conn.cursor()
             cur.execute(sql)
             res = cur.fetchall()
             if len(res) == 1:
@@ -80,7 +79,7 @@ class Game:
         sql += "WHERE shard_gained.game_id = '" + self.status["id"] + "')) AS t ORDER BY t.id;"
 
         print(sql)
-        cur = app.connection.cursor()
+        cur = config.conn.cursor()
         cur.execute(sql)
         res = cur.fetchall()
         for a in res:
@@ -98,7 +97,7 @@ class Game:
         sql += "SET stamina='" + stamina + "',"
         sql += "WHERE id=" + self.status["id"] + "'"
         print(sql)
-        cur = app.connection.cursor()
+        cur = config.conn.cursor()
         cur.execute(sql)
 
     def calculate_direction(self, latitude, longitude):

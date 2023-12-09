@@ -1,5 +1,6 @@
 import json
 import os
+import config
 from game import Game
 from sanakirja2 import Sanakirja
 
@@ -16,14 +17,14 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-connection = mysql.connector.connect(
-    host=os.environ.get('DB_HOST'),
-    port=3306,
-    database=os.environ.get('DB_NAME'),
-    user=os.environ.get('DB_USER'),
-    password=os.environ.get('DB_PASS'),
-    autocommit=True
-)
+config.conn = mysql.connector.connect(
+         host=os.environ.get('HOST'),
+         port= 3306,
+         database=os.environ.get('DB_NAME'),
+         user=os.environ.get('DB_USER'),
+         password=os.environ.get('DB_PASS'),
+         autocommit=True
+         )
 
 def flyToLairport(gameId, destination, consumption=0, player=None):
     if gameId==0:
@@ -44,6 +45,17 @@ def initGame():
     startLocation = args.get("loc")
     jsonData = {0, startLocation, 0, playerName}
     return jsonData
+
+@app.route('/loaddata')
+def loadData():
+    sql = f"select * from game;"
+    cur = config.conn.cursor()
+    cur.execute(sql)
+    gamedata = cur.fetchall()
+    if len(gamedata) > 0:
+        return gamedata
+    else:
+        return False
 
 @app.route('/flyto')
 def flyto():

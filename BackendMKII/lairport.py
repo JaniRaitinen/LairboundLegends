@@ -1,5 +1,5 @@
 from BackendMKII.weather import Weather
-from BackendMKII.app import connection
+import config
 from geopy import distance
 
 
@@ -11,7 +11,7 @@ class Lairport:
         if data is None:
             # Löydä lairport tietokannasta
             sql = "SELECT ident, name, latitude_deg, longtitude_deg FROM lairport WHERE ident='" + ident + "'"
-            cursor = connection.cursor()
+            cursor = config.conn.cursor()
             cursor.execute(sql)
             result = cursor.fetchall()
             if len(result) == 1:
@@ -32,7 +32,7 @@ class Lairport:
         sql += str(self.latitude - 50000) + " AND " + str(self.latitude + 50000)
         sql += " AND longitude_deg BETWEEN "
         sql += str(self.longitude - 50000) + " AND " + str(self.longitude + 50000)
-        cursor = connection.cursor()
+        cursor = config.conn.cursor()
         cursor.execute(sql)
         result = cursor.fetchall()
         lairportList = []
@@ -47,7 +47,7 @@ class Lairport:
 
         return lairportList
 
-    def updateWeather(self):
+    def updateWeather(self, game):
         self.weather = Weather(self, game)
         return
 

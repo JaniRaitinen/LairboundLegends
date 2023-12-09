@@ -1,11 +1,8 @@
-
 import requests
+import config
 import os
 
 from dotenv import load_dotenv
-
-from BackendMKII.app import connection
-
 load_dotenv()
 
 class Weather:
@@ -50,7 +47,7 @@ class Weather:
                 # new shard
                 sql = "INSERT INTO shard_gained VALUES ('" + game.status["id"] + "', '" + str(shard.shard_id) + "')"
                 print(sql)
-                cursor = connection.cursor()
+                cursor = config.conn.cursor()
                 cursor.execute(sql)
                 shard.reached = True
         return

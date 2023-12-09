@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" defer></script>
+    <script src="js/game_logic.js" defer></script>
     <script src="js/main.js" defer></script>
     <title>Lairbound Legends</title>
 </head>
@@ -166,6 +167,30 @@
     <footer>
         <p>© G-Group Games</p>
     </footer>
+
+</div>
+<div id="player-modal">
+    <div id="start-buttons">
+        <ul class="flex-wrap space-evenly">
+            <li>
+                <button id="new-game" class="start-button">Raise a New Dragon</button>
+            </li>
+            <li>
+                <button id="load-game" class="start-button">Show My Dragon Stable</button>
+            </li>
+        </ul>
+    </div>
+    <div id="new-game-form" class="hide">
+        <form id="player-form">
+            <input id="player-input" type="text" placeholder="Name your dragon" required>
+            <input type="submit" value="Make a pact">
+        </form>
+    </div>
+    <div id="load-game-data" class="hide">
+        <ul id="save-files">
+            <h2>Your Existing Dragons</h2>
+        </ul>
+    </div>
 
 </div>
 </body>

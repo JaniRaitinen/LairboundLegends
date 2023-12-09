@@ -44,6 +44,17 @@ def initGame():
     jsonData = {0, startLocation, 0, playerName}
     return jsonData
 
+@app.route('/loaddata')
+def loadData():
+    sql = f"select * from game;"
+    cur = config.conn.cursor()
+    cur.execute(sql)
+    gamedata = cur.fetchall()
+    if len(gamedata) > 0:
+        return gamedata
+    else:
+        return False
+
 @app.route('/flyto')
 def flyto():
     args = request.args

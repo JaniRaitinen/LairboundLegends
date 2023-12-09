@@ -2,11 +2,13 @@ import json
 import os
 import config
 from game import Game
+from sanakirja2 import Sanakirja
 
 import mysql.connector
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
+
 
 load_dotenv()
 
@@ -70,6 +72,15 @@ def flyto():
     dest = args.get("dest")
     consumption = args.get("consumption")
     jsonData = flyToLairport(gameId, dest, consumption)
+    return jsonData
+
+#  vain tätä muutettu
+@app.route('/sanakirja')
+def sanakirja2():
+    args = request.args
+    name = args.get("name")
+    loc = args.get("loc")
+    jsonData = Sanakirja(name, loc)
     return jsonData
 
 

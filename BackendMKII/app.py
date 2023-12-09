@@ -1,8 +1,10 @@
 import json
 import os
+import random
+
 import config
 from game import Game
-#from sanakirja2 import Sanakirja
+from sanakirja2 import Sanakirja
 
 import mysql.connector
 from dotenv import load_dotenv
@@ -81,14 +83,23 @@ def flyto():
     jsonData = flyToLairport(gameId, dest, consumption)
     return jsonData
 
-#  vain tätä muutettu
-#@app.route('/sanakirja')
-#def sanakirja2():
-   # args = request.args
-   # name = args.get("name")
-   # loc = args.get("loc")
-   # jsonData = Sanakirja(name, loc)
-   # return jsonData
+@app.route('/sanakirja')
+def sanakirja2():
+   args = request.args
+   name = args.get("name")
+   loc = args.get("loc")
+   jsonData = Sanakirja(name, loc)
+   return jsonData
+
+@app.route('/riddle')
+def riddle():
+    args = request.args
+    name = args.get("name")
+    loc = args.get("loc")
+    riddle = Sanakirja(name, loc).random_riddle()
+    jsonriddle = json.dumps(riddle)
+    return jsonriddle
+
 
 
 if __name__ == '__main__':

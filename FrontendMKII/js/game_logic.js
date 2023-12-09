@@ -3,8 +3,10 @@
 // Global variables
 const apiUrl = 'http://127.0.0.1:3000/';
 const shardsGained = [];
+let playerLocation = 'EFHK'
+let playerName = ''
 
-// Query Selector sections saved as variables
+// Query Selector sections saved as variables (for most this wasn't necessary... maybe I remove these X D)
 const playerModal = document.querySelector('#player-modal')
 const startButtons = document.querySelector('#start-buttons');
 const newGame = document.querySelector('#new-game');
@@ -12,7 +14,7 @@ const loadGame = document.querySelector('#load-game');
 const newGameForm = document.querySelector('#new-game-form');
 const loadGameData = document.querySelector('#load-game-data');
 const saveFileList = document.querySelector('#save-files');
-const playerForm = document.querySelector('#player-form')
+const playerForm = document.querySelector('#player-form');
 
 // Backend retrieval function
 async function getData(url) {
@@ -28,27 +30,35 @@ async function getData(url) {
 
 // function that appends retrieved values to their place
 function updateStatus(status) {
+  playerName = status.name;
   document.querySelector('#player-name').innerHTML = status.name;
   document.querySelector('#health').innerHTML = status.health;
   document.querySelector('#stamina').innerHTML = status.stamina;
   document.querySelector('#danger').innerHTML = status.danger;
 }
 
-// Initializing function that updates the game
+// A function that updates the game
 async function gameUpdate (url){
   const gameData = await getData(url);
   updateStatus(gameData);
 
 }
 
-// Game Initalizing: Title screen control, new game etc.
+// Function to update the riddle
+async function updateRiddle (url) {
+  const riddle = await getData(url);
+  document.querySelector('#riddle').innerText = riddle[0];
+}
+
+// Game Initalizing: Title screen control, new game, load game.
 newGame.addEventListener('click', () => {
   newGameForm.classList.remove('hide');
   playerForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const playerName = document.querySelector('#player-input').value;
+    playerName = document.querySelector('#player-input').value;
       playerModal.classList.add('hide');
       gameUpdate(`${apiUrl}newgame?player=${playerName}`)
+      updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`)
   })
 });
 
@@ -65,10 +75,8 @@ loadGame.addEventListener('click', async () => {
         a.id = saveData[i][0];
         a.innerText = saveData[i][1];
         a.href = '#';
-        console.log(a)
         let li = document.createElement('li');
         li.appendChild(a)
-        console.log(li)
         let span = document.createElement('span');
         span.innerText = ` Stamina: ${saveData[i][2]}, Health: ${saveData[i][5]}`;
         li.appendChild(span)
@@ -78,6 +86,7 @@ loadGame.addEventListener('click', async () => {
           const playerID = a.id;
           playerModal.classList.add('hide');
           gameUpdate(`${apiUrl}loadgame?id=${playerID}`)
+          updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`)
         })
       }
     }

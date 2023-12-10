@@ -58,8 +58,13 @@ async function updateId (url) {
   playerID = idData[0]
 }
 
+function updateWeather (lairport) {
+  document.querySelector('#lairport-name').innerHTML = lairport.name;
+  document.querySelector('#airport-conditions').innerHTML = `${lairport.weather.temp}ºC<br>${lairport.weather.description}`
+  document.querySelector('#weather-icon').src = lairport.weather.icon;
+}
 
-// Function to update lairport markers
+// Function to update lairport markers. Might be impossible NOT to make the main gameplay loop function
 async function updateLairports(url) {
   const gameData = await getData(url)
   for (let lairport of gameData.location) {
@@ -67,7 +72,7 @@ async function updateLairports(url) {
     lairportMarkers.addLayer(marker);
     if (lairport.active) {
       map.flyTo([lairport.latitude, lairport.longitude], 10);
-      //showWeather -funktio?
+      updateWeather(lairport)
       //checkShards -funktio?
       marker.bindPopup(`You are here: <b>${lairport.name}</b>`);
       marker.openPopup();
@@ -82,9 +87,9 @@ async function updateLairports(url) {
       flyButton.classList.add('fly-button');
       flyButton.innerHTML = 'Take Flight';
       popupContent.append(flyButton);
-      //const p = document.createElement('p');
-      //p.innerHTML = `Distance ${lairport.distance} km`;
-      //popupContent.append(p);
+      const p = document.createElement('p');
+      p.innerHTML = `Distance ${lairport.distance} km`;
+      popupContent.append(p);
       marker.bindPopup(popupContent);
       flyButton.addEventListener('click', () => {
         //tähän gameplay loop -koodi, jonka sisällä ehkä tämä funktio myös on itse

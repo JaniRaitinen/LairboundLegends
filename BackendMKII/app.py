@@ -92,7 +92,6 @@ def flyto():
     gameId = args.get("game")
     dest = args.get("dest")
     consumption = args.get("consumption")
-    print(gameId, dest, consumption)
     jsonData = flyToLairport(gameId)
     return jsonData
 

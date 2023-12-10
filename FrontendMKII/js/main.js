@@ -9,6 +9,22 @@ L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
 }).addTo(map);
 map.setView([60, 24], 7);
 
+//Leafletin ikonit
+const locIcon = L.divIcon({
+    className: 'loc-icon',
+    html: '<img src="img/loc-icon.png" class="loc-icon-image" />,',
+    iconAnchor: [27, 0],
+    popupAnchor: [0, 0]
+});
+
+const destIcon = L.divIcon({
+    className: 'dest-icon',
+    html: '<img src="img/dest-icon.png" class="dest-icon-image" />',
+    iconAnchor: [19, 0],
+    popupAnchor: [0, 0]
+});
+
+const lairportMarkers = L.featureGroup().addTo(map);
 
 // Funktio jolla vaihdetaan scrollin välilehtiä (status/lair/about)
 function changeTab(tabName) {

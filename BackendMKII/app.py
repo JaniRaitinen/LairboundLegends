@@ -28,12 +28,13 @@ config.conn = mysql.connector.connect(
          autocommit=True
          )
 
-def flyToLairport(gameId, destination, consumption=0, player=None):
+def flyToLairport(gameId, player=None):
     if gameId==0:
-        game = Game(0, destination, consumption, player)
+        game = Game(0, player)
     else:
-        game = Game(gameId, destination, consumption)
-    game.location[0].fetchWeather(game)
+        game = Game(gameId, player)
+        print(game.status)
+    game.location[0].updateWeather(game)
     nearbyLairports = game.location[0].findNearbyLairports()
     for i in nearbyLairports:
         game.location.append(i)
@@ -54,6 +55,17 @@ def newgame():
     playerName = args.get("player")
     newPlayer = Game('', playerName)
     return newPlayer.status
+
+@app.route('/fetchid')
+def fetchId():
+    args = request.args
+    playerName = args.get("player")
+    sql = f"select id from game where dragon_name = '{playerName}';"
+    cur = config.conn.cursor()
+    cur.execute(sql)
+    playerId = cur.fetchall()
+    print(playerId)
+    return playerId
 
 @app.route('/loadgame')
 def loadgame():
@@ -80,7 +92,8 @@ def flyto():
     gameId = args.get("game")
     dest = args.get("dest")
     consumption = args.get("consumption")
-    jsonData = flyToLairport(gameId, dest, consumption)
+    print(gameId, dest, consumption)
+    jsonData = flyToLairport(gameId)
     return jsonData
 
 @app.route('/sanakirja')

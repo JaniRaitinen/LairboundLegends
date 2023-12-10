@@ -5,6 +5,7 @@ const apiUrl = 'http://127.0.0.1:3000/';
 const shardsGained = [];
 let playerLocation = 'EFHK'
 let playerName = ''
+let playerID = 0
 
 // Query Selector sections saved as variables (for most this wasn't necessary... maybe I remove these X D)
 const playerModal = document.querySelector('#player-modal')
@@ -30,6 +31,7 @@ async function getData(url) {
 
 // function that appends retrieved values to their place
 function updateStatus(status) {
+  playerID = status.id;
   playerName = status.name;
   document.querySelector('#player-name').innerHTML = status.name;
   document.querySelector('#health').innerHTML = status.health;
@@ -50,15 +52,61 @@ async function updateRiddle (url) {
   document.querySelector('#riddle').innerText = riddle[0];
 }
 
-// Game Initalizing: Title screen control, new game, load game.
+// Function to update playerId by player name (used in new game because sql created the id)
+async function updateId (url) {
+  const idData = await getData(url)
+  playerID = idData[0]
+}
+
+
+// Function to update lairport markers
+async function updateLairports(url) {
+  const gameData = await getData(url)
+  for (let lairport of gameData.location) {
+    const marker = L.marker([lairport.latitude, lairport.longitude]).addTo(map);
+    lairportMarkers.addLayer(marker);
+    if (lairport.active) {
+      map.flyTo([lairport.latitude, lairport.longitude], 10);
+      //showWeather -funktio?
+      //checkShards -funktio?
+      marker.bindPopup(`You are here: <b>${lairport.name}</b>`);
+      marker.openPopup();
+      marker.setIcon(locIcon);
+    } else {
+      marker.setIcon(destIcon);
+      const popupContent = document.createElement('div');
+      const h4 = document.createElement('h4');
+      h4.innerHTML = lairport.name;
+      popupContent.append(h4)
+      const flyButton = document.createElement('button');
+      flyButton.classList.add('fly-button');
+      flyButton.innerHTML = 'Take Flight';
+      popupContent.append(flyButton);
+      //const p = document.createElement('p');
+      //p.innerHTML = `Distance ${lairport.distance} km`;
+      //popupContent.append(p);
+      marker.bindPopup(popupContent);
+      flyButton.addEventListener('click', () => {
+        //tähän gameplay loop -koodi, jonka sisällä ehkä tämä funktio myös on itse
+      }) //tämän osion jälkeen ehkä updateShards-funktio?
+
+
+    }
+  }
+}
+
+
+// Game Initalizing: New game, load game and title screen handling.
 newGame.addEventListener('click', () => {
   newGameForm.classList.remove('hide');
-  playerForm.addEventListener('submit', (evt) => {
+  playerForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     playerName = document.querySelector('#player-input').value;
       playerModal.classList.add('hide');
-      gameUpdate(`${apiUrl}newgame?player=${playerName}`)
-      updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`)
+      await gameUpdate(`${apiUrl}newgame?player=${playerName}`);
+      await updateId(`${apiUrl}fetchid?player=${playerName}`);
+      await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`);
+      await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&consumption=${0}`);
   })
 });
 
@@ -81,12 +129,13 @@ loadGame.addEventListener('click', async () => {
         span.innerText = ` Stamina: ${saveData[i][2]}, Health: ${saveData[i][5]}`;
         li.appendChild(span)
         saveFileList.append(li);
-        a.addEventListener('click', (evt) => {
+        a.addEventListener('click', async (evt) => {
           evt.preventDefault();
           const playerID = a.id;
           playerModal.classList.add('hide');
-          gameUpdate(`${apiUrl}loadgame?id=${playerID}`)
-          updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`)
+          await gameUpdate(`${apiUrl}loadgame?id=${playerID}`);
+          await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`);
+          await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&consumption=${0}`);
         })
       }
     }
@@ -94,6 +143,5 @@ loadGame.addEventListener('click', async () => {
     console.error('Error loading data:', error);
   }
 });
-
 
 

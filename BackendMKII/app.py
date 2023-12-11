@@ -5,6 +5,7 @@ import random
 import config
 from game import Game
 from sanakirja2 import Sanakirja
+import weathersearch
 
 import mysql.connector
 from dotenv import load_dotenv
@@ -28,17 +29,18 @@ config.conn = mysql.connector.connect(
          autocommit=True
          )
 
-def flyToLairport(gameId, player=None):
+def flyToLairport(gameId, dest, player=None):
     if gameId==0:
-        game = Game(0, player)
+        game = Game(0, dest, player)
     else:
-        game = Game(gameId, player)
-        print(game.status)
+        game = Game(gameId, dest, player)
+        game.change_location(dest)
     game.location[0].updateWeather(game)
     nearbyLairports = game.location[0].findNearbyLairports()
     for i in nearbyLairports:
         game.location.append(i)
     jsonData = json.dumps(game, default=lambda o: o.__dict__, indent=4)
+    print(jsonData)
     return jsonData
 
 @app.route('/initGame')
@@ -53,7 +55,7 @@ def initGame():
 def newgame():
     args = request.args
     playerName = args.get("player")
-    newPlayer = Game('', playerName)
+    newPlayer = Game('', str(config.default_starting_point) ,playerName)
     return newPlayer.status
 
 @app.route('/fetchid')
@@ -71,7 +73,8 @@ def fetchId():
 def loadgame():
     args = request.args
     playerId = args.get("id")
-    player = Game(playerId)
+    loc = args.get("loc")
+    player = Game(playerId, loc)
     return player.status
 
 
@@ -91,8 +94,9 @@ def flyto():
     args = request.args
     gameId = args.get("game")
     dest = args.get("dest")
+    print(gameId, dest)
     consumption = args.get("consumption")
-    jsonData = flyToLairport(gameId)
+    jsonData = flyToLairport(gameId, dest)
     return jsonData
 
 @app.route('/sanakirja')
@@ -112,7 +116,13 @@ def riddle():
     jsonriddle = json.dumps(riddle)
     return jsonriddle
 
-
+@app.route('/closest_weather')
+def get_direction():
+    args = request.args
+    location = args.get("loc")  # oma sijainti
+    targetweather = args.get("target")  # kohdesään numero
+    jsonData = weathersearch.calculate_direction(location, targetweather)
+    return jsonData
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

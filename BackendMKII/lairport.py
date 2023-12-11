@@ -2,6 +2,9 @@ from BackendMKII.weather import Weather
 import config
 from geopy import distance
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 class Lairport:
     def __init__(self, ident, active=False, data=None):

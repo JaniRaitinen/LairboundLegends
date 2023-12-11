@@ -30,6 +30,7 @@ class Lairport:
             self.longitude = float(data['longitude'])
 
     def findNearbyLairports(self):
+        self.active = False
         # find nearby lairport depending on current stamina. not currently implemented to find depending on stamina
         sql = "SELECT ident, name, latitude_deg, longitude_deg FROM lairport WHERE latitude_deg BETWEEN "
         sql += str(self.latitude - 50000) + " AND " + str(self.latitude + 50000)

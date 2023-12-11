@@ -34,13 +34,17 @@ def flyToLairport(gameId, dest, player=None):
         game = Game(0, dest, player)
     else:
         game = Game(gameId, dest, player)
+        oldLocation = game.status["location"]
         game.change_location(dest)
+        print(game.status)
     game.location[0].updateWeather(game)
     nearbyLairports = game.location[0].findNearbyLairports()
     for i in nearbyLairports:
+        if i.ident == dest:
+            i.active = True
+            print(i.ident)
         game.location.append(i)
     jsonData = json.dumps(game, default=lambda o: o.__dict__, indent=4)
-    print(jsonData)
     return jsonData
 
 @app.route('/initGame')

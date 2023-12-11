@@ -84,7 +84,8 @@ async function updateLairports(url) {
       lairportMarkers.addLayer(marker);
     if (lairport.active) {
       map.flyTo([lairport.latitude, lairport.longitude], 10);
-      updateWeather(lairport)
+      console.log(lairport)
+      //updateWeather(lairport)
       //checkShards -funktio?
       marker.bindPopup(`You are here: <b>${lairport.name}</b>`);
       marker.openPopup();

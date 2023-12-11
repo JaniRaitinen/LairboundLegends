@@ -71,6 +71,9 @@ class Game:
         cur = config.conn.cursor()
         cur.execute(sql)
 
+    def change_location(self, dest):
+        self.status["location"] = dest
+
 
     def fetch_shard_info(self):
 

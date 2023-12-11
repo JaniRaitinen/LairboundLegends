@@ -5,6 +5,7 @@ import random
 import config
 from game import Game
 from sanakirja2 import Sanakirja
+import weathersearch
 
 import mysql.connector
 from dotenv import load_dotenv
@@ -115,7 +116,13 @@ def riddle():
     jsonriddle = json.dumps(riddle)
     return jsonriddle
 
-
+@app.route('/closest_weather')
+def get_direction():
+    args = request.args
+    location = args.get("loc")  # oma sijainti
+    targetweather = args.get("target")  # kohdesään numero
+    jsonData = weathersearch.calculate_direction(location, targetweather)
+    return jsonData
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

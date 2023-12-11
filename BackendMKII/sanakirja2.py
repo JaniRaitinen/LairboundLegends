@@ -71,13 +71,13 @@ class Sanakirja:
                        "Where the sky unleashes its fierce display, Where's the place where tempests have their say?",
                        "In this realm where zephyrs softly sway, Where's the land where breezes gently play?"]
                    },
-        "lairportArrival": [f"You and {name} arrive at {loc}.",
-                            f"As you descend from the skies, you arrive at {name}.",
-                            f"Your journey takes you to {name}.",
-                            f"After a long journey, you arrive at {loc}.",
-                            f"You have arrived at you destination {loc}.",
-                            f"{name} brought you to {loc}."],
-        "rest": [f"You and {name} take a long rest to replenish your stamina.",
+        "lairportArrival": [f"You and {self.name} arrive at {self.loc}.",
+                            f"As you descend from the skies, you arrive at {self.loc}.",
+                            f"Your journey takes you to {self.loc}.",
+                            f"After a long journey, you arrive at {self.loc}.",
+                            f"You have arrived at your destination {self.loc}.",
+                            f"{self.name} brought you to {self.loc}."],
+        "rest": [f"You and {self.name} take a long rest to replenish your stamina.",
                  f"It is time for a little break. After the rest, you’re filled with fresh vigor, and are ready to "
                  f"continue your journey.",
                  f"You’re both worn down after a long journey, and decide to have a rest here.",
@@ -123,3 +123,11 @@ class Sanakirja:
         riddle_index = random.randint(0, 3)
 
         return self.sanakirja2["riddle"][str(riddle_category)][riddle_index], riddle_category
+
+    def returnText(self, textId):
+        returnText = self.sanakirja2[textId]
+        return returnText
+
+    def returnTextAtIndex(self, textId, index):
+        returnText = self.sanakirja2[textId][index]
+        return returnText

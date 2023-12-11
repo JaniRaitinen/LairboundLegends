@@ -77,6 +77,26 @@ def loadgame():
     player = Game(playerId, loc)
     return player.status
 
+@app.route('/fetchText')
+def fetchText():
+    args = request.args
+    name = args.get("name")
+    loc = args.get("loc")
+    textId = args.get("textId")
+    returnText = Sanakirja(name, loc).returnText(textId)
+    jsonReturnText = json.dumps(returnText, default=lambda o: o.__dict__, indent=4)
+    return jsonReturnText
+
+@app.route('/fetchTextAtIndex')
+def fetchTextAtIndex():
+    args = request.args
+    name = args.get("name")
+    loc = args.get("loc")
+    textId = args.get("textId")
+    index = args.get("index")
+    returnText = Sanakirja(name, loc).returnTextAtIndex(textId, int(index))
+    jsonReturnText = json.dumps(returnText, default=lambda o: o.__dict__, indent=4)
+    return jsonReturnText
 
 @app.route('/loaddata')
 def loadData():

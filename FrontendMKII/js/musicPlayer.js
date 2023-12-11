@@ -8,7 +8,7 @@ function menuMusic(status) {
   Howler.stop()
     if(status === 'play') {
          let music1 = new Howl({
-            src: ['../sound/menu-loop.wav'],
+            src: ['sound/menu-loop.wav'],
             autoplay: false,
             loop: true,
             //volume: (musicVol / 100),
@@ -17,7 +17,7 @@ function menuMusic(status) {
             }
         });
         let music = new Howl({
-            src: ['../sound/menu-intro.wav'],
+            src: ['sound/menu-intro.wav'],
             autoplay: true,
             loop: false,
             //volume: (musicVol / 100),
@@ -39,7 +39,7 @@ function flightMusic(status) {
   Howler.stop()
     if(status === 'play') {
          let music1 = new Howl({
-            src: ['../sound/flight-loop.wav'],
+            src: ['sound/flight-loop.wav'],
             autoplay: false,
             loop: true,
             //volume: (musicVol / 100),
@@ -48,7 +48,7 @@ function flightMusic(status) {
             }
         });
         let music = new Howl({
-            src: ['../sound/flight-intro.wav'],
+            src: ['sound/flight-intro.wav'],
             autoplay: true,
             loop: false,
             //volume: (musicVol / 100),
@@ -70,7 +70,7 @@ function battleMusic(status) {
   Howler.stop()
     if(status === 'play') {
          let music1 = new Howl({
-            src: ['../sound/battle-loop.wav'],
+            src: ['sound/battle-loop.wav'],
             autoplay: false,
             loop: true,
             //volume: (musicVol / 100),
@@ -79,7 +79,7 @@ function battleMusic(status) {
             }
         });
         let music = new Howl({
-            src: ['../sound/battle-intro.wav'],
+            src: ['sound/battle-intro.wav'],
             autoplay: true,
             loop: false,
             //volume: (musicVol / 100),
@@ -101,7 +101,7 @@ function mapMusic(status) {
   Howler.stop()
     if(status === 'play') {
          let music1 = new Howl({
-            src: ['../sound/map-loop.wav'],
+            src: ['sound/map-loop.wav'],
             autoplay: false,
             loop: true,
             //volume: (musicVol / 100),
@@ -110,7 +110,7 @@ function mapMusic(status) {
             }
         });
         let music = new Howl({
-            src: ['../sound/map-loop.wav'],
+            src: ['sound/map-loop.wav'],
             autoplay: true,
             loop: false,
             //volume: (musicVol / 100),
@@ -130,57 +130,57 @@ function mapMusic(status) {
 
 const sfx = {
   hover: new Howl({
-    src: '../sound/hover.mp3'
+    src: 'sound/hover.mp3'
   }),
   open: new Howl({
-    src: '../sound/open.mp3'
+    src: 'sound/open.mp3'
   }),
   close: new Howl({
-    src: '../sound/close.mp3'
+    src: 'sound/close.mp3'
   }),
   attack: new Howl({
-    src: '../sound/attack.mp3'
+    src: 'sound/attack.mp3'
   }),
   fireball: new Howl({
-    src: '../sound/fireball.mp3'
+    src: 'sound/fireball.mp3'
   }),
   potion: new Howl({
-    src: '../sound/potion.mp3'
+    src: 'sound/potion.mp3'
   }),
   start: new Howl({
-    src: '../sound/start.mp3'
+    src: 'sound/start.mp3'
   }),
   victory: new Howl({
-    src: '../sound/victory.wav'
+    src: 'sound/victory.wav'
   }),
   lose: new Howl({
-    src: '../sound/lose.wav'
+    src: 'sound/lose.wav'
   }),
   magic: new Howl({
-    src: '../sound/magic.wav'
+    src: 'sound/magic.wav'
   }),
   water: new Howl({
-    src: '../sound/water.wav'
+    src: 'sound/water.wav'
   }),
   hploss: new Howl({
-    src: '../sound/hploss.wav'
+    src: 'sound/hploss.wav'
   }),
   hammer: new Howl({
-    src: '../sound/hammer.wav'
+    src: 'sound/hammer.wav'
   }),
   sword: new Howl({
-    src: '../sound/sword.wav'
+    src: 'sound/sword.wav'
   }),
   thunder: new Howl({
-    src: '../sound/thunder.wav'
+    src: 'sound/thunder.wav'
   }),
   ice: new Howl({
-    src: '../sound/ice.wav'
+    src: 'sound/ice.wav'
   }),
   slash: new Howl({
-    src: '../sound/slash.wav'
+    src: 'sound/slash.wav'
   }),
   whoosh: new Howl({
-    src: '../sound/whoosh.wav'
+    src: 'sound/whoosh.wav'
   })
 }

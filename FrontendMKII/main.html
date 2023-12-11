@@ -9,6 +9,14 @@
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" defer></script>
     <script src="js/game_logic.js" defer></script>
     <script src="js/main.js" defer></script>
+    <!--Otsikon fontti-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+    <!--Sisällön fontti-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <title>Lairbound Legends</title>
 </head>
 
@@ -31,16 +39,16 @@
 
     <main>
 
-        <div id="map">
-            <!--<img src="img/placeholder_map.jpg" alt="historical map">-->
-        </div>
+        <div id="map"></div>
 
         <div class="scroll">
+
             <div id="tabs">
                 <button class="status-button" onclick="changeTab('status')">Status</button>
                 <button class="lair-button" onclick="changeTab('lair')">Lair</button>
                 <button class="about-button" onclick="changeTab('about')">About</button>
             </div>
+
             <div id="content">
 
                 <div id="status-tab" class="tab-content">
@@ -64,55 +72,46 @@
                             </td>
                             <td id="danger">danger level</td>
                         </tr>
-
                     </table>
                     <ul id="goals">
                         <li>
                             <figure>
                                 <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
-                                <figcaption>Weather</figcaption>
                             </figure>
                         </li>
                         <li>
                             <figure>
                                 <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
-                                <figcaption>Weather</figcaption>
                             </figure>
                         </li>
                         <li>
                             <figure>
                                 <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
-                                <figcaption>Weather</figcaption>
                             </figure>
                         </li>
                         <li>
                             <figure>
                                 <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
-                                <figcaption>Weather</figcaption>
                             </figure>
                         </li>
                         <li>
                             <figure>
                                 <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
-                                <figcaption>Weather</figcaption>
                             </figure>
                         </li>
                         <li>
                             <figure>
                                 <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
-                                <figcaption>Weather</figcaption>
                             </figure>
                         </li>
                         <li>
                             <figure>
                                 <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
-                                <figcaption>Weather</figcaption>
                             </figure>
                         </li>
                         <li>
                             <figure>
                                 <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Goal weather icon">
-                                <figcaption>Weather</figcaption>
                             </figure>
                         </li>
                     </ul>
@@ -122,9 +121,6 @@
                 <div id="lair-tab" class="tab-content">
                     <h2 id="lairport-name">Lair name</h2>
                     <table id="weather">
-                        <tr>
-                            <td colspan="2">Weather at the lair</td>
-                        </tr>
                         <tr>
                             <td id="airport-conditions">Cloudy</td>
                             <td>
@@ -152,7 +148,9 @@
                     <h2>About the game</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id nisi et ipsum suscipit tincidunt ut vel ante. Sed orci orci, dictum eget vehicula nec, dignissim ut quam. Phasellus lacinia, magna eget imperdiet pharetra, diam nulla scelerisque tortor, luctus viverra magna odio ac lacus. Sed laoreet, enim eget facilisis eleifend, quam lectus rhoncus orci, nec ultricies sem dolor in nibh. Etiam eget nisi porta, ultricies magna vel, placerat ex. Praesent tincidunt felis non sem pulvinar, eget ultricies sem porta. Nam quis ligula fermentum, tincidunt urna non, posuere purus. Donec velit mauris, vulputate sit amet odio a, laoreet ullamcorper nisl. Praesent vitae lorem blandit felis vulputate tincidunt gravida sed elit. Sed pharetra ipsum sed arcu pharetra, non tempus nisl accumsan</p>
                 </div>
+
             </div>
+
         </div>
 
         <div class="dialogue">
@@ -162,35 +160,37 @@
             </div>
         </div>
 
+        <div id="player-modal">
+            <div id="start-buttons">
+                <ul class="flex-wrap space-evenly">
+                    <li>
+                        <button id="new-game" class="start-button">Raise a New Dragon</button>
+                    </li>
+                    <li>
+                        <button id="load-game" class="start-button">Show My Dragon Stable</button>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="new-game-form" class="hide">
+                <form id="player-form">
+                    <input id="player-input" type="text" placeholder="Name your dragon" required>
+                    <input type="submit" value="Make a pact">
+                </form>
+            </div>
+
+            <div id="load-game-data" class="hide">
+                <ul id="save-files">
+                    <h2>Your Existing Dragons</h2>
+                </ul>
+            </div>
+        </div>
+
     </main>
 
     <footer>
         <p>© G-Group Games</p>
     </footer>
-
-</div>
-<div id="player-modal">
-    <div id="start-buttons">
-        <ul class="flex-wrap space-evenly">
-            <li>
-                <button id="new-game" class="start-button">Raise a New Dragon</button>
-            </li>
-            <li>
-                <button id="load-game" class="start-button">Show My Dragon Stable</button>
-            </li>
-        </ul>
-    </div>
-    <div id="new-game-form" class="hide">
-        <form id="player-form">
-            <input id="player-input" type="text" placeholder="Name your dragon" required>
-            <input type="submit" value="Make a pact">
-        </form>
-    </div>
-    <div id="load-game-data" class="hide">
-        <ul id="save-files">
-            <h2>Your Existing Dragons</h2>
-        </ul>
-    </div>
 
 </div>
 </body>

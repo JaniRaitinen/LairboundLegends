@@ -1,7 +1,10 @@
+
 html, body {
-    font-family: sans-serif;
+    font-family: 'Indie Flower', cursive;
     margin: 0;
     overflow: hidden;
+    color: #594A3C;
+    font-size: x-large;
 }
 
 .hide {
@@ -19,22 +22,25 @@ html, body {
 
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     padding: 0.5rem;
-    background-image: url('../img/stone_background.jpg');
+    background-image: url('../img/wood_background_4.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
 
 .logo img {
-    max-height: 4rem;
+    max-height: 5rem;
 }
 
 h1 {
-    font-size: xx-large;
-    color: #3f312d;
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    color: #D9C2A7;
+    padding: 0;
+    margin: 0;
 }
 
 main {
@@ -115,6 +121,7 @@ main {
 }
 
 h2 {
+    font-family: 'Cinzel', serif;
     margin: 0.5rem 0;
     font-size: large;
     text-align: center;
@@ -229,7 +236,7 @@ h2, p {
 footer {
     text-align: right;
     padding: 0.5rem;
-    background-image: url('../img/stone_background.jpg');
+    background-image: url('../img/wood_background_4.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;

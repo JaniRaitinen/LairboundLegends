@@ -65,7 +65,6 @@ class Game:
             else:
                 print("Database error?")
 
-
     def fetch_shard_info(self):
 
         sql = "SELECT * FROM (SELECT shard.id, shard.name, shard.description, shard.icon, shard_gained.game_id, "
@@ -100,12 +99,15 @@ class Game:
         cur = config.conn.cursor()
         cur.execute(sql)
 
-    def calculate_direction(self, latitude, longitude):
+    def calculate_direction(self, game, targetweather):
         # oman sijainnin koordinaatit, esimerkkinä hki-vantaa. tähän self.locationin koordinaatit
-        loc_coordinates = (60.317222, 24.963333)
+        loc_coordinates = [60.3172, 24.963301]
+
+        target_coordinates = Lairport.closestWeather(game, targetweather)  # täs kusee jotain
 
         # lasketaan radiaanit
-        lat1, lon1, lat2, lon2 = map(math.radians, [loc_coordinates[0], loc_coordinates[1], latitude, longitude])
+        lat1, lon1, lat2, lon2 = map(math.radians, [loc_coordinates[0], loc_coordinates[1], target_coordinates[0],
+                                                    target_coordinates[1]])
 
         # longitude-etäisyydet
         d_lon = lon2 - lon1

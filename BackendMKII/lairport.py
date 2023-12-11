@@ -1,6 +1,7 @@
 from BackendMKII.weather import Weather
 import config
 from geopy import distance
+from operator import itemgetter
 
 
 class Lairport:
@@ -46,6 +47,22 @@ class Lairport:
                     nearbyLairport.stamina = self.staminaConsumption(nearbyLairport.distance)
 
         return lairportList
+
+    def closestWeather(self, game, targetweather):
+        # find closest of current weathergoal
+        sql = "SELECT ident, name, latitude_deg, longitude_deg FROM lairport"
+        cursor = config.conn.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        list = []
+        for i in result:
+            i.weather = Weather(self, game)  # tarvii oman sijainnin koordinaatit
+            if i.weather == targetweather:
+                i.append(self.distanceTo(i))
+                list.append(i)
+        sorted_list = sorted(list, key=itemgetter(4))
+        target = sorted_list[0]
+        return target[2, 3]
 
     def updateWeather(self, game):
         self.weather = Weather(self, game)

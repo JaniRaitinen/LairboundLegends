@@ -81,6 +81,15 @@ def flyto():
     jsonData = flyToLairport(gameId, dest, consumption)
     return jsonData
 
+@app.route('/closest_weather')
+def get_direction():
+    args = request.args
+    location = args.get("loc")
+    targetweather = args.get("target")
+    jsonData = Game.calculate_direction(location, targetweather)  # täs jotain failaa
+    return jsonData
+
+
 #  vain tätä muutettu
 #@app.route('/sanakirja')
 #def sanakirja2():

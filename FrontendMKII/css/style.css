@@ -287,3 +287,17 @@ footer {
     transform: scale(1.1);
 }
 
+/* leaflet-ikonit */
+.loc-icon img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.dest-icon img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+}

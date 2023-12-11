@@ -3,8 +3,11 @@
 // Global variables
 const apiUrl = 'http://127.0.0.1:3000/';
 const shardsGained = [];
+let playerLocation = 'EFHK'
+let playerName = ''
+let playerID = 0
 
-// Query Selector sections saved as variables
+// Query Selector sections saved as variables (for most this wasn't necessary... maybe I remove these X D)
 const playerModal = document.querySelector('#player-modal')
 const startButtons = document.querySelector('#start-buttons');
 const newGame = document.querySelector('#new-game');
@@ -12,7 +15,7 @@ const loadGame = document.querySelector('#load-game');
 const newGameForm = document.querySelector('#new-game-form');
 const loadGameData = document.querySelector('#load-game-data');
 const saveFileList = document.querySelector('#save-files');
-const playerForm = document.querySelector('#player-form')
+const playerForm = document.querySelector('#player-form');
 
 // Backend retrieval function
 async function getData(url) {
@@ -28,27 +31,87 @@ async function getData(url) {
 
 // function that appends retrieved values to their place
 function updateStatus(status) {
+  playerID = status.id;
+  playerName = status.name;
   document.querySelector('#player-name').innerHTML = status.name;
   document.querySelector('#health').innerHTML = status.health;
   document.querySelector('#stamina').innerHTML = status.stamina;
   document.querySelector('#danger').innerHTML = status.danger;
 }
 
-// Initializing function that updates the game
+// A function that updates the game
 async function gameUpdate (url){
   const gameData = await getData(url);
   updateStatus(gameData);
 
 }
 
-// Game Initalizing: Title screen control, new game etc.
+// Function to update the riddle
+async function updateRiddle (url) {
+  const riddle = await getData(url);
+  document.querySelector('#riddle').innerText = riddle[0];
+}
+
+// Function to update playerId by player name (used in new game because sql created the id)
+async function updateId (url) {
+  const idData = await getData(url)
+  playerID = idData[0]
+}
+
+function updateWeather (lairport) {
+  document.querySelector('#lairport-name').innerHTML = lairport.name;
+  document.querySelector('#airport-conditions').innerHTML = `${lairport.weather.temp}ºC<br>${lairport.weather.description}`
+  document.querySelector('#weather-icon').src = lairport.weather.icon;
+}
+
+// Function to update lairport markers. Might be impossible NOT to make the main gameplay loop function
+async function updateLairports(url) {
+  const gameData = await getData(url)
+  for (let lairport of gameData.location) {
+    const marker = L.marker([lairport.latitude, lairport.longitude]).addTo(map);
+    lairportMarkers.addLayer(marker);
+    if (lairport.active) {
+      map.flyTo([lairport.latitude, lairport.longitude], 10);
+      updateWeather(lairport)
+      //checkShards -funktio?
+      marker.bindPopup(`You are here: <b>${lairport.name}</b>`);
+      marker.openPopup();
+      marker.setIcon(locIcon);
+    } else {
+      marker.setIcon(destIcon);
+      const popupContent = document.createElement('div');
+      const h4 = document.createElement('h4');
+      h4.innerHTML = lairport.name;
+      popupContent.append(h4)
+      const flyButton = document.createElement('button');
+      flyButton.classList.add('fly-button');
+      flyButton.innerHTML = 'Take Flight';
+      popupContent.append(flyButton);
+      const p = document.createElement('p');
+      p.innerHTML = `Distance ${lairport.distance} km`;
+      popupContent.append(p);
+      marker.bindPopup(popupContent);
+      flyButton.addEventListener('click', () => {
+        //tähän gameplay loop -koodi, jonka sisällä ehkä tämä funktio myös on itse
+      }) //tämän osion jälkeen ehkä updateShards-funktio?
+
+
+    }
+  }
+}
+
+
+// Game Initalizing: New game, load game and title screen handling.
 newGame.addEventListener('click', () => {
   newGameForm.classList.remove('hide');
-  playerForm.addEventListener('submit', (evt) => {
+  playerForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-    const playerName = document.querySelector('#player-input').value;
+    playerName = document.querySelector('#player-input').value;
       playerModal.classList.add('hide');
-      gameUpdate(`${apiUrl}newgame?player=${playerName}`)
+      await gameUpdate(`${apiUrl}newgame?player=${playerName}`);
+      await updateId(`${apiUrl}fetchid?player=${playerName}`);
+      await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`);
+      await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&consumption=${0}`);
   })
 });
 
@@ -65,19 +128,19 @@ loadGame.addEventListener('click', async () => {
         a.id = saveData[i][0];
         a.innerText = saveData[i][1];
         a.href = '#';
-        console.log(a)
         let li = document.createElement('li');
         li.appendChild(a)
-        console.log(li)
         let span = document.createElement('span');
         span.innerText = ` Stamina: ${saveData[i][2]}, Health: ${saveData[i][5]}`;
         li.appendChild(span)
         saveFileList.append(li);
-        a.addEventListener('click', (evt) => {
+        a.addEventListener('click', async (evt) => {
           evt.preventDefault();
           const playerID = a.id;
           playerModal.classList.add('hide');
-          gameUpdate(`${apiUrl}loadgame?id=${playerID}`)
+          await gameUpdate(`${apiUrl}loadgame?id=${playerID}`);
+          await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`);
+          await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&consumption=${0}`);
         })
       }
     }
@@ -85,6 +148,5 @@ loadGame.addEventListener('click', async () => {
     console.error('Error loading data:', error);
   }
 });
-
 
 

@@ -11,7 +11,7 @@ class Lairport:
         # Katsotaan ollaanko kenttä jo haettu
         if data is None:
             # Löydä lairport tietokannasta
-            sql = "SELECT ident, name, latitude_deg, longtitude_deg FROM lairport WHERE ident='" + ident + "'"
+            sql = "SELECT ident, name, latitude_deg, longitude_deg FROM lairport WHERE ident='" + ident + "'"
             cursor = config.conn.cursor()
             cursor.execute(sql)
             result = cursor.fetchall()

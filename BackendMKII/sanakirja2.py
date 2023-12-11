@@ -1,10 +1,13 @@
+import random
+
+
 class Sanakirja:
 
     def __init__(self, name, loc):
         self.loc = loc
         self.name = name
 
-    sanakirja2 = {
+        self.sanakirja2 = {
         "introLore": "Through a rift in time and space, you were transported to the fantastical world of Eldaria, "
                      "a world filled with dragons and elemental magic. Eldaria's scholars interpret this event as "
                      "the fulfillment of an ancient prophecy, designating you as the new Dragonbound, tasked with "
@@ -108,3 +111,15 @@ class Sanakirja:
 
     def update_loc(self, loc):
         self.loc = loc
+
+    def random_riddle(self, shards_gained=None):
+        if shards_gained is None:
+            shards_gained = []
+
+        list_of_choices = [1, 2, 3, 4, 5, 6, 7, 8]
+        list_of_choices = [choice for choice in list_of_choices if choice not in shards_gained]
+
+        riddle_category = random.choice(list_of_choices)
+        riddle_index = random.randint(0, 3)
+
+        return self.sanakirja2["riddle"][str(riddle_category)][riddle_index], riddle_category

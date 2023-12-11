@@ -21,16 +21,16 @@ class Game:
                 "name": player,
                 "stamina": config.stamina_max,
                 "danger_global": 0,
-                "previous_location": config.default_starting_point,
+                "location": config.default_starting_point,
                 "health": config.health_max
             }
 
-            # self.location.append(Lairport(loc, True))
+            self.location.append(Lairport(str(self.status["location"]), True))
             # tarviiko?
 
             sql = "INSERT INTO game VALUES ('" + str(self.status["id"]) + "', '" + str(self.status["name"])
             sql += "', " + str(self.status["stamina"]) + ", " + str(self.status["danger_global"])
-            sql += ", '" + str(self.status["previous_location"]) + "', " + str(self.status["health"]) + ")"
+            sql += ", '" + str(self.status["location"]) + "', " + str(self.status["health"]) + ")"
             print(sql)
             cur = config.conn.cursor()
             cur.execute(sql)
@@ -51,19 +51,27 @@ class Game:
                     "name": res[0][1],
                     "stamina": res[0][2],
                     "danger_global": res[0][3],
-                    "previous_location": res[0][4],
+                    "location": res[0][4],
                     "health": res[0][5]
                 }
 
                 # tarvitaanko tätä?
 
                 # old location in DB currently not used
-                # apt = Lairport(loc, True)
-                # self.location.append(apt)
-                # self.set_location(apt)
+                apt = Lairport(str(self.status["location"]), True)
+                self.location.append(apt)
+                self.set_location(apt)
 
             else:
                 print("Database error?")
+
+
+    def set_location(self, location):
+        sql = f"update game set location = '{location.ident}' where id='{str(self.status['id'])}'"
+        print(sql)
+        cur = config.conn.cursor()
+        cur.execute(sql)
+
 
     def fetch_shard_info(self):
 

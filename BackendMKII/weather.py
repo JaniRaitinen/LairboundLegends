@@ -13,11 +13,11 @@ class Weather:
         request = "https://api.openweathermap.org/data/2.5/weather?lat=" + \
                   str(location.latitude) + "&lon=" + str(location.longitude) + "&appid=" + apiKey
         vastaus = requests.get(request).json()
-        self.main = vastaus["propertioes"]["weather"][0]["main"]
-        self.description = vastaus["propertioes"]["weather"][0]["description"]
+        self.main = vastaus["weather"][0]["main"]
+        self.description = vastaus["weather"][0]["description"]
         self.icon = "https://openweathermap.org/img/wn/" + vastaus["weather"][0]["icon"] + ".png"
-        self.temp = self.kelvin_to_celsius(vastaus["propertioes"]["main"]["temp"])
-        self.humidity = vastaus["propertioes"]["main"]["humidity"]
+        self.temp = self.kelvin_to_celsius(vastaus["main"]["temp"])
+        self.humidity = vastaus["main"]["humidity"]
         self.wind = {
             "speed": vastaus["wind"]["speed"],
             "deg": vastaus["wind"]["deg"]

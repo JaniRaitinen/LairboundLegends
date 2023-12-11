@@ -1,8 +1,10 @@
 import json
 import os
+import random
+
 import config
 from game import Game
-#from sanakirja2 import Sanakirja
+from sanakirja2 import Sanakirja
 
 import mysql.connector
 from dotenv import load_dotenv
@@ -26,12 +28,13 @@ config.conn = mysql.connector.connect(
          autocommit=True
          )
 
-def flyToLairport(gameId, destination, consumption=0, player=None):
+def flyToLairport(gameId, player=None):
     if gameId==0:
-        game = Game(0, destination, consumption, player)
+        game = Game(0, player)
     else:
-        game = Game(gameId, destination, consumption)
-    game.location[0].fetchWeather(game)
+        game = Game(gameId, player)
+        print(game.status)
+    game.location[0].updateWeather(game)
     nearbyLairports = game.location[0].findNearbyLairports()
     for i in nearbyLairports:
         game.location.append(i)
@@ -52,6 +55,17 @@ def newgame():
     playerName = args.get("player")
     newPlayer = Game('', playerName)
     return newPlayer.status
+
+@app.route('/fetchid')
+def fetchId():
+    args = request.args
+    playerName = args.get("player")
+    sql = f"select id from game where dragon_name = '{playerName}';"
+    cur = config.conn.cursor()
+    cur.execute(sql)
+    playerId = cur.fetchall()
+    print(playerId)
+    return playerId
 
 @app.route('/loadgame')
 def loadgame():
@@ -78,8 +92,25 @@ def flyto():
     gameId = args.get("game")
     dest = args.get("dest")
     consumption = args.get("consumption")
-    jsonData = flyToLairport(gameId, dest, consumption)
+    jsonData = flyToLairport(gameId)
     return jsonData
+
+@app.route('/sanakirja')
+def sanakirja2():
+   args = request.args
+   name = args.get("name")
+   loc = args.get("loc")
+   jsonData = Sanakirja(name, loc)
+   return jsonData
+
+@app.route('/riddle')
+def riddle():
+    args = request.args
+    name = args.get("name")
+    loc = args.get("loc")
+    riddle = Sanakirja(name, loc).random_riddle()
+    jsonriddle = json.dumps(riddle)
+    return jsonriddle
 
 @app.route('/closest_weather')
 def get_direction():
@@ -88,17 +119,6 @@ def get_direction():
     targetweather = args.get("target")
     jsonData = Game.calculate_direction(location, targetweather)  # täs jotain failaa
     return jsonData
-
-
-#  vain tätä muutettu
-#@app.route('/sanakirja')
-#def sanakirja2():
-   # args = request.args
-   # name = args.get("name")
-   # loc = args.get("loc")
-   # jsonData = Sanakirja(name, loc)
-   # return jsonData
-
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

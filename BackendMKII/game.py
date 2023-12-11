@@ -1,5 +1,4 @@
 import config
-import math
 
 from lairport import Lairport
 from shard import Shard
@@ -106,35 +105,3 @@ class Game:
         print(sql)
         cur = config.conn.cursor()
         cur.execute(sql)
-
-    def calculate_direction(self, game, targetweather):
-        # oman sijainnin koordinaatit, esimerkkinä hki-vantaa. tähän self.locationin koordinaatit
-        loc_coordinates = [60.3172, 24.963301]
-
-        target_coordinates = Lairport.closestWeather(game, targetweather)  # täs kusee jotain
-
-        # lasketaan radiaanit
-        lat1, lon1, lat2, lon2 = map(math.radians, [loc_coordinates[0], loc_coordinates[1], target_coordinates[0],
-                                                    target_coordinates[1]])
-
-        # longitude-etäisyydet
-        d_lon = lon2 - lon1
-
-        # y- ja x-akselimatematiikkaa
-        y = math.sin(d_lon) * math.cos(lat2)
-        x = math.cos(lat1) * math.sin(lat2) - (math.sin(lat1) * math.cos(lat2) * math.cos(d_lon))
-
-        # radiaanit
-        bearing_rad = math.atan2(y, x)
-
-        # radiaanit takaisin asteiksi
-        bearing_deg = math.degrees(bearing_rad)
-
-        # muutetaan asteet 360-sisäiseksi
-        compass_point = (bearing_deg + 360) % 360
-
-        # palautetaan asteen mukainen oikea suunta
-        cardinal_directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"]
-        index = round(compass_point / 45) % 8
-
-        return cardinal_directions[index]

@@ -39,6 +39,10 @@ function changeTab(tabName) {
     document.getElementById(tabName + "-tab").style.display = "block";
 }
 
+// Leaflet objects
+const lairportMarker = L.featureGroup().addTo(map)
+const blueIcon = L.divIcon({className: 'blue-icon'})
+const greenIcon = L.divIcon({className: 'green-icon'})
 
 // Toiminto jolla avataan scrolli ja dialogi-ikkuna
 window.onload = function () {

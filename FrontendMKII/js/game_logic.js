@@ -6,6 +6,7 @@ const shardsGained = [];
 let playerLocation = ''
 let playerName = ''
 let playerID = 0
+let currentRiddle = ''
 let playerHealth = 0
 let playerStamina = 0
 
@@ -18,6 +19,7 @@ const newGameForm = document.querySelector('#new-game-form');
 const loadGameData = document.querySelector('#load-game-data');
 const saveFileList = document.querySelector('#save-files');
 const playerForm = document.querySelector('#player-form');
+const dialogueBox = document.querySelector('#dialogue-content');
 
 // Backend retrieval function
 async function getData(url) {
@@ -44,11 +46,19 @@ function updateStatus(status) {
   document.querySelector('#danger').innerHTML = status.danger;
 }
 
+function typeWriter(text, speed, targetElement) {
+  let i = 0
+  if (i < text.length) {
+    targetElement += text.charAt(i)
+    i++;
+    setTimeout(typeWriter, speed)
+  }
+}
+
 // A function that updates the game
 async function gameUpdate (url){
   const gameData = await getData(url);
   updateStatus(gameData);
-
 }
 
 // Function to update the riddle
@@ -71,6 +81,11 @@ function updateWeather (lairport) {
   document.querySelector('#lairport-name').innerHTML = lairport.name;
   document.querySelector('#airport-conditions').innerHTML = `${lairport.weather.temp}ºC<br>${lairport.weather.description}`
   document.querySelector('#weather-icon').src = lairport.weather.icon;
+}
+
+async function fetchTextDataAtIndex(textId, index) {
+  const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&loc=${playerLocation}&textId=${textId}&index=${index}`)
+  return textData
 }
 
 // Function to update lairport markers. Might be impossible NOT to make the main gameplay loop function
@@ -105,6 +120,7 @@ async function updateLairports(url) {
       popupContent.append(p);
       marker.bindPopup(popupContent);
       flyButton.addEventListener('click',  () => {
+        dialogueBox.innerHTML = fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
         updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${lairport.ident}`)
       });
     }
@@ -114,10 +130,13 @@ async function updateLairports(url) {
   }
 }
 
-
 // Game Initalizing: New game, load game and title screen handling.
-newGame.addEventListener('click', () => {
+newGame.addEventListener('click', async() => {
   newGameForm.classList.remove('hide');
+  const playerStartLore = document.querySelector('#new-game-lore')
+  const textId = "namingYourDragon"
+  const lore = await getData(`${apiUrl}fetchText?name='none'&loc=${playerLocation}&textId=${textId}`)
+  playerStartLore.innerHTML = lore
   playerForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     playerName = document.querySelector('#player-input').value;
@@ -155,6 +174,11 @@ loadGame.addEventListener('click', async () => {
           await gameUpdate(`${apiUrl}loadgame?id=${linkPlayerID}`);
           await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`);
           await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&consumption=${0}`);
+
+          const textId = "lairportArrival"
+          const index = Math.floor(Math.random() * 5)
+          const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&loc=${playerLocation}&textId=${textId}&index=${index}`)
+          dialogueBox.innerHTML = textData
         })
       }
     }

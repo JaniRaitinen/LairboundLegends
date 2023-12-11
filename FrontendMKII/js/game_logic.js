@@ -3,9 +3,11 @@
 // Global variables
 const apiUrl = 'http://127.0.0.1:3000/';
 const shardsGained = [];
-let playerLocation = 'EFHK'
+let playerLocation = ''
 let playerName = ''
 let playerID = 0
+let playerHealth = 0
+let playerStamina = 0
 
 // Query Selector sections saved as variables (for most this wasn't necessary... maybe I remove these X D)
 const playerModal = document.querySelector('#player-modal')
@@ -33,6 +35,9 @@ async function getData(url) {
 function updateStatus(status) {
   playerID = status.id;
   playerName = status.name;
+  playerLocation = status.location;
+  playerHealth = status.health;
+  playerStamina = status.stamina;
   document.querySelector('#player-name').innerHTML = status.name;
   document.querySelector('#health').innerHTML = status.health;
   document.querySelector('#stamina').innerHTML = status.stamina;
@@ -58,6 +63,10 @@ async function updateId (url) {
   playerID = idData[0]
 }
 
+function updateLocation (location) {
+  playerLocation = location
+}
+
 function updateWeather (lairport) {
   document.querySelector('#lairport-name').innerHTML = lairport.name;
   document.querySelector('#airport-conditions').innerHTML = `${lairport.weather.temp}ºC<br>${lairport.weather.description}`
@@ -66,10 +75,13 @@ function updateWeather (lairport) {
 
 // Function to update lairport markers. Might be impossible NOT to make the main gameplay loop function
 async function updateLairports(url) {
-  const gameData = await getData(url)
-  for (let lairport of gameData.location) {
-    const marker = L.marker([lairport.latitude, lairport.longitude]).addTo(map);
-    lairportMarkers.addLayer(marker);
+  try {
+    lairportMarkers.clearLayers();
+    const gameData = await getData(url)
+    console.log(gameData);
+    for (let lairport of gameData.location) {
+      const marker = L.marker([lairport.latitude, lairport.longitude]).addTo(map);
+      lairportMarkers.addLayer(marker);
     if (lairport.active) {
       map.flyTo([lairport.latitude, lairport.longitude], 10);
       updateWeather(lairport)
@@ -91,12 +103,13 @@ async function updateLairports(url) {
       p.innerHTML = `Distance ${lairport.distance} km`;
       popupContent.append(p);
       marker.bindPopup(popupContent);
-      flyButton.addEventListener('click', () => {
-        //tähän gameplay loop -koodi, jonka sisällä ehkä tämä funktio myös on itse
-      }) //tämän osion jälkeen ehkä updateShards-funktio?
-
-
+      flyButton.addEventListener('click',  () => {
+        updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${lairport.ident}`)
+      });
     }
+  }
+} catch (error) {
+  console.error(error);
   }
 }
 
@@ -136,9 +149,9 @@ loadGame.addEventListener('click', async () => {
         saveFileList.append(li);
         a.addEventListener('click', async (evt) => {
           evt.preventDefault();
-          const playerID = a.id;
+          const linkPlayerID = a.id;
           playerModal.classList.add('hide');
-          await gameUpdate(`${apiUrl}loadgame?id=${playerID}`);
+          await gameUpdate(`${apiUrl}loadgame?id=${linkPlayerID}`);
           await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`);
           await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&consumption=${0}`);
         })

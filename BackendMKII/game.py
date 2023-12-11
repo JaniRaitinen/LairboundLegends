@@ -7,7 +7,7 @@ from shard import Shard
 
 class Game:
 
-    def __init__(self, id, player=None):
+    def __init__(self, id, loc, player=None):
         self.status = {}
         self.location = []
         self.shards = []
@@ -21,7 +21,7 @@ class Game:
                 "name": player,
                 "stamina": config.stamina_max,
                 "danger_global": 0,
-                "location": config.default_starting_point,
+                "location": loc,
                 "health": config.health_max
             }
 
@@ -106,6 +106,11 @@ class Game:
         print(sql)
         cur = config.conn.cursor()
         cur.execute(sql)
+
+    def change_location(self, dest):
+        self.status["location"] = dest
+
+
 
     def calculate_direction(self, latitude, longitude):
         # oman sijainnin koordinaatit, esimerkkinä hki-vantaa. tähän self.locationin koordinaatit

@@ -102,7 +102,6 @@ async function gameSetup (url) {
     airportMarkers.clearLayers();
     const gameData = await getData(url);
     console.log(gameData);
-    updateStatus(gameData.status);
     if (!checkGameOver(gameData.status.co2.budget)) return;
     for (let airport of gameData.location) {
       const marker = L.marker([airport.latitude, airport.longitude]).addTo(map);

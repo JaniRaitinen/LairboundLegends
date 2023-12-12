@@ -2,7 +2,7 @@
 html, body {
     font-family: 'Indie Flower', cursive;
     margin: 0;
-    overflow: hidden;
+    overflow: visible;
     color: #594A3C;
     font-size: x-large;
 }
@@ -37,7 +37,7 @@ header {
 
 h1 {
     font-family: 'Cinzel', serif;
-    font-size: 4rem;
+    font-size: 3rem;
     color: #D9C2A7;
     padding: 0;
     margin: 0;
@@ -246,8 +246,9 @@ footer {
 /* Pelin aloitusvalikko */
 #player-modal {
     width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
+    height: 88vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    background-image: -webkit-radial-gradient(#CD623E, #141211);
     position: absolute;
     top: 0;
     z-index: 10;
@@ -256,9 +257,29 @@ footer {
 #player-form {
     display: flex;
     width: 50%;
-    margin: 4rem auto;
+    margin: 12px auto 4rem;
     flex-direction: column;
 }
+
+input {
+    display: block;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+}
+
 
 #save-files {
     background-color: rgba(0, 0, 0, 0.8);
@@ -308,4 +329,42 @@ footer {
     height: 2rem;
     border-radius: 50%;
     border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+#player-modal {
+    margin-top: 140px;
+}
+
+.main-header {
+    height: 120px;
+    border: #594A3C ridge;
+}
+
+#start-modal-lore, #new-game-lore {
+    color: #fefefe;
+    text-shadow: 2px 2px 4px #000000;
+    margin-left: 10%;
+    margin-right: 10%;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    line-height: 20px;
+    background-blend-mode: saturation;
+}
+
+#new-game-lore {
+    margin: 0px;
+}
+
+a {
+    font-size: 1rem;
+    color: #fefefe;
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+}
+
+#new-game.start-button, #load-game.start-button {
+    border: ridge 12px black;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.5rem;
 }

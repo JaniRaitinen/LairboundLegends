@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <!--Sisällön fontti-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +28,7 @@
 <body>
 <div class="container">
 
-    <header>
+    <header class="main-header">
         <div class="logo">
             <a href="main.html">
                 <img src="img/shield.png" alt="shield">
@@ -160,7 +161,7 @@
         <div class="dialogue">
             <div class="close-button" onclick="closeDialogue()">X</div>
             <div class="content">
-                <p>Here goes the dialogue.</p>
+                <p id="dialogue-content">Here goes the dialogue.</p>
             </div>
         </div>
 
@@ -182,8 +183,16 @@
             </li>
         </ul>
     </div>
+    <div id="start-modal-lore"> <p> "Through a rift in time and space, you were transported to the fantastical world of Eldaria, "
+                     "a world filled with dragons and elemental magic. Eldaria's scholars interpret this event as "
+                     "the fulfillment of an ancient prophecy, designating you as the new Dragonbound, tasked with "
+                     "raising the youth of the dragons, and quiding them through their journey to Dragonhood. The "
+                     "Dracarers, who are the caretakers and guardians of the dragon hatchlings in Eldaria, "
+                     "have decided that you will bond with one of their young Dragons, and together you will soar "
+                     "to the skies of destiny."</p></div>
     <div id="new-game-form" class="hide">
         <form id="player-form">
+            <p id="new-game-lore"></p>
             <input id="player-input" type="text" placeholder="Name your dragon" required>
             <input type="submit" value="Make a pact">
         </form>

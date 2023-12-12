@@ -55,7 +55,7 @@ def checkWeather(location, targetweather):
     main = vastaus["weather"][0]["main"]
     kelvin = vastaus["main"]["temp"]
     temp = int(kelvin - 273.15)
-    wind = vastaus["wind"]["speed"]
+    wind = int(vastaus["wind"]["speed"])
     print(main)
 
     sql = f"SELECT * FROM shard WHERE id='{targetweather}'"

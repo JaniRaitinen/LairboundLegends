@@ -43,7 +43,7 @@ function updateStatus(status) {
   document.querySelector('#player-name').innerHTML = status.name;
   document.querySelector('#health').innerHTML = status.health;
   document.querySelector('#stamina').innerHTML = status.stamina;
-  document.querySelector('#danger').innerHTML = status.danger;
+  //document.querySelector('#danger').innerHTML = status.danger;
 }
 
 // Function to update stamina and put it on the screen
@@ -169,7 +169,7 @@ async function updateLairports(url) {
       popupContent.append(p);
       marker.bindPopup(popupContent);
       flyButton.addEventListener('click',  () => {
-      //  dialogueBox.innerHTML = fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
+        dialogueBox.innerHTML = fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
         updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${lairport.ident}&nextdis=${playerStamina - lairport.distance}`);
         updateStamina(-lairport.distance)
       });
@@ -188,7 +188,7 @@ newGame.addEventListener('click', async() => {
   const playerStartLore = document.querySelector('#new-game-lore')
   const textId = "namingYourDragon"
   const lore = await getData(`${apiUrl}fetchText?name='none'&loc=${playerLocation}&textId=${textId}`)
-  //playerStartLore.innerHTML = lore
+  playerStartLore.innerHTML = lore
   playerForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     playerName = document.querySelector('#player-input').value;
@@ -227,10 +227,10 @@ loadGame.addEventListener('click', async () => {
           await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}&shards=${shardsGained}`);
           await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&nextdis=${playerStamina}`);
 
-          //const textId = "lairportArrival"
-          //const index = Math.floor(Math.random() * 5)
-          //const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&loc=${playerLocation}&textId=${textId}&index=${index}`)
-          //dialogueBox.innerHTML = textData
+          const textId = "lairportArrival"
+          const index = Math.floor(Math.random() * 5)
+          const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&loc=${playerLocation}&textId=${textId}&index=${index}`)
+          dialogueBox.innerHTML = textData
         })
       }
     }
@@ -271,7 +271,7 @@ span.addEventListener('click', () =>{
 
 const healthPotion = document.getElementById('hp-potion');
 healthPotion.addEventListener('click', () => {
-  playerHealth += 20
+  updateHealth(200)
   console.log('health!')
   console.log(playerHealth)
   // let danger_global = danger_global + Math.floor(Math.random()*6)+1
@@ -279,7 +279,7 @@ healthPotion.addEventListener('click', () => {
 
 const staminaPotion = document.getElementById('stamina-potion');
 staminaPotion.addEventListener('click', () =>{
-  playerStamina += 200
+  updateStamina(200)
   console.log('stamina!')
   console.log(playerStamina)
   // let danger_global = danger_global + Math.floor(Math.random()*6)+1

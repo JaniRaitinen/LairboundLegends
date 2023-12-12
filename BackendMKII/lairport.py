@@ -24,7 +24,7 @@ class Lairport:
                 self.latitude = float(result[0][2])
                 self.longitude = float(result[0][3])
         else:
-            # Tiedetään lairport
+            #Tiedetään lairport
             self.name = data['name']
             self.latitude = float(data['latitude'])
             self.longitude = float(data['longitude'])

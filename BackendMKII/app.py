@@ -15,7 +15,7 @@ from flask_cors import CORS
 load_dotenv()
 
 app = Flask(__name__)
-# lisätty cors
+#lisätty cors
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 

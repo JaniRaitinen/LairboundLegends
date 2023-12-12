@@ -45,7 +45,7 @@ class Weather:
 
         for shard in game.shards:
             if shard.reached == False and shard.shard_id in self.meets_shards:
-                # new shard
+                #new shard
                 cursor = config.conn.cursor()
                 sql = "INSERT IGNORE INTO shard_gained (weather_id, game_id) VALUES ('" + str(shard.shard_id) + "', '" + str(game.status["id"]) + "')"
                 print(sql)

@@ -38,7 +38,7 @@ class Game:
 
         else:
 
-            # Load game
+            #Load game
             sql = "SELECT id, dragon_name, stamina, danger_global, location, health FROM Game WHERE id='" + id + "'"
             print(sql)
             cur = config.conn.cursor()

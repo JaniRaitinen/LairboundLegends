@@ -368,3 +368,29 @@ a {
     font-family: 'Press Start 2P', cursive;
     font-size: 0.5rem;
 }
+
+
+dialog[closed] {
+  position: fixed;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+  display: block;
+}
+
+dialog[open] {
+  opacity: 1;
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.8);
+}
+
+dialog span {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  font-size: 2rem;
+  text-decoration: none;
+  color: #fff;
+  filter: drop-shadow(2px 2px 2px #000);
+}

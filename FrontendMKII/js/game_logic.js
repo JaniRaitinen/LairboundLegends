@@ -214,28 +214,29 @@ span.addEventListener('click', () =>{
   sfx.close.play();
   modal.close()
   openCheck(modal)
-  prophecy.innerHTML = ''
+  prophecy.innerHTML = 'Ask the oracle for guidance.'
 })
 
 const healthPotion = document.getElementById('hp-potion');
 healthPotion.addEventListener('click', () => {
-  let playerHealth =+ 20
+  playerHealth += 20
   console.log('health!')
+  console.log(playerHealth)
   // let danger_global = danger_global + Math.floor(Math.random()*6)+1
-  return (playerHealth)
 });
 
 const staminaPotion = document.getElementById('stamina-potion');
 staminaPotion.addEventListener('click', () =>{
-  let playerStamina =+ 200
+  playerStamina += 200
   console.log('stamina!')
+  console.log(playerStamina)
   // let danger_global = danger_global + Math.floor(Math.random()*6)+1
-  return(playerStamina)
 })
 
 const prophecy = document.getElementById('prophecy')
 const oracle = document.getElementById('oracle');
 oracle.addEventListener('click',  async () => {
+  prophecy.innerHTML = 'Let me gaze into the vortex, to find out where you should head next. Please be patient while I work.'
   let direction = await getData(`${apiUrl}closest_weather?loc=${playerLocation}&target=${currentRiddle}`);
   console.log(direction)
   prophecy.innerHTML = `Your fortune in <strong>${direction.direction}</strong> i see. <br> 

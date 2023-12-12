@@ -387,7 +387,7 @@ input[type=submit] {
 }
 
 #new-game-lore {
-    margin: 0px;
+    margin: 0;
 }
 
 a {
@@ -401,4 +401,115 @@ a {
     border: ridge 12px black;
     font-family: 'Press Start 2P', cursive;
     font-size: 0.5rem;
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.8);
+}
+
+dialog span {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  font-size: 2rem;
+  text-decoration: none;
+  color: #fff;
+  filter: drop-shadow(2px 2px 2px #000);
+}
+
+
+
+#tavern-modal {
+    display: flex;
+    width: 80%;
+    height: 90%;
+    background-image: url("../img/tavern-bg.jpg");
+    background-size: cover;
+}
+
+#tavern-banner{
+    width: inherit;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: start;
+    padding: 0;
+    margin: 0;
+    background-image: url('../img/wood_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    position: fixed;
+}
+
+#oracle-div{
+
+}
+
+#oracle {
+    height: 18rem;
+    width: 18rem;
+    margin-top: 4rem;
+    border-radius: 20rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#oracle:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 2px #ccc;
+}
+
+#oracle-scroll{
+    background-image: url('../img/scroll.png');
+    background-size: 200%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 0.5rem;
+
+}
+
+#oraclegreet{
+    display: block;
+    width: 20rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+#prophecy{
+    display: block;
+    width: 20rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+#potions{
+    display: flex;
+    align-items: center;
+}
+
+.potion-img{
+    height: 6rem;
+    align-items: center;
+    text-align: center;
+}
+
+.potion-img:hover {
+  transform: scale(1.04);
+  box-shadow: 0px 0px 2px #ccc;
+}
+
+.potion{
+    margin: 2rem;
+    align-items: center;
+    text-align: center;
+}
+
+.potion-label{
+    font-size: 1.5rem;
+    background-image: linear-gradient(rgba(20,20,20,1),rgba(20,20,20,0));
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: #D9C2A7;
+    border-radius: 1rem;
 }

@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <!--Sisällön fontti-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +28,7 @@
 <body>
 <div class="container">
 
-    <header>
+    <header class="main-header">
         <div class="logo">
             <a href="main.html">
                 <img src="img/shield.png" alt="shield">
@@ -70,13 +71,16 @@
                             </td>
                             <td id="stamina">staminabar</td>
                         </tr>
+                        <!--
                         <tr>
                             <td>
                                 <img class="status-pictures" src="img/swords.png" alt="crossed swords">
                             </td>
                             <td id="danger">danger level</td>
                         </tr>
+                        -->
                     </table>
+
                     <ul id="goals">
                         <li>
                             <figure>
@@ -135,14 +139,14 @@
                     <table id="tavern">
                         <tr>
                             <td>
-                                <img class="tavern-picture" src="img/tavern_5.png" alt="picture of tavern">
+                                <img class="tavern-picture" id="tavern-picture" src="img/tavern.png" alt="picture of tavern">
                             </td>
                         </tr>
                     </table>
                     <table id="shard">
                         <tr>
                             <td>
-                                <img class="chest-picture" src="img/chest_locked.png" alt="chest">
+                                <img class="chest-picture" src="img/shard/chest_locked.png" alt="chest">
                             </td>
                         </tr>
                     </table>
@@ -160,7 +164,7 @@
         <div class="dialogue">
             <div class="close-button" onclick="closeDialogue()">X</div>
             <div class="content">
-                <p>Here goes the dialogue.</p>
+                <p id="dialogue-content">Here goes the dialogue.</p>
             </div>
         </div>
 
@@ -182,8 +186,16 @@
             </li>
         </ul>
     </div>
+    <div id="start-modal-lore"> <p> "Through a rift in time and space, you were transported to the fantastical world of Eldaria, "
+                     "a world filled with dragons and elemental magic. Eldaria's scholars interpret this event as "
+                     "the fulfillment of an ancient prophecy, designating you as the new Dragonbound, tasked with "
+                     "raising the youth of the dragons, and quiding them through their journey to Dragonhood. The "
+                     "Dracarers, who are the caretakers and guardians of the dragon hatchlings in Eldaria, "
+                     "have decided that you will bond with one of their young Dragons, and together you will soar "
+                     "to the skies of destiny."</p></div>
     <div id="new-game-form" class="hide">
         <form id="player-form">
+            <p id="new-game-lore"></p>
             <input id="player-input" type="text" placeholder="Name your dragon" required>
             <input type="submit" value="Make a pact">
         </form>
@@ -196,5 +208,24 @@
 
 
 </div>
+<dialog id="tavern-modal">
+    <span>&#x2715;</span>
+    <div id="oracle-div">
+        <img src="img/oracle.png" id="oracle" alt="">
+        <p>Ask help from the oracle of weather.</p>
+        <p>He can sense where elemental forces gather.</p>
+        <p id="prophecy"></p>
+    </div>
+    <div id="potions">
+        <div id="hp-div">
+            <img src="img/hp-potion.png" id="hp-potion">
+            <p>Potion of Health</p>
+        </div>
+        <div id="stamina-id">
+            <img src="img/stamina-potion.png" id="stamina-potion">
+            <p>Potion of Stamina</p>
+        </div>
+    </div>
+</dialog>
 </body>
 </html>

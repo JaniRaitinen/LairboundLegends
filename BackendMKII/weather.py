@@ -13,6 +13,7 @@ class Weather:
         request = "https://api.openweathermap.org/data/2.5/weather?lat=" + \
                   str(location.latitude) + "&lon=" + str(location.longitude) + "&appid=" + apiKey
         vastaus = requests.get(request).json()
+        print(vastaus)
         self.main = vastaus["weather"][0]["main"]
         self.description = vastaus["weather"][0]["description"]
         self.icon = "https://openweathermap.org/img/wn/" + vastaus["weather"][0]["icon"] + ".png"
@@ -43,11 +44,11 @@ class Weather:
                     self.meets_shards.append(shard.shard_id)
 
         for shard in game.shards:
-            if shard.reached == False and shard.shardid in self.meets_shards:
+            if shard.reached == False and shard.shard_id in self.meets_shards:
                 # new shard
-                sql = "INSERT INTO shard_gained VALUES ('" + game.status["id"] + "', '" + str(shard.shard_id) + "')"
-                print(sql)
                 cursor = config.conn.cursor()
+                sql = "INSERT IGNORE INTO shard_gained (weather_id, game_id) VALUES ('" + str(shard.shard_id) + "', '" + str(game.status["id"]) + "')"
+                print(sql)
                 cursor.execute(sql)
                 shard.reached = True
         return

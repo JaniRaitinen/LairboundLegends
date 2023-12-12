@@ -1,6 +1,5 @@
 import json
 import os
-import random
 
 import config
 from game import Game
@@ -29,21 +28,16 @@ config.conn = mysql.connector.connect(
          autocommit=True
          )
 
-def flyToLairport(gameId, dest, player=None):
+def flyToLairport(gameId, dest, nextDistance=1000, player=None):
     if gameId==0:
         game = Game(0, dest, player)
     else:
-        game = Game(gameId, dest, player)
-        oldLocation = game.status["location"]
-        game.change_location(dest)
-        print(game.status)
-    game.location[0].updateWeather(game)
-    nearbyLairports = game.location[0].findNearbyLairports()
+        game = Game(gameId, dest)
+        game.location[0].updateWeather(game)
+    nearbyLairports = game.location[0].findNearbyLairports(nextDistance)
     for i in nearbyLairports:
-        if i.ident == dest:
-            i.active = True
-            print(i.ident)
         game.location.append(i)
+    print(game)
     jsonData = json.dumps(game, default=lambda o: o.__dict__, indent=4)
     return jsonData
 
@@ -77,8 +71,11 @@ def fetchId():
 def loadgame():
     args = request.args
     playerId = args.get("id")
-    loc = args.get("loc")
-    player = Game(playerId, loc)
+    sql = f"select location from game where id = '{playerId}';"
+    cur = config.conn.cursor()
+    cur.execute(sql)
+    loc = cur.fetchone()
+    player = Game(playerId, loc[0])
     return player.status
 
 @app.route('/fetchText')
@@ -118,9 +115,8 @@ def flyto():
     args = request.args
     gameId = args.get("game")
     dest = args.get("dest")
-    print(gameId, dest)
-    consumption = args.get("consumption")
-    jsonData = flyToLairport(gameId, dest)
+    nextDistance = args.get("nextdis")
+    jsonData = flyToLairport(gameId, dest, int(nextDistance))
     return jsonData
 
 @app.route('/sanakirja')
@@ -136,7 +132,10 @@ def riddle():
     args = request.args
     name = args.get("name")
     loc = args.get("loc")
-    riddle = Sanakirja(name, loc).random_riddle()
+    shards = args.get("shards")
+    if not shards:
+        shards = None
+    riddle = Sanakirja(name, loc).random_riddle(shards)
     jsonriddle = json.dumps(riddle)
     return jsonriddle
 

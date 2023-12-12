@@ -29,9 +29,8 @@ class Lairport:
             self.latitude = float(data['latitude'])
             self.longitude = float(data['longitude'])
 
-    def findNearbyLairports(self):
-        self.active = False
-        # find nearby lairport depending on current stamina. not currently implemented to find depending on stamina
+    def findNearbyLairports(self, nextDistance):
+        # find nearby lairport depending on current stamina.
         sql = "SELECT ident, name, latitude_deg, longitude_deg FROM lairport WHERE latitude_deg BETWEEN "
         sql += str(self.latitude - 50000) + " AND " + str(self.latitude + 50000)
         sql += " AND longitude_deg BETWEEN "
@@ -45,10 +44,8 @@ class Lairport:
                 data = {'name': i[1], 'latitude': i[2], 'longitude': i[3]}
                 nearbyLairport = Lairport(i[0], False, data)
                 nearbyLairport.distance = self.distanceTo(nearbyLairport)
-                if nearbyLairport.distance <= 50000:
+                if nearbyLairport.distance <= nextDistance:
                     lairportList.append(nearbyLairport)
-                    nearbyLairport.stamina = self.staminaConsumption(nearbyLairport.distance)
-
         return lairportList
 
     def updateWeather(self, game):

@@ -187,4 +187,56 @@ loadGame.addEventListener('click', async () => {
   }
 });
 
+const modal = document.querySelector('dialog')
+const tavernButton = document.getElementById('tavern-picture')
 
+
+tavernButton.addEventListener('click', () => {
+  sfx.open.play();
+  modal.showModal();
+  openCheck(modal);
+});
+
+function openCheck(modal) {
+  if (modal.open) {
+    console.log("Dialog open");
+  } else {
+    console.log("Dialog closed");
+  }
+}
+
+// Taverna
+
+const span = document.querySelector('span')
+
+//sulkee kaupan
+span.addEventListener('click', () =>{
+  sfx.close.play();
+  modal.close()
+  openCheck(modal)
+  prophecy.innerHTML = ''
+})
+
+const healthPotion = document.getElementById('hp-potion');
+healthPotion.addEventListener('click', () => {
+  let playerHealth =+ 20
+  console.log('health!')
+  // let danger_global = danger_global + Math.floor(Math.random()*6)+1
+  return (playerHealth)
+});
+
+const staminaPotion = document.getElementById('stamina-potion');
+staminaPotion.addEventListener('click', () =>{
+  let playerStamina =+ 200
+  console.log('stamina!')
+  // let danger_global = danger_global + Math.floor(Math.random()*6)+1
+  return(playerStamina)
+})
+
+const prophecy = document.getElementById('prophecy')
+const oracle = document.getElementById('oracle');
+oracle.addEventListener('click',  async () => {
+  let direction = await getData(`${apiUrl}closest_weather?loc=${playerLocation}&target=${currentRiddle}`);
+  prophecy.innerHTML = `Your fortune in <strong>${direction}</strong> i see. <br> 
+                        There is the lair where you need to be`
+})

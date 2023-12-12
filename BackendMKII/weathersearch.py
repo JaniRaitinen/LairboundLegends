@@ -77,7 +77,7 @@ def checkWeather(location, targetweather):
             result = True
     elif res[4] == "WIND":
         # wind rule
-        if int(res[5]) <= wind["speed"] <= int(res[6]):
+        if int(res[5]) <= wind <= int(res[6]):
             result = True
     return result
 

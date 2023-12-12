@@ -272,17 +272,27 @@ span.addEventListener('click', () =>{
 const healthPotion = document.getElementById('hp-potion');
 healthPotion.addEventListener('click', () => {
   updateHealth(200)
+  sfx.potion.play()
   console.log('health!')
   console.log(playerHealth)
   // let danger_global = danger_global + Math.floor(Math.random()*6)+1
 });
 
+healthPotion.addEventListener('mouseenter', () => {
+  sfx.hover.play()
+})
+
 const staminaPotion = document.getElementById('stamina-potion');
 staminaPotion.addEventListener('click', () =>{
   updateStamina(200)
+  sfx.potion.play()
   console.log('stamina!')
   console.log(playerStamina)
   // let danger_global = danger_global + Math.floor(Math.random()*6)+1
+})
+
+staminaPotion.addEventListener('mouseenter', () => {
+  sfx.hover.play()
 })
 
 const prophecy = document.getElementById('prophecy')
@@ -290,7 +300,12 @@ const oracle = document.getElementById('oracle');
 oracle.addEventListener('click',  async () => {
   prophecy.innerHTML = 'Let me gaze into the vortex, to find out where you should head next. Please be patient while I work.'
   let direction = await getData(`${apiUrl}closest_weather?loc=${playerLocation}&target=${currentRiddle}`);
+  sfx.magic.play()
   console.log(direction)
   prophecy.innerHTML = `Your fortune in <strong>${direction.direction}</strong> i see. <br> 
                         There is the lair where you need to be`
+})
+
+oracle.addEventListener('mouseenter', () =>{
+  sfx.hover.play()
 })

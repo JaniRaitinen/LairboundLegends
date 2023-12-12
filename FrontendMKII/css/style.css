@@ -436,7 +436,7 @@ dialog span {
 
 
 #tavern-modal {
-    display: flex;
+    display: none;
     width: 80%;
     height: 90%;
     background-image: url("../img/tavern-bg.jpg");

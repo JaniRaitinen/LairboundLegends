@@ -20,6 +20,7 @@ const loadGameData = document.querySelector('#load-game-data');
 const saveFileList = document.querySelector('#save-files');
 const playerForm = document.querySelector('#player-form');
 const dialogueBox = document.querySelector('#dialogue-content');
+const tavernModal = document.querySelector('#tavern-modal');
 
 // Backend retrieval function
 async function getData(url) {
@@ -245,6 +246,7 @@ const tavernButton = document.getElementById('tavern-picture')
 
 tavernButton.addEventListener('click', () => {
   sfx.open.play();
+  tavernModal.style.display = "flex";
   modal.showModal();
   openCheck(modal);
 });
@@ -265,6 +267,7 @@ const span = document.querySelector('span')
 span.addEventListener('click', () =>{
   sfx.close.play();
   modal.close()
+  tavernModal.style.display = "none";
   openCheck(modal)
   prophecy.innerHTML = 'Ask the oracle for guidance.'
 })

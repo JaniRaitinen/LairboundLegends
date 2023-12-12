@@ -92,7 +92,7 @@ def calculate_direction(location, targetweather):
     compass_point = (bearing_deg + 360) % 360
 
     # palautetaan asteen mukainen oikea suunta
-    cardinal_directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"]
+    cardinal_directions = ["North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest", "North"]
     index = round(compass_point / 45) % 8
 
     return cardinal_directions[index]

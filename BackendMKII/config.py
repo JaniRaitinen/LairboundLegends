@@ -1,4 +1,4 @@
-stamina_max = 1000
+stamina_max = 10000
 health_max = '100'
 
 # Game parameters

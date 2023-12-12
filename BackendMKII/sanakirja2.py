@@ -115,6 +115,8 @@ class Sanakirja:
     def random_riddle(self, shards_gained=None):
         if shards_gained is None:
             shards_gained = []
+        else:
+            shards_gained = [int(x) for x in shards_gained if x.isdigit()]
 
         list_of_choices = [1, 2, 3, 4, 5, 6, 7, 8]
         list_of_choices = [choice for choice in list_of_choices if choice not in shards_gained]

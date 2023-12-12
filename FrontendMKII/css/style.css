@@ -295,6 +295,22 @@ footer {
     transform: scale(1.1);
 }
 
+.shard {
+    padding: 9rem 7rem;
+    text-align: center;
+    position: absolute;
+    bottom: 30%;
+    filter: drop-shadow(0 0 30px #333);
+    transform: rotate(340deg);
+    line-height: 1rem;
+    z-index: 999;
+}
+
+.shard h2 .shard p{
+    margin: 0.5rem
+}
+
+
 /* leaflet-ikonit */
 .loc-icon img {
     width: 3rem;

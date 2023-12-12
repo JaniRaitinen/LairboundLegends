@@ -6,7 +6,7 @@ const shardsGained = [];
 let playerLocation = ''
 let playerName = ''
 let playerID = 0
-let currentRiddle = ''
+let currentRiddle = 4
 let playerHealth = 0
 let playerStamina = 0
 
@@ -237,6 +237,7 @@ const prophecy = document.getElementById('prophecy')
 const oracle = document.getElementById('oracle');
 oracle.addEventListener('click',  async () => {
   let direction = await getData(`${apiUrl}closest_weather?loc=${playerLocation}&target=${currentRiddle}`);
-  prophecy.innerHTML = `Your fortune in <strong>${direction}</strong> i see. <br> 
+  console.log(direction)
+  prophecy.innerHTML = `Your fortune in <strong>${direction.direction}</strong> i see. <br> 
                         There is the lair where you need to be`
 })

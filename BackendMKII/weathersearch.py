@@ -18,18 +18,32 @@ def closestWeather(location, targetweather):
     cursor = config.conn.cursor()
     cursor.execute(sql)
     result = cursor.fetchall()
+
+    sql2 = f"SELECT latitude_deg, longitude_deg FROM lairport WHERE ident ='{location}'"
+    cursor = config.conn.cursor()
+    cursor.execute(sql2)
+    location = cursor.fetchone()
+
     list = []
+    target = None
+    print(location)
     for i in result:
-        i.weather = checkWeather(i[2, 3], targetweather)  # tarvii oman sijainnin koordinaatit
-        if i.weather == targetweather:
-            coordinateOne = (location.latitude, location.longitude)
-            coordinateTwo = (i[0], i[1])
-            dist = distance.distance(coordinateOne, coordinateTwo).km
-            i.append(dist)
-            list.append(i)
-    sorted_list = sorted(list, key=itemgetter(4))
-    target = sorted_list[0]
-    return target[2, 3]
+        entry = []
+        coordinateOne = (location[0], location[1])
+        coordinateTwo = (i[2], i[3])
+        dist = distance.distance(coordinateOne, coordinateTwo).km
+        entry.append(dist)
+        entry.append(i)
+        list.append(entry)
+    sorted_list = sorted(list, key=itemgetter(0))
+    for i in sorted_list:
+        coords = i[1][2], i[1][3]
+        print(coords)
+        weather = checkWeather(coords, targetweather)  # tarvii oman sijainnin koordinaatit
+        if weather:
+            target = i
+            break
+    return target[1][2], target[1][3]
 
 
 def checkWeather(location, targetweather):
@@ -42,32 +56,37 @@ def checkWeather(location, targetweather):
     kelvin = vastaus["main"]["temp"]
     temp = int(kelvin - 273.15)
     wind = vastaus["wind"]["speed"]
+    print(main)
 
-    sql = f"SELECT * FROM shard WHERE id={targetweather}"
+    sql = f"SELECT * FROM shard WHERE id='{targetweather}'"
     cursor = config.conn.cursor()
     cursor.execute(sql)
-    res = cursor.fetchall()
+    resu = cursor.fetchall()
+    print(targetweather)
+    print(resu)
+    res = resu[0]
+    result = False
 
-    if res.target == "TEMP":
+    if res[4] == "TEMP":
         # temperature rule
-        if res.target_minvalue <= temp <= res.target_maxvalue:
-            result = res.shard_id
-    elif res.target == "WEATHER":
+        if int(res[5]) <= temp <= int(res[6]):
+            result = True
+    elif res[4] == "WEATHER":
         # weather type rule
-        if main == res.target_text:
-            result = res.shard_id
-    elif res.target == "WIND":
+        if main == res[7]:
+            result = True
+    elif res[4] == "WIND":
         # wind rule
-        if res.target_minvalue <= wind["speed"] <= res.target_maxvalue:
-            result = res.shard_id
+        if int(res[5]) <= wind["speed"] <= int(res[6]):
+            result = True
     return result
 
 
 def calculate_direction(location, targetweather):
-    sql = f"SELECT latitude_deg, longitude_deg FROM lairport WHERE ident = {location}"
+    sql = f"SELECT latitude_deg, longitude_deg FROM lairport WHERE ident = '{location}'"
     cur = config.conn.cursor()
     cur.execute(sql)
-    loc_coordinates = cur.fetchall()
+    loc_coordinates = cur.fetchone()
 
     target_coordinates = closestWeather(location, targetweather)  # täs ehkä kusee jotain
 
@@ -94,5 +113,6 @@ def calculate_direction(location, targetweather):
     # palautetaan asteen mukainen oikea suunta
     cardinal_directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"]
     index = round(compass_point / 45) % 8
+    direction = {"direction": cardinal_directions[index]}
 
-    return cardinal_directions[index]
+    return direction

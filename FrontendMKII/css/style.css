@@ -63,10 +63,11 @@ main {
     padding: 4rem 2rem 6rem 2rem;
     position: absolute;
     top: 15%;
-    right: 1%;
+    right: 0%;
     filter: drop-shadow(0 0 30px #333);
-    width: 20rem;
-    height: auto;
+    max-width: 25%;
+    min-width: 20%;
+    max-height: 45%;
     z-index: 5;
 }
 
@@ -124,7 +125,7 @@ main {
 
 #content {
     overflow-y: auto;
-    max-height: 17rem;
+    max-height: 12rem;
 }
 
 h2 {
@@ -135,10 +136,8 @@ h2 {
 }
 
 .status-pictures {
-    height: 2rem;
+    height: 1.5rem;
     width: auto;
-    border: groove #141211 12px;
-    background-color: #fefefe;
 }
 
 #health {
@@ -402,30 +401,4 @@ a {
     border: ridge 12px black;
     font-family: 'Press Start 2P', cursive;
     font-size: 0.5rem;
-}
-
-
-dialog[closed] {
-  position: fixed;
-  transition: all 0.5s ease-in-out;
-  opacity: 0;
-  display: block;
-}
-
-dialog[open] {
-  opacity: 1;
-}
-
-dialog::backdrop {
-  background: rgb(0 0 0 / 0.8);
-}
-
-dialog span {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
-  font-size: 2rem;
-  text-decoration: none;
-  color: #fff;
-  filter: drop-shadow(2px 2px 2px #000);
 }

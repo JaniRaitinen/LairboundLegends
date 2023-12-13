@@ -323,6 +323,8 @@ input[type=submit] {
 
 #save-files li {
     font-size: medium;
+    font-family: 'Press Start 2P', cursive;
+    padding: 0.15rem;
 }
 
 .flex-wrap {

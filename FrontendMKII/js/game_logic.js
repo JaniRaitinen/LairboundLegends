@@ -133,7 +133,7 @@ function updateWeather (lairport) {
 }
 
 async function fetchTextDataAtIndex(textId, index) {
-  const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&loc=${playerLocation}&textId=${textId}&index=${index}`)
+  const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&playerLocation=${playerLocation}&textId=${textId}&index=${index}`)
   return textData
 }
 
@@ -169,10 +169,10 @@ async function updateLairports(url) {
       p.innerHTML = `Distance ${lairport.distance} km`;
       popupContent.append(p);
       marker.bindPopup(popupContent);
-      flyButton.addEventListener('click',  () => {
-        dialogueBox.innerHTML = fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
-        updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${lairport.ident}&nextdis=${playerStamina - lairport.distance}`);
-        updateStamina(-lairport.distance)
+      flyButton.addEventListener('click',  async () => {
+        await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${lairport.ident}&nextdis=${playerStamina - lairport.distance}`);
+        await updateStamina(-lairport.distance)
+        dialogueBox.innerHTML = await fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
       });
     }
   }
@@ -230,7 +230,7 @@ loadGame.addEventListener('click', async () => {
 
           const textId = "lairportArrival"
           const index = Math.floor(Math.random() * 5)
-          const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&loc=${playerLocation}&textId=${textId}&index=${index}`)
+          const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&playerLocation=${playerLocation}&textId=${textId}&index=${index}`)
           dialogueBox.innerHTML = textData
         })
       }

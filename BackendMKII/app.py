@@ -92,10 +92,14 @@ def fetchText():
 def fetchTextAtIndex():
     args = request.args
     name = args.get("name")
-    loc = args.get("loc")
+    playerLocation = args.get("playerLocation")
     textId = args.get("textId")
     index = args.get("index")
-    returnText = Sanakirja(name, loc).returnTextAtIndex(textId, int(index))
+    cursor = config.conn.cursor()
+    sql = f"select name from lairport where ident='{playerLocation}';"
+    cursor.execute(sql)
+    locationName = cursor.fetchall()
+    returnText = Sanakirja(name, locationName[0][0]).returnTextAtIndex(textId, int(index))
     jsonReturnText = json.dumps(returnText, default=lambda o: o.__dict__, indent=4)
     return jsonReturnText
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="data/collisionsFlightGame.js" defer></script>
+    <script src ="classesFlightGame.js" defer></script>
+    <script src="flightGame.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Canvaksen muotoilu, kaikkiin voi heittää id:n ja siirtää cs-fileen -->
+<div style="position: relative; display: inline-block;
+    border: 1vw ridge #f0f8e0;
+    font-family: 'Press Start 2P', cursive;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <!-- Mittareiden muotoilu -->
+<div style="
+    position: absolute;
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    justify-content: space-evenly">
+    <!-- Distance -->
+    <div id="distance">
+    </div>
+    <!-- Stamina -->
+    <div id="stamina">
+    </div>
+    </div>
+<canvas id="flightGame"></canvas>
+</div>
+</body>
+</html>

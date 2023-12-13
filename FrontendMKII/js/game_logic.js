@@ -59,6 +59,10 @@ function updateHealth (consumption) {
   document.querySelector('#health').innerHTML = playerHealth;
 }
 
+function updateLocation (nextLoc) {
+  playerLocation = nextLoc
+}
+
 async function checkShards (gains_shard) {
   if (gains_shard.length > 0) {
     for (let shard of gains_shard) {
@@ -172,6 +176,7 @@ async function updateLairports(url) {
       flyButton.addEventListener('click',  async () => {
         await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${lairport.ident}&nextdis=${playerStamina - lairport.distance}`);
         await updateStamina(-lairport.distance)
+        await updateLocation(lairport.ident)
         dialogueBox.innerHTML = await fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
       });
     }
@@ -198,6 +203,7 @@ newGame.addEventListener('click', async() => {
       await updateId(`${apiUrl}fetchid?player=${playerName}`);
       await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`);
       await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&nextdis=${playerStamina}`);
+      dialogueBox.innerHTML = await fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
   })
 });
 

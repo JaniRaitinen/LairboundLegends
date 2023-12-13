@@ -118,7 +118,7 @@ class Sanakirja:
         else:
             shards_gained = [int(x) for x in shards_gained if x.isdigit()]
 
-        list_of_choices = [1, 2, 3, 4, 5, 6, 7, 8]
+        list_of_choices = [1, 2, 4, 5, 6, 8]
         list_of_choices = [choice for choice in list_of_choices if choice not in shards_gained]
 
         riddle_category = random.choice(list_of_choices)

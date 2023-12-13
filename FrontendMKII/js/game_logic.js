@@ -168,6 +168,10 @@ function updateHealth (consumption) {
   document.querySelector('#health').innerHTML = playerHealth;
 }
 
+function updateLocation (nextLoc) {
+  playerLocation = nextLoc
+}
+
 async function checkShards (gains_shard) {
   if (gains_shard.length > 0) {
     for (let shard of gains_shard) {
@@ -242,7 +246,7 @@ function updateWeather (lairport) {
 }
 
 async function fetchTextDataAtIndex(textId, index) {
-  const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&loc=${playerLocation}&textId=${textId}&index=${index}`)
+  const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&playerLocation=${playerLocation}&textId=${textId}&index=${index}`)
   return textData
 }
 
@@ -287,11 +291,12 @@ async function updateLairports(url) {
       flyButton.addEventListener('mouseenter', () =>{
         sfx.hover.play()
       })
-      flyButton.addEventListener('click',  () => {
+      flyButton.addEventListener('click',  async () => {
         sfx.start.play()
-        dialogueBox.innerHTML = fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
-        updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${lairport.ident}&nextdis=${playerStamina - lairport.distance}`);
-        updateStamina(-lairport.distance)
+        await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${lairport.ident}&nextdis=${playerStamina - lairport.distance}`);
+        await updateStamina(-lairport.distance)
+        await updateLocation(lairport.ident)
+        dialogueBox.innerHTML = await fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
       });
     }
   }
@@ -328,6 +333,7 @@ newGame.addEventListener('click', async() => {
       await updateId(`${apiUrl}fetchid?player=${playerName}`);
       await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}`);
       await updateLairports(`${apiUrl}flyto?game=${playerID}&dest=${playerLocation}&nextdis=${playerStamina}`);
+      dialogueBox.innerHTML = await fetchTextDataAtIndex("lairportArrival", Math.floor(Math.random() * 5))
   })
 });
 
@@ -373,7 +379,7 @@ loadGame.addEventListener('click', async () => {
 
           const textId = "lairportArrival"
           const index = Math.floor(Math.random() * 5)
-          const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&loc=${playerLocation}&textId=${textId}&index=${index}`)
+          const textData = await getData(`${apiUrl}fetchTextAtIndex?name=${playerName}&playerLocation=${playerLocation}&textId=${textId}&index=${index}`)
           dialogueBox.innerHTML = textData
         })
       }

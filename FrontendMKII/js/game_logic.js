@@ -181,6 +181,7 @@ async function checkShards (gains_shard) {
           location.href = '#shards';
           shardsGained.push(shard)
           console.log(shardsGained)
+          alert('A wonderful Dragonbound you are - you and your dragon have found a shard!')
           await updateRiddle(`${apiUrl}riddle?player=${playerName}&loc=${playerLocation}&shards=${shardsGained}`)
         }
       }

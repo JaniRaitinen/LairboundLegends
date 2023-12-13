@@ -3,6 +3,7 @@
    SFX soitetaan esim. sfx.fireball.play();
 */
 
+import {Howl, Howler} from 'howler';
 
 function menuMusic(status) {
   Howler.stop()

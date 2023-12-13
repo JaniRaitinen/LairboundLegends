@@ -20,8 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
             integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-    <script src="js/musicPlayer.js" defer></script>
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Lairbound Legends</title>
 </head>
 
@@ -197,7 +196,7 @@
         <form id="player-form">
             <p id="new-game-lore"></p>
             <input id="player-input" type="text" placeholder="Name your dragon" required>
-            <input type="submit" value="Make a pact">
+            <input type="submit" value="Make a pact" id="newgamebutton">
         </form>
     </div>
     <div id="load-game-data" class="hide">
@@ -227,6 +226,9 @@
             <img src="img/stamina-potion.png" class="potion-img" id="stamina-potion">
             <p class="potion-label">Potion of Stamina</p>
         </div>
+    </div>
+    <div id="savegame">
+        <img src="" id="savegame-button">
     </div>
 </dialog>
 </body>

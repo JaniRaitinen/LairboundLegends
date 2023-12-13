@@ -1,5 +1,31 @@
 'use strict';
 
+function flightMusic(status) {
+  Howler.stop()
+    if(status === 'play') {
+         let music1 = new Howl({
+            src: ['../FrontendMKII/sound/flight-loop.wav'],
+            autoplay: false,
+            loop: true,
+            onend: function() {
+                console.log("Loop finished!") //For debugging
+            }
+        });
+        let music = new Howl({
+            src: ['../FrontendMKII/sound/flight-intro.wav'],
+            autoplay: true,
+            loop: false,
+            //volume: (musicVol / 100),
+            onend: function() {
+                console.log("Intro finished!") //For debugging
+                music1.play()
+            }
+        });
+    } else if (status === 'stop'){
+      Howler.stop()
+    }
+}
+
 //lennettävän matkan muuttujat
 let distance = 1000; //tähän lennettävän matkan arvo!
 let stamina = 2000; //tähän pelaajan stamina!
@@ -189,6 +215,7 @@ function depleteStamina() {
 }
 
 animate();
+flightMusic('play');
 depleteStamina();
 
 //event listenerit, jotka vahtivat a- ja d-näppäinten painamista

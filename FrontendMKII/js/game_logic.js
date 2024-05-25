@@ -27,15 +27,3 @@ async function checkShards (gains_shard) {
 
   }
 }
-
-
-function typeWriter(text, speed, targetElement) {
-  let i = 0
-  if (i < text.length) {
-    targetElement += text.charAt(i)
-    i++;
-    setTimeout(typeWriter, speed)
-  }
-}
-
-

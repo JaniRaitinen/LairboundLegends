@@ -7,4 +7,5 @@
   screen.height = 576;
 
   // Get modal of battleminigame
-  const minigameModal =  document.querySelector('#modal');
+  const minigameModal =  document.querySelector('#battleMinigameModal');
+  minigameModal.style.display = 'none';

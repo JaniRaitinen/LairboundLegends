@@ -1,32 +1,37 @@
 const attacks = {
   Tackle: {
     name: 'Tackle',
-    damage: 100,
+    damage: 25,
     type: 'Normal',
-    color: 'beige'
+    color: 'beige',
+    sound: audio.Tackle,
   },
   Fireball: {
     name: 'Fireball',
-    damage: 100,
+    damage: 30,
     type: 'Fire',
-    color: 'orange'
+    color: 'orange',
+    sound: audio.Fire,
   },
   IceShard: {
     name: 'IceShard',
-    damage: 100,
+    damage: 30,
     type: 'Ice',
-    color: 'blue'
+    color: 'blue',
+    sound: audio.Ice,
   },
   ThunderStrike: {
     name: 'ThunderStrike',
-    damage: 100,
+    damage: 30,
     type: 'Electric',
-    color: 'yellow'
+    color: 'yellow',
+    sound: audio.Thunder,
   },
   FireArrow: {
     name: "FireArrow",
-    damage: 100,
+    damage: 25,
     type: 'Fire',
-    color: "orange"
+    color: "orange",
+    sound: audio.Fire,
   },
 }

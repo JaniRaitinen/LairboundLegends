@@ -161,6 +161,7 @@
       let dealedDamage = calculateBattleDamage(attack.damage, effectivenessFactor)[0]
       let Critical = calculateBattleDamage(attack.damage, effectivenessFactor)[1]
       recipient.health -= dealedDamage
+      attack.sound.play()
       handleBattleDialog(this.name, attack.name, Critical, effectivenessFactor)
 
       switch (attack.name) {

@@ -17,6 +17,17 @@
     <script src="js/dataRetrieval.js" defer></script>
     <script src="js/eventListeners.js" defer></script>
     <script src="js/main.js" defer></script>
+    <!--Battleminigame-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+            integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../BattleMinigame/BattleMinigameJSData/Audio.js" defer></script>
+    <script src="../BattleMinigame/BattleMinigameJSData/Attacks.js" defer></script>
+    <script src="../BattleMinigame/BattleMinigameJSData/Monsters.js" defer></script>
+    <script src="../BattleMinigame/BattleClasses.js" defer></script>
+    <script src="../BattleMinigame/BattleInit.js" defer></script>
+    <script src="../BattleMinigame/BattleGetData.js" defer></script>
+    <script src="../BattleMinigame/BattleMain.js" defer></script>
     <!--Otsikon fontti-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +62,7 @@
 
         <div id="map"></div>
 
-        <div class="scroll">
+        <div class="scroll" id="scroll">
 
             <div id="tabs">
                 <button class="status-button" onclick="changeTab('status')">Status</button>
@@ -155,6 +166,13 @@
                             </td>
                         </tr>
                     </table>
+                    <table>
+                        <tr>
+                            <td>
+                                <div id="DEBUGACTIVATE">Click here for Battle!</div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div id="about-tab" class="tab-content">
@@ -166,7 +184,7 @@
 
         </div>
 
-        <div class="dialogue">
+        <div class="dialogue" id="dialogue">
             <div class="close-button" onclick="closeDialogue()">X</div>
             <div class="content">
                 <p id="dialogue-content">Here goes the dialogue.</p>
@@ -237,5 +255,41 @@
         <img src="" id="savegame-button">
     </div>
 </dialog>
+<div id="battleMinigameModal" class="battleMinigameModal">
+        <div class="battleMinigameModal-content">
+            <div class="gameContainer">
+                <div id="overlappingDiv" style="background-color: black; position: absolute; top: 0; bottom: 0; left: 0; right: 0; opacity: 0; pointer-events: none; z-index: 10;"></div>
+
+                <div class="healthBar1">
+                    <h3 id="healthBar1Name">Dragon</h3>
+                    <div style="position: relative">
+                        <div style="height: 5px; background-color: #bbb; margin-top: 10px;"></div>
+                        <div id="playerHealthBar" style="height: 5px; background-color: green; position: absolute; top: 0; left: 0; right: 0;"></div>
+                    </div>
+                </div>
+
+                <div class="healthBar2">
+                    <h3 id="healthBar2Name">Ember</h3>
+                    <div style="position: relative">
+                        <div style="height: 5px; background-color: #bbb; margin-top: 10px;"></div>
+                        <div id="enemyHealthBar" style="height: 5px; background-color: green; position: absolute; top: 0; left: 0; right: 0;"></div>
+                    </div>
+                </div>
+
+                <canvas></canvas>
+
+                <div class="commandContainer">
+                    <div class="dialogBox" id="dialogueBox">Dialog</div>
+                    <div class="attackButtons" id="attacksBox">
+                    </div>
+                    <div class="attackTypeContainer">
+                        <h2 id="attackType">Attack Type</h2>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+</div>
 </body>
 </html>

@@ -3,19 +3,19 @@
   function getBackgroundImage(weatherCondition) {
     switch (weatherCondition) {
       case '-20DEG':
-        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+        return '../BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
       break
       case '-10DEG':
-        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+        return '../BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
       break
       case '0DEG':
-        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+        return '../BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
         break;
       case '10DEG':
-        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+        return '../BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
         break;
       case '20DEG':
-        return 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
+        return '../BattleMinigame/BattleMinigameData/FinalFightBackground.jpg'
         break;
     }
   }

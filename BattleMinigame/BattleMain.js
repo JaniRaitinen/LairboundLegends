@@ -25,6 +25,10 @@
   function initBattle(weatherCondition) {
 
     minigameModal.style.display = 'block';
+    const infoScroll = document.querySelector('#scroll')
+    const dialogueMain = document.querySelector('#dialogue')
+    dialogueMain.style.display = 'none'
+    infoScroll.style.display = 'none'
     document.querySelector('#dialogueBox').style.display = 'none'
     document.querySelector('#attacksBox').replaceChildren()
 
@@ -94,6 +98,8 @@
               // returnHP(emby.health)
               cancelAnimationFrame(animationID)
               minigameModal.style.display = 'none';
+              document.querySelector('#scroll').style.display = 'block'
+              document.querySelector('#dialogue').style.display = 'block'
               gsap.to('#overlappingDiv', {
                 opacity: 0,
               })
@@ -130,6 +136,8 @@
                 // returnHP(emby.health)
                 cancelAnimationFrame(animationID)
                 minigameModal.style.display = 'none';
+                document.querySelector('#scroll').style.display = 'block'
+                document.querySelector('#dialogue').style.display = 'block'
                 gsap.to('#overlappingDiv', {
                   opacity: 0,
                 })

@@ -91,7 +91,7 @@
 
     faint() {
       audio.Battle.stop();
-      const dialogBoxElement = document.querySelector('#dialogueBox');
+      const dialogBoxElement = document.querySelector('#dialogue');
       dialogBoxElement.innerHTML = this.name + ' fainted!';
       gsap.to(this.position, {
         y: this.position.y + 20,
@@ -202,7 +202,7 @@
         case 'Fireball':
 
           const fireballImage = new Image();
-          fireballImage.src = 'BattleMinigame/BattleMinigameData/fireball.png';
+          fireballImage.src = '../BattleMinigame/BattleMinigameData/fireball.png';
           const fireball = new Sprite({
             position: {
               x: this.position.x,
@@ -246,7 +246,7 @@
           break;
         case 'IceShard':
           const iceshardImage = new Image();
-          iceshardImage.src = 'BattleMinigame/BattleMinigameData/IceShatter_96x96.png';
+          iceshardImage.src = '../BattleMinigame/BattleMinigameData/IceShatter_96x96.png';
           const iceshard = new Sprite({
             position: {
               x: this.position.x,
@@ -290,7 +290,7 @@
           break;
         case 'ThunderStrike':
           const thunderImage = new Image();
-          thunderImage.src = 'BattleMinigame/BattleMinigameData/HolyExplosion_96x96.png';
+          thunderImage.src = '../BattleMinigame/BattleMinigameData/HolyExplosion_96x96.png';
           const thunder = new Sprite({
             position: {
               x: this.position.x,
@@ -334,7 +334,7 @@
           break;
         case 'FireArrow':
           const arrowImage = new Image();
-          arrowImage.src = 'BattleMinigame/BattleMinigameData/fireball.png';
+          arrowImage.src = '../BattleMinigame/BattleMinigameData/fireball.png';
           const arrow = new Sprite({
             position: {
               x: this.position.x,

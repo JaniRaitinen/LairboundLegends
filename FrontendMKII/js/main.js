@@ -16,14 +16,14 @@ map.setView([60, 24], 7);
 const locIcon = L.divIcon({
     className: 'loc-icon',
     html: '<img src="img/loc-icon.png" class="loc-icon-image" />,',
-    iconAnchor: [27, 0],
+    iconAnchor: [40, 0], //27
     popupAnchor: [0, 0]
 });
 
 const destIcon = L.divIcon({
     className: 'dest-icon',
     html: '<img src="img/dest-icon.png" class="dest-icon-image" />',
-    iconAnchor: [19, 0],
+    iconAnchor: [30, 0],
     popupAnchor: [0, 0]
 });
 

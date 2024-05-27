@@ -84,8 +84,11 @@ async function updateLairports(url) {
     const gameData = await getData(url)
     console.log(gameData);
 
+    const display_offset_y = 0.33
+    const display_offset_x = -0.04
+
     for (let lairport of gameData.location) {
-      const marker = L.marker([lairport.latitude, lairport.longitude]).addTo(map);
+      const marker = L.marker([lairport.latitude+display_offset_y, lairport.longitude+display_offset_x]).addTo(map);
       lairportMarkers.addLayer(marker);
     if (lairport.active) {
       map.flyTo([lairport.latitude, lairport.longitude], 10);

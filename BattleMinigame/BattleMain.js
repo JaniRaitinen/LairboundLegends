@@ -23,6 +23,12 @@
 
    // Load Data for new battle instance
   function initBattle(weatherCondition) {
+
+    minigameModal.style.display = 'block';
+    const infoScroll = document.querySelector('#scroll')
+    const dialogueMain = document.querySelector('#dialogue')
+    dialogueMain.style.display = 'none'
+    infoScroll.style.display = 'none'
     document.querySelector('#dialogueBox').style.display = 'none'
     document.querySelector('#attacksBox').replaceChildren()
 
@@ -50,6 +56,7 @@
     image: battleBackgroundImage,
     });
 
+    audio.Battle.play();
     animateBattle()
 
     draggle.resetPosition()
@@ -57,6 +64,9 @@
     emby.attacks.forEach(attack => {
     const button = document.createElement('button');
     button.innerHTML = attack.name;
+    button.addEventListener("mouseover", async() => {
+      audio.Hover.play()
+    })
     document.querySelector('#attacksBox').append(button);
     });
 
@@ -76,6 +86,7 @@
         // Push an enemy.faint() method to the queue
         queue.push(() => {
           // Game Won! :]
+          audio.BattleVictory.play()
           draggle.faint();
         });
         // After fainting push an animation event (gsap.to) to the queue
@@ -84,9 +95,11 @@
             opacity: 1,
             // On animation completion disable the display of minigameModal
             onComplete: () => {
-              returnHP(emby.health)
+              // returnHP(emby.health)
               cancelAnimationFrame(animationID)
               minigameModal.style.display = 'none';
+              document.querySelector('#scroll').style.display = 'block'
+              document.querySelector('#dialogue').style.display = 'block'
               gsap.to('#overlappingDiv', {
                 opacity: 0,
               })
@@ -111,6 +124,7 @@
           // push an enemy.faint method to the queue
           queue.push(() => {
             // Peli Hävitty!
+            audio.BattleLose.play()
             emby.faint();
           });
           // After the enemy.faint method push an animation event to the queue
@@ -119,9 +133,11 @@
               opacity: 1,
               // On completion of the animation disable the minigameModal display
               onComplete: () => {
-                returnHP(emby.health)
+                // returnHP(emby.health)
                 cancelAnimationFrame(animationID)
                 minigameModal.style.display = 'none';
+                document.querySelector('#scroll').style.display = 'block'
+                document.querySelector('#dialogue').style.display = 'block'
                 gsap.to('#overlappingDiv', {
                   opacity: 0,
                 })
@@ -152,8 +168,6 @@
     });
   }
 
-  initBattle("20DEG")
-
   // Add an event listener to the dialogBox which appears when there is a method in the queue
    document.querySelector('#dialogueBox').
       addEventListener('click', (e) => {
@@ -168,35 +182,25 @@
         }
       });
 
-  // Start the audio once when player has clicked anywhere on the window
-   addEventListener('click', () => {
-    if (!clicked) {
-      audio.Battle.play();
-      clicked = true;
-    }
-  });
-
-  // Handling for initializing battle.
+  // Handling for initializing battle in battledebug.html.
   // shows the modal in which the battle resides
   const debugActivateElement = document.querySelector('#DEBUGACTIVATE')
 
   debugActivateElement.addEventListener('click', () => {
-      const minigameModal = document.querySelector('#modal');
-      minigameModal.style.display = 'block';
       initBattle("-20DEG")
   });
 
-  async function returnHP(playerHp) {
-    try {
-      const roundHP = Math.floor(playerHp)
-      const response = await fetch(`http://127.0.0.1:5000/getPlayerHp?playerHp=${roundHP}`)
-      const jsonResponse = await response.json()
-      console.log(jsonResponse)
-    }
-    catch (error) {
-      console.log(error)
-    }
-    finally {
-      console.log("Game Data Saved to DB")
-    }
-  }
+  // async function returnHP(playerHp) {
+  //   try {
+  //     const roundHP = Math.floor(playerHp)
+  //     const response = await fetch(`http://127.0.0.1:5000/getPlayerHp?playerHp=${roundHP}`)
+  //     const jsonResponse = await response.json()
+  //     console.log(jsonResponse)
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   }
+  //   finally {
+  //     console.log("Game Data Saved to DB")
+  //   }
+  // }

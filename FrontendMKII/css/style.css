@@ -55,6 +55,89 @@ main {
     z-index: 0;
 }
 
+        .dialogBox{
+            font-family: 'Press Start 2P', cursive;
+            display: none;
+            position: absolute;
+            text-align: center;
+            justify-content: center;
+            width: 1000px;
+            height: 178px;
+            padding: 12px;
+            background-color: #100820;
+            color: #f0f8e0;
+            cursor: pointer;
+        }
+        .battleMinigameModal {
+              font-family: 'Press Start 2P', cursive;
+              display: none; /* Hidden by default */
+              position: fixed; /* Stay in place */
+              z-index: 1; /* Sit on top */
+              left: 0;
+              top: 0;
+              width: 100%; /* Full width */
+              height: 100%; /* Full height */
+              overflow: auto; /* Enable scroll if needed */
+              background-color: rgb(0,0,0); /* Fallback color */
+              background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .battleMinigameModal-content {
+              font-family: 'Press Start 2P', cursive;
+              background-color: #fefefe;
+              margin: 15% auto; /* 15% from the top and centered */
+              padding: 20px;
+              border: 1px solid #888;
+              width: 80%; /* Could be more or less, depending on screen size */
+        }
+        canvas {
+            border: 1vw ridge #f0f8e0;
+            margin: auto auto;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .gameContainer {
+            margin-left: 10vw;
+            margin-right: 10vw;
+            display: inline-block;
+            position: relative;
+        }
+        .commandContainer {
+            background-color: #100820;
+            left: 0;
+            right: 0;
+            height: 200px;
+            border: 1vw #f0f8e0 ridge;
+            display: flex;
+        }
+        .attackButtons {
+            width: 66.66%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .attackTypeContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 33.33%;
+            border-left: 4px #f0f8e0 dashed;
+        }
+        .healthBar1 {
+            background-color: #f0f8e0;
+            padding: 12px;
+            width: 350px;
+            position: absolute;
+            bottom: 280px;
+            right: 50px;
+            border: 6px black solid;
+        }
+        .healthBar2 {
+            background-color: #f0f8e0;
+            padding: 12px;
+            width: 350px;
+            position: absolute;
+            bottom: 280px;
+            left: 50px;
+            border: 6px black solid;
+        }
 
 .scroll {
     background-image: url('../img/scroll.png');

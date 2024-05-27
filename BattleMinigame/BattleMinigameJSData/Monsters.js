@@ -5,7 +5,7 @@ const monsters = {
         y: 280,
       },
       image: {
-        src: 'BattleMinigame/BattleMinigameData/PlayerDragonSprite.png'
+        src: '../BattleMinigame/BattleMinigameData/PlayerDragonSprite.png'
       },
       frames: {
         max: 4,
@@ -26,7 +26,7 @@ const monsters = {
         x: 730,
         y: 320,
       },
-      image: {src: 'BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png'},
+      image: {src: '../BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png'},
       frames: {
         max: 4,
         hold: 60,
@@ -43,7 +43,7 @@ const monsters = {
         x: 730,
         y: 330,
       },
-      image: {src: 'BattleMinigame/BattleMinigameData/knightSprite.png'},
+      image: {src: '../BattleMinigame/BattleMinigameData/knightSprite.png'},
       frames: {
         max: 4,
         hold: 60,
@@ -60,7 +60,7 @@ const monsters = {
         x: 730,
         y: 330,
       },
-      image: {src: 'BattleMinigame/BattleMinigameData/goblinSprite.png'},
+      image: {src: '../BattleMinigame/BattleMinigameData/goblinSprite.png'},
       frames: {
         max: 4,
         hold: 60,
@@ -77,7 +77,7 @@ const monsters = {
         x: 730,
         y: 220,
       },
-      image: {src: 'BattleMinigame/BattleMinigameData/iceGolemSprite.png'},
+      image: {src: '../BattleMinigame/BattleMinigameData/iceGolemSprite.png'},
       frames: {
         max: 4,
         hold: 60,

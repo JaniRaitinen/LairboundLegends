@@ -2,9 +2,6 @@
 /* Funktioilla soitetaan musaa. Status = 'play' soittaa, ja status = 'stop' lopettaa.
    SFX soitetaan esim. sfx.fireball.play();
 */
-
-import {Howl, Howler} from 'howler';
-
 function menuMusic(status) {
   Howler.stop()
     if(status === 'play') {
@@ -12,9 +9,8 @@ function menuMusic(status) {
             src: ['sound/menu-loop.wav'],
             autoplay: false,
             loop: true,
-            //volume: (musicVol / 100),
             onend: function() {
-                console.log("Intro finished!") //For debugging
+                console.log("Loop finished!") //For debugging
             }
         });
         let music = new Howl({
@@ -23,89 +19,22 @@ function menuMusic(status) {
             loop: false,
             //volume: (musicVol / 100),
             onend: function() {
-                console.log("Loop finished!") //For debugging
-                //let TEMP = music1
-                music1 = music
-                //music = TEMP //I had to add this because of a volume slider
-                music.play()
-            }
-        });
-    } else if (status === 'stop'){
-      Howler.stop()
-    }
-}
-
-
-function flightMusic(status) {
-  Howler.stop()
-    if(status === 'play') {
-         let music1 = new Howl({
-            src: ['sound/flight-loop.wav'],
-            autoplay: false,
-            loop: true,
-            //volume: (musicVol / 100),
-            onend: function() {
                 console.log("Intro finished!") //For debugging
-            }
-        });
-        let music = new Howl({
-            src: ['sound/flight-intro.wav'],
-            autoplay: true,
-            loop: false,
-            //volume: (musicVol / 100),
-            onend: function() {
-                console.log("Loop finished!") //For debugging
-                //let TEMP = music1
-                music1 = music
-                //music = TEMP //I had to add this because of a volume slider
-                music.play()
+                music1.play()
             }
         });
     } else if (status === 'stop'){
       Howler.stop()
     }
 }
-
-
-function battleMusic(status) {
-  Howler.stop()
-    if(status === 'play') {
-         let music1 = new Howl({
-            src: ['sound/battle-loop.wav'],
-            autoplay: false,
-            loop: true,
-            //volume: (musicVol / 100),
-            onend: function() {
-                console.log("Intro finished!") //For debugging
-            }
-        });
-        let music = new Howl({
-            src: ['sound/battle-intro.wav'],
-            autoplay: true,
-            loop: false,
-            //volume: (musicVol / 100),
-            onend: function() {
-                console.log("Loop finished!") //For debugging
-                //let TEMP = music1
-                music1 = music
-                //music = TEMP //I had to add this because of a volume slider
-                music.play()
-            }
-        });
-    } else if (status === 'stop'){
-      Howler.stop()
-    }
-}
-
 
 function mapMusic(status) {
-  Howler.stop()
+  menuMusic('stop')
     if(status === 'play') {
          let music1 = new Howl({
             src: ['sound/map-loop.wav'],
             autoplay: false,
             loop: true,
-            //volume: (musicVol / 100),
             onend: function() {
                 console.log("Intro finished!") //For debugging
             }
@@ -114,12 +43,8 @@ function mapMusic(status) {
             src: ['sound/map-loop.wav'],
             autoplay: true,
             loop: false,
-            //volume: (musicVol / 100),
             onend: function() {
                 console.log("Loop finished!") //For debugging
-                //let TEMP = music1
-                music1 = music
-                //music = TEMP //I had to add this because of a volume slider
                 music.play()
             }
         });

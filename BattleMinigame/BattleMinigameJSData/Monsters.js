@@ -1,64 +1,92 @@
-const embyImage = new Image()
-embyImage.src = "BattleMinigame/BattleMinigameData/PlayerDragonSprite.png"
-
-const draggleImage = new Image()
-draggleImage.src = "BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png"
-
-const knightImage = new Image()
-knightImage.src = "BattleMinigame/BattleMinigameData/knightSprite.png"
-
-const fireElementalImage = new Image()
-fireElementalImage.src = "BattleMinigame/BattleMinigameData/fireElementalSprite.png"
-
-const iceGolemImage = new Image()
-iceGolemImage.src = "BattleMinigame/BattleMinigameData/iceGolemSprite.png"
-
 const monsters = {
-  Emby: {
-       position: {
+    Emby: {
+      position: {
         x: 100,
-        y: 280
-    },
-    image: embyImage,
-    frames: {
+        y: 280,
+      },
+      image: {
+        src: 'BattleMinigame/BattleMinigameData/PlayerDragonSprite.png'
+      },
+      frames: {
         max: 4,
-        hold: 60
+        hold: 60,
+      },
+      animate: true,
+      health: 100,
+      name: "Player Dragon",
+      type: 'Fire',
+      attacks: [
+        attacks.Tackle,
+        attacks.Fireball,
+        attacks.IceShard,
+        attacks.ThunderStrike],
     },
-    animate: true,
-    name: 'Player Dragon Name',
-    type: 'Fire',
-    attacks: [attacks.Tackle, attacks.Fireball, attacks.IceShard, attacks.ThunderStrike]
-  },
-  Draggle: {
-        position: {
+    Draggle: {
+      position: {
         x: 730,
-        y: 300
-    },
-    image: draggleImage,
-    frames: {
+        y: 320,
+      },
+      image: {src: 'BattleMinigame/BattleMinigameData/YoungIceDragonSprite.png'},
+      frames: {
         max: 4,
-        hold: 60
+        hold: 60,
+      },
+      animate: true,
+      health: 75,
+      isEnemy: true,
+      name: 'Young Ice Dragon',
+      type: 'Ice',
+      attacks: [attacks.Tackle, attacks.IceShard],
     },
-    animate: true,
-    isEnemy: true,
-    name: 'Young Ice Dragon',
-    type: 'Ice',
-    attacks: [attacks.Tackle, attacks.IceShard]
-  },
-  Knight: {
-    position: {
+    Knight: {
+      position: {
         x: 730,
-        y: 300
-    },
-    image: knightImage,
-    frames: {
+        y: 330,
+      },
+      image: {src: 'BattleMinigame/BattleMinigameData/knightSprite.png'},
+      frames: {
         max: 4,
-        hold: 60
+        hold: 60,
+      },
+      animate: true,
+      health: 80,
+      isEnemy: true,
+      name: 'Sir Siegfried Schwein',
+      type: 'Normal',
+      attacks: [attacks.Tackle],
     },
-    animate: true,
-    isEnemy: true,
-    name: 'Sir Siegfried Schwein',
-    type: 'Normal',
-    attacks: [attacks.Tackle]
+    Goblin: {
+      position: {
+        x: 730,
+        y: 330,
+      },
+      image: {src: 'BattleMinigame/BattleMinigameData/goblinSprite.png'},
+      frames: {
+        max: 4,
+        hold: 60,
+      },
+      animate: true,
+      health: 30,
+      isEnemy: true,
+      name: 'Humpy Dumpy The Snot Chief',
+      type: 'Normal',
+      attacks: [attacks.Tackle, attacks.FireArrow],
+    },
+    IceGolem: {
+      position: {
+        x: 730,
+        y: 220,
+      },
+      image: {src: 'BattleMinigame/BattleMinigameData/iceGolemSprite.png'},
+      frames: {
+        max: 4,
+        hold: 60,
+      },
+      animate: true,
+      health: 100,
+      isEnemy: true,
+      name: 'Golem of Frost',
+      type: 'Ice',
+      attacks: [attacks.Tackle, attacks.IceShard],
+    }
   }
-}

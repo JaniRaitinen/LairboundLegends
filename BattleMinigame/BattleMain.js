@@ -1,131 +1,202 @@
-const battleBackgroundImage = new Image();
-battleBackgroundImage.src = 'BattleMinigame/BattleMinigameData/FinalFightBackground.jpg';
+// Battle Minigame
 
-const battleBackground = new Sprite({
-  position: {
-    x: 0,
-    y: 0,
-  },
-  image: battleBackgroundImage,
-});
 
-let draggle = null;
+  // Load Battle background image
+  let battleBackgroundImage
+  // Create new battlebackground sprite
+  let battleBackground
+  // Create new Monster instance depenging on the current weather
+  let draggle
+  // Emby is always the player
+  let emby
+  // List of sprites excluding the background to draw
+  let renderedSprites
+  // Animate (Render) images onto the canvas using AnimationFrame
+  let animationID
+  // Queue array for "queueing" all that happens in game, depending on input
+  let queue
+  let clicked
 
-function getEnemy(weather) {
-  let currentWeather = weather;
-  switch (currentWeather) {
-    case '20DEG':
-      draggle = new Monster(monsters.Knight);
-      break;
-    case '0DEG':
-      draggle = new Monster(monsters.Draggle);
-      break;
-  }
+  // Get the healthbarName elements
+  const healthbar1NameElement =  document.querySelector('#healthBar1Name'); // Enemy
+  const healthbar2NameElement =  document.querySelector('#healthBar2Name'); // Player
 
-  return draggle
-}
+   // Load Data for new battle instance
+  function initBattle(weatherCondition) {
+    document.querySelector('#dialogueBox').style.display = 'none'
+    document.querySelector('#attacksBox').replaceChildren()
 
-draggle = getEnemy('20DEG');
+    emby = new Monster(monsters.Emby);
+    draggle = getEnemy(weatherCondition);
+    renderedSprites = [draggle, emby];
+    queue = []
 
-const emby = new Monster(monsters.Emby);
+    document.querySelector('#playerHealthBar').style.width = '100%'
+    document.querySelector('#enemyHealthBar').style.width = '100%'
 
-const renderedSprites = [draggle, emby];
+    // Set the name element of the healthbars to its name
+    healthbar1NameElement.innerHTML =  draggle.name;
+    healthbar2NameElement.innerHTML =  emby.name;
 
-emby.attacks.forEach(attack => {
-  const button = document.createElement('button');
-  button.innerHTML = attack.name;
-  document.querySelector('#attacksBox').append(button);
-});
+    clicked = false
 
-function animateBattle() {
-  window.requestAnimationFrame(animateBattle);
-  battleBackground.draw();
-
-  renderedSprites.forEach((sprite) => {
-    sprite.draw();
-  });
-}
-
-animateBattle();
-// Event listenerit Hyökkäys napeille
-const queue = [];
-document.querySelectorAll('button').forEach(button => {
-  button.addEventListener('click', (e) => {
-    const selectedAttack = attacks[e.currentTarget.innerHTML];
-    emby.attack({
-      attack: selectedAttack,
-      recipient: draggle,
-      renderedSprites,
+    battleBackgroundImage =  new Image();
+    battleBackgroundImage.src = getBackgroundImage(weatherCondition)
+    battleBackground =  new Sprite({
+    position: {
+      x: 0,
+      y: 0,
+    },
+    image: battleBackgroundImage,
     });
-    if (draggle.health <= 0) {
-      queue.push(() => {
-        // Peli Voitettu :]
-        draggle.faint();
 
-      });
-      queue.push(() => {
-        gsap.to('#overlappingDiv', {
-          opacity: 1,
-          onComplete: () => {
-            minigameModal.style.display = 'none';
-          },
-        });
-      });
-      return;
-    }
-    // Enemy Attacks after this
-    const randomAttack = draggle.attacks[Math.floor(
-        Math.random() * draggle.attacks.length)];
-    queue.push(() => {
-      draggle.attack({
-        attack: randomAttack,
-        recipient: emby,
+    animateBattle()
+
+    draggle.resetPosition()
+    // Create a button for each player's attacks
+    emby.attacks.forEach(attack => {
+    const button = document.createElement('button');
+    button.innerHTML = attack.name;
+    document.querySelector('#attacksBox').append(button);
+    });
+
+
+    // Create an event listener for each button element on screen
+   document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const selectedAttack = attacks[e.currentTarget.innerHTML];
+      // Call player.attack and complete the attack function
+      emby.attack({
+        attack: selectedAttack,
+        recipient: draggle,
         renderedSprites,
       });
-      if (emby.health <= 0) {
+      // After the attack check if enemy's health is zero or below
+      if (draggle.health <= 0) {
+        // Push an enemy.faint() method to the queue
         queue.push(() => {
-          // Peli Hävitty!
-          emby.faint();
+          // Game Won! :]
+          draggle.faint();
         });
+        // After fainting push an animation event (gsap.to) to the queue
         queue.push(() => {
           gsap.to('#overlappingDiv', {
             opacity: 1,
+            // On animation completion disable the display of minigameModal
             onComplete: () => {
+              returnHP(emby.health)
+              cancelAnimationFrame(animationID)
               minigameModal.style.display = 'none';
+              gsap.to('#overlappingDiv', {
+                opacity: 0,
+              })
+              return
             },
           });
         });
-        return;
+        return
       }
+      // Enemy's turn to attack back. The attack choice is randomized from avaivable attacks
+      const randomAttack = draggle.attacks[Math.floor(
+          Math.random() * draggle.attacks.length)];
+      // push an enemy.attack method to the queue
+      queue.push(() => {
+        draggle.attack({
+          attack: randomAttack,
+          recipient: emby,
+          renderedSprites,
+        });
+        // If the player's health is zero or below.
+        if (emby.health <= 0) {
+          // push an enemy.faint method to the queue
+          queue.push(() => {
+            // Peli Hävitty!
+            emby.faint();
+          });
+          // After the enemy.faint method push an animation event to the queue
+          queue.push(() => {
+            gsap.to('#overlappingDiv', {
+              opacity: 1,
+              // On completion of the animation disable the minigameModal display
+              onComplete: () => {
+                returnHP(emby.health)
+                cancelAnimationFrame(animationID)
+                minigameModal.style.display = 'none';
+                gsap.to('#overlappingDiv', {
+                  opacity: 0,
+                })
+                return
+              },
+            });
+          });
+          return
+        }
+      });
+    });
+    // Add an event listener to all buttons. On mouse enter show the attacks type and color on screen
+    button.addEventListener('mouseenter', (e) => {
+      const selectedAttack = attacks[e.currentTarget.innerHTML];
+      document.querySelector('#attackType').innerHTML = selectedAttack.type;
+      document.querySelector('#attackType').style.color = selectedAttack.color;
     });
   });
-  button.addEventListener('mouseenter', (e) => {
-    const selectedAttack = attacks[e.currentTarget.innerHTML];
-    document.querySelector('#attackType').innerHTML = selectedAttack.type;
-    document.querySelector('#attackType').style.color = selectedAttack.color;
+
+  }
+
+  function animateBattle() {
+    animationID = window.requestAnimationFrame(animateBattle);
+    battleBackground.draw();
+
+    renderedSprites.forEach((sprite) => {
+      sprite.draw();
+    });
+  }
+
+  initBattle("20DEG")
+
+  // Add an event listener to the dialogBox which appears when there is a method in the queue
+   document.querySelector('#dialogueBox').
+      addEventListener('click', (e) => {
+        if (queue.length > 0) {
+          // Get the first method of the queue and call it
+          queue[0]();
+          // After that remove the called method from the queue
+          queue.shift();
+        } else {
+          // disable the dialogbox's display to hide it after all methods from the queue have been called
+          e.currentTarget.style.display = 'none';
+        }
+      });
+
+  // Start the audio once when player has clicked anywhere on the window
+   addEventListener('click', () => {
+    if (!clicked) {
+      audio.Battle.play();
+      clicked = true;
+    }
   });
-});
 
-document.querySelector('#dialogueBox').addEventListener('click', (e) => {
-  if (queue.length > 0) {
-    queue[0]();
-    queue.shift();
-  } else {
-    e.currentTarget.style.display = 'none';
+  // Handling for initializing battle.
+  // shows the modal in which the battle resides
+  const debugActivateElement = document.querySelector('#DEBUGACTIVATE')
+
+  debugActivateElement.addEventListener('click', () => {
+      const minigameModal = document.querySelector('#modal');
+      minigameModal.style.display = 'block';
+      initBattle("-20DEG")
+  });
+
+  async function returnHP(playerHp) {
+    try {
+      const roundHP = Math.floor(playerHp)
+      const response = await fetch(`http://127.0.0.1:5000/getPlayerHp?playerHp=${roundHP}`)
+      const jsonResponse = await response.json()
+      console.log(jsonResponse)
+    }
+    catch (error) {
+      console.log(error)
+    }
+    finally {
+      console.log("Game Data Saved to DB")
+    }
   }
-});
-
-// Update Names of health bars
-const healthbar1NameElement = document.querySelector('#healthBar1Name'); // Enemy
-const healthbar2NameElement = document.querySelector('#healthBar2Name'); // Player
-
-healthbar1NameElement.innerHTML = draggle.name;
-healthbar2NameElement.innerHTML = emby.name;
-
-let clicked = false;
-addEventListener('click', () => {
-  if (!clicked) {
-    audio.Battle.play();
-    clicked = true;
-  }
-});

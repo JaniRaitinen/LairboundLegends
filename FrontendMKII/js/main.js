@@ -1,5 +1,6 @@
 'use strict';
 
+menuMusic('play')
 
 // Toiminta jolla avataan Leaflet kartta
 const map = L.map('map', {tap: false});
